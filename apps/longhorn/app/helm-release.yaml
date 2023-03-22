@@ -1,0 +1,26 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: longhorn
+spec:
+  interval: 5m
+  timeout: 15m
+  chart:
+    spec:
+      chart: longhorn
+      version: 1.4.1
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn-charts
+        namespace: flux-system
+  values:
+    defaultSettings:
+      #backupTarget: 
+      defaultLonghornStaticStorageClass: longhorn-backup
+    persistence:
+      defaultClass: false
+      defaultClassReplicaCount: 1
+      reclaimPolicy: Delete
+      recurringJobSelector:
+        enable: false

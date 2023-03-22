@@ -1,0 +1,60 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: project-zomboid-server
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.3.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: ghcr.io/bidluo/zomboid-dedicated-server
+      tag: latest
+    env:
+      SERVER_NAME: server
+    service:
+      main:
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
+        annotations:
+          metallb.universe.tf/allow-shared-ip: external-svc
+        ports:
+          http:
+            enabled: true
+            primary: true
+            port: 16261
+            nodePort: 16261
+            protocol: UDP
+          client:
+            enabled: true
+            port: 16262
+            nodePort: 16262
+            protocol: UDP
+    podSecurityContext:
+       runAsUser: 0
+       runAsGroup: 0
+       fsGroup: 0
+    probes:
+       liveness:
+         enabled: false
+       readiness:
+         enabled: false
+       startup:
+         enabled: false
+    persistence:
+      data:
+        enabled: true
+        type: pvc
+        existingClaim: project-zomboid-server-data-pvc
+        subPath:
+          - path: Zomboid
+            mountPath: /home/steam/Zomboid
+          - path: ZomboidDedicatedServer
+            mountPath: /home/steam/ZomboidDedicatedServer

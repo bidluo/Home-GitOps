@@ -1,0 +1,21 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: project-zomboid-server
+  namespace: flux-system
+spec:
+  path: ./apps/project-zomboid-server/app
+  targetNamespace: games
+  interval: 10m
+  prune: true
+  dependsOn:
+    - name: longhorn-app
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      name: project-zomboid-server
+      namespace: games

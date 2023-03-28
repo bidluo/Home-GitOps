@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -7,17 +6,32 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: sonarr
-      version: 13.0.8
+      chart: app-template
+      version: 1.3.2
       sourceRef:
         kind: HelmRepository
-        name: true-charts
+        name: bjw-s-charts
         namespace: flux-system
   values:
     image:
-      tag: 3.0.9.1549
+      repository: ghcr.io/linuxserver/sonarr
+      tag: develop-version-4.0.0.421
+    service:
+      main:
+        ports:
+          http:
+            enabled: true
+            port: 8989
     persistence:
       config:
         enabled: true
         existingClaim: sonarr-config
         mountPath: /config
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: "sonarr.${PUBLIC_HOSTNAME}"
+            paths: 
+            - path: /
+

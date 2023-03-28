@@ -6,4 +6,5 @@ resources:
 - longhorn
 - metallb
 - sonarr
+- traefik
   #- system-upgrade-controller

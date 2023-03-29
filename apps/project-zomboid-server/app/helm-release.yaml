@@ -19,6 +19,9 @@ spec:
       tag: latest
     env:
       SERVER_NAME: server
+    envFrom:
+      - secretRef:
+          name: pz-secrets
     service:
       main:
         type: LoadBalancer
@@ -36,6 +39,11 @@ spec:
             enabled: true
             port: 16262
             nodePort: 16262
+            protocol: UDP
+          steam:
+            enabled: true
+            port: 8766
+            nodePort: 8766
             protocol: UDP
     podSecurityContext:
        runAsUser: 0

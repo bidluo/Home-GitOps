@@ -1,2 +1,4 @@
 # vscode-sops
 .decrypted~*.yaml
+
+.DS_Store

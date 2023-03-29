@@ -1,4 +1,3 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -25,7 +24,7 @@ spec:
     service:
       main:
         type: LoadBalancer
-        externalTrafficPolicy: Cluster
+        externalTrafgficPolicy: Cluster
         annotations:
           metallb.universe.tf/allow-shared-ip: external-svc
         ports:
@@ -45,6 +44,10 @@ spec:
             port: 8766
             nodePort: 8766
             protocol: UDP
+          rcon:
+            enabled: true
+            port: 27015
+            protocol: TCP
     podSecurityContext:
        runAsUser: 0
        runAsGroup: 0

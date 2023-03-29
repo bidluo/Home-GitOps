@@ -7,4 +7,6 @@ resources:
 - metallb
 - sonarr
 - traefik
+- authentik
+- cert-manager
   #- system-upgrade-controller

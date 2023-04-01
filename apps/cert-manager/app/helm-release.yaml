@@ -1,0 +1,20 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: cert-manager
+spec:
+  releaseName: cert-manager # Necessary since there could beg existing cert-manager resources
+  interval: 5m
+  chart:
+    spec:
+      chart: cert-manager
+      version: v1.11.0
+      sourceRef:
+        kind: HelmRepository
+        name: jetstack-charts
+        namespace: flux-system
+  values:
+    global:
+      rbac:
+        create: true
+    installCRDs: true

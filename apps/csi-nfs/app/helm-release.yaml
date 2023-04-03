@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: csi-nfs
+spec:
+  interval: 5m
+  timeout: 15m
+  chart:
+    spec:
+      chart: csi-driver-nfs 
+      version: v4.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: csi-nfs-charts
+        namespace: flux-system

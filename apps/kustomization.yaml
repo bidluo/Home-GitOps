@@ -9,4 +9,6 @@ resources:
 - traefik
 - authentik
 - cert-manager
+- csi-nfs
+- media-shared
   #- system-upgrade-controller

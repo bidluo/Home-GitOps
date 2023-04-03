@@ -8,3 +8,4 @@ resources:
 - authentik.yaml
 - bitnami.yaml
 - jetstack.yaml
+- csi-nfs.yaml

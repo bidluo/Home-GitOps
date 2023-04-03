@@ -27,6 +27,10 @@ spec:
         enabled: true
         existingClaim: sonarr-config
         mountPath: /config
+      data:
+        enabled: true
+        existingClaim: data-nfs
+        mountPath: /data
     ingress:
       main:
         enabled: true

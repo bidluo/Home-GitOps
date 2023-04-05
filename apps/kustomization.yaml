@@ -13,3 +13,4 @@ resources:
 - media-shared
 - sabnzbd
 - system-upgrade-controller
+- plex

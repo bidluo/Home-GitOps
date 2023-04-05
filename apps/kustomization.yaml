@@ -11,4 +11,5 @@ resources:
 - cert-manager
 - csi-nfs
 - media-shared
+- sabnzbd
   #- system-upgrade-controller

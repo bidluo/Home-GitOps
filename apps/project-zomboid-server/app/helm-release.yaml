@@ -24,7 +24,7 @@ spec:
     service:
       main:
         type: LoadBalancer
-        externalTrafgficPolicy: Cluster
+        externalTrafficPolicy: Cluster
         annotations:
           metallb.universe.tf/allow-shared-ip: external-svc
         ports:

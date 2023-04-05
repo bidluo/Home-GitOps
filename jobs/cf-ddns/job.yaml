@@ -14,5 +14,5 @@ spec:
               image: mirioeggmann/cloudflare-ddns:latest
               envFrom:
                 - secretRef:
-                  name: cf-ddns-secrets
+                    name: cf-ddns-secrets
           restartPolicy: OnFailure

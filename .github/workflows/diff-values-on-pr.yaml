@@ -42,7 +42,7 @@ jobs:
     - name: Checkout live branch
       uses: actions/checkout@v3
       with:
-        ref: origin/main
+        ref: main
         path: live
     - name: Setup Kubernetes Tools
       uses: yokawasa/action-setup-kube-tools@v0.9.3

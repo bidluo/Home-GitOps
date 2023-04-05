@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: plex-ingress 
+  name: plex-ingress
   annotations:
     kubernetes.io/ingress.class: traefik
     cert-manager.io/cluster-issuer: "letsencrypt-production"
@@ -10,7 +10,7 @@ spec:
   tls:
     - hosts:
         - "plex.${PUBLIC_HOSTNAME}"
-      secretName: plex-tls 
+      secretName: plex-tls
   rules:
     - host: "plex.${PUBLIC_HOSTNAME}"
       http:
@@ -20,5 +20,5 @@ spec:
             backend:
               service:
                 name: plex
-                port: 
+                port:
                   number: 32400

@@ -12,4 +12,4 @@ resources:
 - csi-nfs
 - media-shared
 - sabnzbd
-  #- system-upgrade-controller
+- system-upgrade-controller

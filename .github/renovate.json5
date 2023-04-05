@@ -1,0 +1,74 @@
+{
+  "extends": [
+    "config:base",
+    ":disableRateLimiting",
+    ":semanticCommits",
+    ":rebaseStalePrs",
+    ":separateMultipleMajorReleases",
+    ":separatePatchReleases"
+  ],
+  "dependencyDashboardTitle": "Renovate Dashboard",
+  "suppressNotifications": ["prIgnoreNotification"],
+  "flux": {
+    "fileMatch": [ "^[^\\.]*\\.ya?ml$" ]
+  },
+  "helm-values": {
+    "fileMatch": [ "^apps/[^\\.]*\\.ya?ml$" ]
+  },
+  "kubernetes": {
+    "fileMatch": [ "^apps/[^\\.]*\\.ya?ml$" ]
+  },
+  "regexManagers": [
+    {
+      "fileMatch": [ "^[^\\.]*\\.ya?ml$", "README.md" ],
+      "matchStrings": [
+        "datasource=(?<datasource>\\S+) depName=(?<depName>.*?)\n *version: (?<currentValue>.*)\n",
+        "datasource=(?<datasource>\\S+) depName=(?<depName>.*?)\"\n.*k8s\-(?<currentValue>.*)\-orange"
+      ],
+      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}helm{{/if}}"
+    },
+  ],
+  "packageRules": [
+    {
+      "description": "Use custom versioning for Minio",
+      "matchDatasources": ["docker"],
+      "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
+      "matchPackagePatterns": ["minio"]
+    },
+    {
+      "matchDatasources": ["docker"],
+      "enabled": true,
+      "commitMessageTopic": "container image {{depName}}",
+      "commitMessageExtra": "to {{#if isSingleVersion}}v{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}",
+      "matchUpdateTypes": ["major", "minor", "patch"]
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "labels": ["dep/major"]
+    },
+    {
+      "matchUpdateTypes": ["minor"],
+      "labels": ["dep/minor"]
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "labels": ["dep/patch"]
+    },
+    {
+      "matchDatasources": ["helm"],
+      "addLabels": ["renovate/helm"]
+    },
+    {
+      "matchDatasources": ["docker"],
+      "addLabels": ["renovate/image"]
+    },
+    {
+      "matchPackageNames": ["fluxcd/flux2"],
+      "addLabels": ["renovate/flux2"]
+    },
+    {
+      "matchPackageNames": ["k3s-io/k3s"],
+      "addLabels": ["renovate/k3s"]
+    },
+  ]
+}

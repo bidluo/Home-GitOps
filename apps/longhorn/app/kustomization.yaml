@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
 - helm-release.yaml
 - storageclass.yaml
+- backup-weekly-job.yaml
+- snapshot-daily-job.yaml

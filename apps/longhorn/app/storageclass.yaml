@@ -6,12 +6,12 @@ metadata:
     storageclass.kubernetes.io/is-default-class: true
 provisioner: driver.longhorn.io
 allowVolumeExpansion: true
+reclaimPolicy: Retain
 parameters:
-  numberOfReplicas: "3"
+  numberOfReplicas: "1"
   staleReplicaTimeout: "2880" # 48 hours in minutes
-  fromBackup: ""
   fsType: "ext4"
-    #recurringJobSelector: '[ { "name":"snapshot-6h", "isGroup":false }, { "name":"backup-daily", "isGroup":false } ]'
+  recurringJobSelector: '[ { "name":"snapshot-daily", "isGroup":false }, { "name":"backup-weekly", "isGroup":false } ]'
 ---
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
@@ -19,8 +19,8 @@ metadata:
   name: longhorn-xfs
 provisioner: driver.longhorn.io
 allowVolumeExpansion: true
+reclaimPolicy: Retain
 parameters:
-  numberOfReplicas: "3"
+  numberOfReplicas: "1"
   staleReplicaTimeout: "2880" # 48 hours in minutes
-  fromBackup: ""
   fsType: "xfs"

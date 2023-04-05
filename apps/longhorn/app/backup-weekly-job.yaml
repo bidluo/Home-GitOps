@@ -1,0 +1,10 @@
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: backup-weekly
+spec:
+  name: backup-weekly
+  cron: "0 2 * * 0"
+  task: "backup"
+  retain: 3
+  concurrency: 1

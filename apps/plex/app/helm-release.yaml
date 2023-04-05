@@ -28,8 +28,7 @@ spec:
             enabled: true
             primary: true
             port: 32400
-            nodePort: 32400
-            protocol: UDP
+            protocol: TCP
     persistence:
       config:
         enabled: true

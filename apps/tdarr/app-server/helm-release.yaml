@@ -1,7 +1,8 @@
+---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: sonarr
+  name: tdarr-server
 spec:
   interval: 5m
   chart:
@@ -14,36 +15,40 @@ spec:
         namespace: flux-system
   values:
     image:
-      repository: ghcr.io/linuxserver/sonarr
-      tag: 3.0.10
+      repository: haveagitgat/tdarr
+      tag: 2.00.20.1
     service:
       main:
         ports:
           http:
             enabled: true
-            port: 8989
+            port: 8265
+      server:
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
+        annotations:
+          metallb.universe.tf/allow-shared-ip: external-svc
+        ports:
+          server:
+            enabled: true
+            port: 8266
     persistence:
-      config:
-        enabled: true
-        existingClaim: sonarr-config
-        mountPath: /config
       data:
         enabled: true
-        existingClaim: data-nfs
-        mountPath: /data
-      downloads:
+        existingClaim: tdarr-data
+        mountPath: /app/data
+      media:
         enabled: true
-        existingClaim: media-download
-        mountPath: /downloads
+        existingClaim: data-nfs
+        mountPath: /media
     ingress:
       main:
         enabled: true
         hosts:
-          - host: "sonarr.${PUBLIC_HOSTNAME}"
+          - host: "tdarr.${PUBLIC_HOSTNAME}"
             paths:
               - path: /
                 pathType: Prefix
                 service:
                   name: ak-outpost-media
                   port: 9000
-

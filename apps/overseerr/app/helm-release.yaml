@@ -22,7 +22,7 @@ spec:
         ports:
           http:
             enabled: true
-            port: 8989
+            port: 5055 
     persistence:
       config:
         enabled: true

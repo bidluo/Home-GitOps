@@ -1,0 +1,28 @@
+---
+apiVersion: upgrade.cattle.io/v1
+kind: Plan
+metadata:
+  name: k3s-agent
+spec:
+  # renovate: datasource=docker depName=quay.io/kairos/kairos-alpine-arm-rpi
+  version: v2.0.0-rc5-k3sv1.26.3-k3s1
+  concurrency: 1
+  serviceAccountName: system-upgrade
+  nodeSelector:
+    matchExpressions:
+      - key: node-role.kubernetes.io/master
+        operator: NotIn
+        values:
+          - "true"
+      - key: kubernetes.io/arch
+        operator: In
+        values:
+          - "arm64"
+  cordon: false
+  drain:
+    force: false
+    disableEviction: true
+  upgrade:
+    image: quay.io/kairos/kairos-alpine-arm-rpi
+    command:
+    - "/usr/sbin/suc-upgrade"

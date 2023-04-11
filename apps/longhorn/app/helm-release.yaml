@@ -15,7 +15,7 @@ spec:
         namespace: flux-system
   values:
     defaultSettings:
-      #backupTarget: 
+      backupTarget: "nfs://${NAS_IP}:/volume2/Backups"
       defaultLonghornStaticStorageClass: longhorn-backup
     persistence:
       defaultClass: false

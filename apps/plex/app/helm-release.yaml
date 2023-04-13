@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.4.0
+      version: 1.3.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -24,7 +24,16 @@ spec:
       tag: 1.32.0
     service:
       main:
-        enabled: false
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
+        annotations:
+          metallb.universe.tf/allow-shared-ip: intel
+        ports:
+          http:
+            enabled: true
+            primary: true
+            port: 32400
+            protocol: TCP
     persistence:
       config:
         enabled: true
@@ -34,22 +43,3 @@ spec:
         enabled: true
         existingClaim: data-nfs
         mountPath: /sortedNFS
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: plex
-spec:
-  ports:
-  - name: port1
-    port: 32400
-    targetPort: 32400
-    protocol: TCP
-  selector:
-    app: plex
-  externalTrafficPolicy: Cluster
-  type: LoadBalancer
-status:
-  loadBalancer:
-    ingress:
-    - ip: "${LOCAL_LB_IP_INTEL}"

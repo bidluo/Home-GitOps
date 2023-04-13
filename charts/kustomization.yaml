@@ -9,3 +9,4 @@ resources:
 - bitnami.yaml
 - jetstack.yaml
 - csi-nfs.yaml
+- intel.yaml

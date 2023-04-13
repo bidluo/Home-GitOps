@@ -19,4 +19,4 @@ resources:
 - radarr
 - overseerr
 - tautulli
-
+- intel-gpu-plugin

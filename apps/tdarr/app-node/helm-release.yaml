@@ -14,6 +14,15 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
   values:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: intel.feature.node.kubernetes.io/gpu
+              operator: NotIn
+              values:
+              - "true"
     env:
       serverIP: tdarr-server
     controller:

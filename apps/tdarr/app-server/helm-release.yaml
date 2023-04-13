@@ -36,7 +36,7 @@ spec:
       data:
         enabled: true
         existingClaim: tdarr-data
-        mountPath: /app/data
+        mountPath: /app/server
       media:
         enabled: true
         existingClaim: data-nfs

@@ -16,11 +16,14 @@ spec:
   values:
     env:
       serverIP: tdarr-server
+    controller:
+      type: daemonset
     image:
       repository: haveagitgat/tdarr_node
       tag: 2.00.20
     service:
-      enabled: false
+      main:
+        enabled: false
     persistence:
       media:
         enabled: true

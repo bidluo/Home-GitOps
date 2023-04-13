@@ -19,13 +19,11 @@ spec:
     image:
       hub: intel
       tag: "0.26.0"
-
     sharedDevNum: 2
     logLevel: 2
     resourceManager: false
     enableMonitoring: true
     allocationPolicy: "none"
-
     nodeSelector:
       intel.feature.node.kubernetes.io/gpu: 'true'
 

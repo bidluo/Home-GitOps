@@ -4,4 +4,4 @@ metadata:
   name: l2-pool
 spec:
   addresses:
-  - "${LOCAL_LB_IP}/32"
+  - "${LOCAL_LB_IP}-${LOCAL_LB_IP_MAX}"

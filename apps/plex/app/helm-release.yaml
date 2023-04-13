@@ -14,6 +14,11 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
   values:
+    nodeSelector:
+      intel.feature.node.kubernetes.io/gpu: "true"
+    resources:
+      limits:
+        gpu.intel.com/i915: "1"
     image:
       repository: ghcr.io/linuxserver/plex
       tag: 1.32.0

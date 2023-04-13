@@ -27,7 +27,7 @@ spec:
         type: LoadBalancer
         externalTrafficPolicy: Cluster
         annotations:
-          metallb.universe.tf/allow-shared-ip: external-svc
+          metallb.universe.tf/allow-shared-ip: intel
         ports:
           http:
             enabled: true

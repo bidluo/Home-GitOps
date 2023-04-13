@@ -20,7 +20,7 @@ spec:
       limits:
         gpu.intel.com/i915: "1"
     env:
-      serverIP: tdarr-server
+      serverIP: tdarr-server-server
     image:
       repository: haveagitgat/tdarr_node
       tag: 2.00.20

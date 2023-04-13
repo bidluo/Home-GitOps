@@ -24,7 +24,7 @@ spec:
               values:
               - "true"
     env:
-      serverIP: tdarr-server
+      serverIP: tdarr-server-server
     controller:
       type: daemonset
     image:

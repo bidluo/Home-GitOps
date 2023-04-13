@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
 - server-plan.yaml
 - agent-plan.yaml
+- agent-plan-intel.yaml

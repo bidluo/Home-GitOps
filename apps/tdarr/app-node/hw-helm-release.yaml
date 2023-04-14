@@ -20,6 +20,8 @@ spec:
       limits:
         gpu.intel.com/i915: "1"
     env:
+      # By default it uses ffmpeg bundled with the server which doesn't have support for HW encoding/decoding
+      ffmpegPath: /usr/local/bin/ffmpeg
       serverIP: tdarr-server-server
     image:
       repository: haveagitgat/tdarr_node

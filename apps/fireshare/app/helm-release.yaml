@@ -1,0 +1,59 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: fireshare
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    nodeSelector:
+      kubernetes.io/arch: arm64
+    envFrom:
+      - secretRef:
+          name: plaxt-secrets
+    image:
+      repository: shaneisrael/fireshare
+      tag: v1.2.8
+    service:
+      main:
+        ports:
+          http:
+            enabled: true
+            port: 8080
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: "clips.${PUBLIC_HOSTNAME}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: ak-outpost-media
+                  port: 9000
+    persistence:
+      clips:
+        enabled: true
+        type: pvc
+        existingClaim: data-nfs
+        subPath:
+          - path: Clips
+            mountPath: /videos
+      data:
+        mountPath: /data
+        enabled: true
+        type: pvc
+        existingClaim: fireshare-data
+        subPath:
+          - path: data
+            mountPath: /data
+          - path: proccessed
+            mountPath: /proccessed

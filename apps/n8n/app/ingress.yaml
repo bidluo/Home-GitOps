@@ -1,0 +1,17 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: n8n-ingress
+spec:
+  rules:
+    - host: "n8n.${PUBLIC_HOSTNAME}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ak-outpost-media
+                port:
+                  number: 9000 

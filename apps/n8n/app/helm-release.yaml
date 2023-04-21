@@ -14,13 +14,12 @@ spec:
         name: 8gears-charts
         namespace: flux-system
   values:
+    n8n:
+      encryption_key: somestring
     config:
       database:
         type: postgresdb
         postgresdb:
           host: n8n-postgresql
           user: n8n
-    secret:
-      database:
-        postgresdb:
           password: "${N8N_POSTGRES_PASS}"

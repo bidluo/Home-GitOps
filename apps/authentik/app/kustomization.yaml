@@ -7,3 +7,4 @@ resources:
 - authentik-postgres-pvc.yaml
 - authentik-postgres-helm-release.yaml
 - ingress.yaml
+- role.yaml

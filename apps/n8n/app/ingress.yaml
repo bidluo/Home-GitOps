@@ -12,6 +12,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: ak-outpost-default
+                name: ak-outpost-authentik-embedded-outpost.auth.svc.cluster.local
                 port:
                   number: 9000 

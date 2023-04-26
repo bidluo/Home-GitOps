@@ -15,7 +15,7 @@ spec:
         namespace: flux-system
   values:
     n8n:
-      encryption_key: somestring
+      encryption_key: somestring # Needed for some reason, doesn't autogenerate
     config:
       database:
         type: postgresdb

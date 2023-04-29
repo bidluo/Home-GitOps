@@ -1,0 +1,44 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: photoview
+  namespace: flux-system
+spec:
+  path: ./apps/photoview/app
+  targetNamespace: media
+  interval: 10m
+  prune: true
+  dependsOn:
+    - name: photoview-db
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      name: photoview
+      namespace: media
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: photoview-db
+  namespace: flux-system
+spec:
+  path: ./apps/photoview/db
+  targetNamespace: media
+  interval: 10m
+  prune: true
+  dependsOn:
+    - name: longhorn-app
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      name: photoview-postgresql
+      namespace: media

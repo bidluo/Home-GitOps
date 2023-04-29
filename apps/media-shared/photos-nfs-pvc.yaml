@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: photos-nfs
+  namespace: media
+spec:
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 20Gi
+  volumeName: pv-nfs-photos
+  storageClassName: nfs-csi

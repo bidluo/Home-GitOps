@@ -1,0 +1,17 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: goldilocks-ingress
+spec:
+  rules:
+    - host: "goldilocks.${PUBLIC_HOSTNAME}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ak-outpost-tools
+                port:
+                  number: 9000 

@@ -1,6 +1,9 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - media-nfs-pvc.yaml
 - media-nfs-pv.yaml
 - media-download-pvc.yaml
+- photos-nfs-pv.yaml
+- photos-nfs-pvc.yaml

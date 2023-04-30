@@ -41,7 +41,6 @@ spec:
         enabled: true
         type: pvc
         existingClaim: photoview-cache
-        mountPath: /app/cache
         subPath:
           - path: cache
             mountPath: /app/cache

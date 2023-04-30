@@ -1,0 +1,167 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: 45.23.0
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    prometheus-node-exporter:
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists
+        - effect: NoExecute
+          operator: Exists
+    prometheusOperator:
+      createCustomResource: false
+    kubeControllerManager:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeEtcd:
+      enabled: false
+    kubeProxy:
+      enabled: false
+    alertmanager:
+      image:
+        registry: quay.io
+        repository: prometheus/alertmanager
+        tag: v0.25.0
+      ingress:
+        enabled: true
+        pathType: Prefix
+        hosts:
+          - "alert-manager.${PUBLIC_HOSTNAME}"
+        tls:
+          - hosts:
+              - "alert-manager.${PUBLIC_HOSTNAME}"
+      config:
+        global:
+          slack_api_url: "${DISCORD_WEBHOOK}"
+          resolve_timeout: 5m
+        receivers:
+          - name: 'null'
+          - name: 'discord'
+            slack_configs:
+              - channel: '#monitoring'
+                icon_url: https://avatars3.githubusercontent.com/u/3380462
+                username: 'Prometheus'
+                send_resolved: true
+                # https://github.com/onedr0p/home-cluster/blob/main/cluster/apps/monitoring/kube-prometheus-stack/helm-release.yaml#L33
+                title: |-
+                  [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }} {{ else if ne .CommonAnnotations.message ""}}{{ .CommonAnnotations.message }} {{ else if ne .CommonAnnotations.description ""}}{{ .CommonAnnotations.description }} {{ else }}{{ .CommonLabels.alertname }}{{ end }}
+                text: >-
+                  {{ range .Alerts -}}
+                    **Alert:** {{ .Annotations.title }}{{ if .Labels.severity }} `{{ .Labels.severity }}`{{ end }}
+                  {{ if ne .Annotations.summary ""}}**Summary:** {{ .Annotations.summary }} {{ else if ne .Annotations.message ""}}**Message:** {{ .Annotations.message }} {{ else if ne .Annotations.description ""}}**Description:** {{ .Annotations.description }}{{ end }}
+                    **Details:**
+                    {{ range .Labels.SortedPairs }} • {{ .Name }}: `{{ .Value }}`
+                    {{ end }}
+                  {{ end }}
+        route:
+          group_by: ['alertname', 'job']
+          group_wait: 30s
+          group_interval: 5m
+          repeat_interval: 6h
+          receiver: 'discord'
+          routes:
+            - receiver: 'null'
+              matchers:
+                - severity =~ "none"
+            - receiver: 'discord'
+    grafana:
+      enabled: true
+      image:
+        repository: grafana/grafana
+        tag: 9.5.1
+      admin:
+        existingSecret: grafana-secrets
+      dashboardProviders:
+        dashboardproviders.yaml:
+          apiVersion: 1
+          providers:
+            - name: "default"
+              orgId: 1
+              folder: ""
+              type: file
+              disableDeletion: false
+              editable: true
+              options:
+                path: /var/lib/grafana/dashboards/default
+      plugins:
+        - grafana-piechart-panel
+      dashboards:
+        default:
+          flux-cluster:
+            url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/cluster.json
+            datasource: Prometheus
+          flux-control-plane:
+            url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/control-plane.json
+            datasource: Prometheus
+          cert-manager:
+            gnetId: 11001
+            revision: 1
+            datasource: Prometheus
+          redis:
+            gnetId: 11835
+            revision: 1
+            datasource: Prometheus
+          postgresql:
+            gnetId: 9628
+            revision: 7
+            datasource: Prometheus
+          traefik:
+            gnetId: 12250
+            revision: 1
+            datasource: Prometheus
+      sidecar:
+        dashboards:
+          enabled: true
+          searchNamespace: ALL
+        datasources:
+          enabled: true
+          searchNamespace: ALL
+      serviceMonitor:
+        enabled: true
+      ingress:
+        enabled: true
+        pathType: Prefix
+        hosts:
+          - "grafana.${PUBLIC_HOSTNAME}"
+        tls:
+          - hosts:
+              - "grafana.${PUBLIC_HOSTNAME}"
+    prometheus:
+      image:
+        registry: quay.io
+        repository: prometheus/prometheus
+        tag: v2.43.0
+      ingress:
+        enabled: true
+        pathType: Prefix
+        hosts:
+          - "prometheus.${PUBLIC_HOSTNAME}"
+        tls:
+          - hosts:
+              - "prometheus.${PUBLIC_HOSTNAME}"
+      prometheusSpec:
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
+        retention: 7d
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              resources:
+                requests:
+                  storage: 25Gi

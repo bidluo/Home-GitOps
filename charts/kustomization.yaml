@@ -12,3 +12,4 @@ resources:
 - intel.yaml
 - 8gears.yaml
 - fairwinds.yaml
+- prometheus.yaml

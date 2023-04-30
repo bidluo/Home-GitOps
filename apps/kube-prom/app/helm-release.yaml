@@ -83,8 +83,6 @@ spec:
       image:
         repository: grafana/grafana
         tag: 9.5.1
-      admin:
-        existingSecret: grafana-secrets
       dashboardProviders:
         dashboardproviders.yaml:
           apiVersion: 1

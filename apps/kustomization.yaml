@@ -24,3 +24,4 @@ resources:
 - n8n
 - photoview
 - goldilocks
+- kube-prom

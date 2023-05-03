@@ -36,14 +36,6 @@ spec:
         registry: quay.io
         repository: prometheus/alertmanager
         tag: v0.25.0
-      ingress:
-        enabled: true
-        pathType: Prefix
-        hosts:
-          - "alert-manager.${PUBLIC_HOSTNAME}"
-        tls:
-          - hosts:
-              - "alert-manager.${PUBLIC_HOSTNAME}"
       config:
         global:
           slack_api_url: "${MONITORING_DISCORD_WEBHOOK}"
@@ -141,14 +133,6 @@ spec:
         registry: quay.io
         repository: prometheus/prometheus
         tag: v2.43.0
-      ingress:
-        enabled: true
-        pathType: Prefix
-        hosts:
-          - "prometheus.${PUBLIC_HOSTNAME}"
-        tls:
-          - hosts:
-              - "prometheus.${PUBLIC_HOSTNAME}"
       prometheusSpec:
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false

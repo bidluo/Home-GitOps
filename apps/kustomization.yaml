@@ -25,3 +25,4 @@ resources:
 - photoview
 - goldilocks
 - kube-prom
+- loki

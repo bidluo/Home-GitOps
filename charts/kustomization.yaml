@@ -13,3 +13,4 @@ resources:
 - 8gears.yaml
 - fairwinds.yaml
 - prometheus.yaml
+- grafana.yaml

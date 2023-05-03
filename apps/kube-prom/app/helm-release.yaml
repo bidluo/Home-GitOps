@@ -136,9 +136,6 @@ spec:
         pathType: Prefix
         hosts:
           - "grafana.${PUBLIC_HOSTNAME}"
-        tls:
-          - hosts:
-              - "grafana.${PUBLIC_HOSTNAME}"
     prometheus:
       image:
         registry: quay.io

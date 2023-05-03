@@ -46,7 +46,7 @@ spec:
               - "alert-manager.${PUBLIC_HOSTNAME}"
       config:
         global:
-          slack_api_url: "${DISCORD_WEBHOOK}"
+          slack_api_url: "${MONITORING_DISCORD_WEBHOOK}"
           resolve_timeout: 5m
         receivers:
           - name: 'null'
@@ -83,6 +83,7 @@ spec:
       image:
         repository: grafana/grafana
         tag: 9.5.1
+      envFromSecret: grafana-secrets
       dashboardProviders:
         dashboardproviders.yaml:
           apiVersion: 1

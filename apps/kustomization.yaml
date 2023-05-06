@@ -27,3 +27,4 @@ resources:
 - kube-prom
 - loki
 - prom-tail
+- uptime-kuma

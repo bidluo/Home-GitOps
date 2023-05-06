@@ -32,7 +32,7 @@ spec:
       main:
         enabled: true
         hosts:
-          - host: "uptimeg.${PUBLIC_HOSTNAME}"
+          - host: "uptime.${PUBLIC_HOSTNAME}"
             paths:
               - path: /
                 pathType: Prefix

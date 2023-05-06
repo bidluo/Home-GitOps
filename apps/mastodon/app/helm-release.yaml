@@ -21,6 +21,8 @@ spec:
       singleUserMode: true
       local_domain: "${PUBLIC_HOSTNAME}"
       web_domain: "mast.${PUBLIC_HOSTNAME}"
+      secrets:
+        existingSecret: mastodon-secrets
       smtp:
         server: smtp.sendgrid.net
         from_address: "mastodon@${PUBLIC_HOSTNAME}"

@@ -1,0 +1,49 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mastodon
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: mastodon
+      version: 1.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      tag: 4.1.2-debian-11-r12
+    localDomain: "${PUBLIC_HOSTNAME}"
+    webDomain: "mast.${PUBLIC_HOSTNAME}"
+    existingSecret: mastodon-secrets
+    extraConfigExistingSecret: mastodon-oidc-secrets
+    smtp:
+      server: smtp.sendgrid.net
+      from_address: "mastodon@${PUBLIC_HOSTNAME}"
+      tls: true
+      existingSecret: mastodon-mail-secrets
+    postgresql:
+      enabled: false
+    redis:
+      existingSecret: mastodon-secrets
+      existingSecretPasswordKey: REDIS_PASSWORD
+    minio:
+      auth:
+        existingSecret: mastodon-secrets
+    externalDatabase:
+      host: mastodon-postgresql
+      port: 5432
+      user: mastodon
+      existingSecret: mastodon-secrets
+      existingSecretPasswordKey: DB_PASS
+      database: mastodon
+    apache:
+      enabled: false
+    initJob:
+      # Uncomment annotations when first installing
+      # annotations:
+      createAdmin: false

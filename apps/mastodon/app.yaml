@@ -1,0 +1,52 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: mastodon
+  namespace: flux-system
+spec:
+  path: ./apps/mastodon/app
+  targetNamespace: mastodon 
+  interval: 10m
+  prune: true
+  dependsOn:
+    - name: mastodon-db
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      name: mastodon
+      namespace: mastodon
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: mastodon
+      namespace: mastodon
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: mastodon-db
+  namespace: flux-system
+spec:
+  path: ./apps/mastodon/db
+  targetNamespace: mastodon 
+  interval: 10m
+  prune: true
+  dependsOn:
+    - name: longhorn-app
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      name: mastodon-postgresql
+      namespace: mastodon
+    - apiVersion: apps/v1
+      kind: StatefulSet
+      name: mastodon-postgresql
+      namespace: mastodon 

@@ -32,3 +32,10 @@ metadata:
   name: tools
   labels:
     goldilocks.fairwinds.com/enabled: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mastodon 
+  labels:
+    goldilocks.fairwinds.com/enabled: "true"

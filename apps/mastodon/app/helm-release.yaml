@@ -1,0 +1,52 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mastodon
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: mastodon
+      version: 1.3.1
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      tag: 4.1.2-debian-11-r10
+    localDomain: "${PUBLIC_HOSTNAME}"
+    webDomain: "mast.${PUBLIC_HOSTNAME}"
+    existingSecret: mastodon-secrets
+    # extraConfig: 
+    #   SINGLE_USER_MODE: true
+    smtp:
+      server: smtp.sendgrid.net
+      from_address: "mastodon@${PUBLIC_HOSTNAME}"
+      tls: true
+      existingSecret: mastodon-mail-secrets
+    postgresql:
+      enabled: false
+    externalDatabase:
+      host: mastodon-postgresql
+      port: 5432
+      user: mastodon
+      existingSecret: mastodon-secrets
+      database: mastodon
+    apache:
+      enabled: false
+    # externalAuth:
+    #   oidc:
+    #     enabled: true
+    #     display_name: authentik
+    #     scope: openid,profile,email
+    #     client_id: "${OAUTH_CLIENT_ID}"
+    #     client_secret: ${OAUTH_SECRET}"
+    #     auth_endpoint: "https://auth.${PUBLIC_HOSTNAME}/application/o/authorize/"
+    #     token_endpoint: "https://auth.${PUBLIC_HOSTNAME}/application/o/token/"
+    #     end_session_endpoint: "https://auth.${PUBLIC_HOSTNAME}/application/o/oauth/end-session/"
+    #     user_info_endpoint: "https://auth.${PUBLIC_HOSTNAME}me/application/o/userinfo/"
+    #   oauth_global:
+    #     omniauth_only: true

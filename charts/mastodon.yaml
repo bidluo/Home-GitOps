@@ -1,0 +1,13 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: HelmRepository
+metadata:
+  name: mastodon-charts
+  namespace: flux-system
+spec:
+  interval: 30m
+  # Mastodon doesn't publish an actual chart
+  url: https://github.com/funkypenguin/mastodon
+  ref:
+    branch: main
+  timeout: 2m

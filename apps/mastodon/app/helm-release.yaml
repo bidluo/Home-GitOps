@@ -1,0 +1,85 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mastodon
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: mastodon
+      version: 4.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: mastodon-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      tag: v4.1.2
+    mastodon:
+      singleUserMode: true
+      local_domain: "${PUBLIC_HOSTNAME}"
+      web_domain: "mast.${PUBLIC_HOSTNAME}"
+      smtp:
+        server: smtp.sendgrid.net
+        from_address: "mastodon@${PUBLIC_HOSTNAME}"
+        tls: true
+        existingSecret: mastodon-mail-secrets
+      sidekiq:
+        affinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/part-of
+                    operator: In
+                    values:
+                      - rails
+              topologyKey: kubernetes.io/hostname
+      ingress:
+        enabled: false
+      persistence:
+        assets:
+          accessMode: ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
+        system:
+          accessMode: ReadWriteOnce
+          resources:
+            requests:
+              storage: 50Gi
+    postgresql:
+      enabled: false
+      postgresqlHostname: mastodon-postgresql
+      postgresqlPort: 5432
+      auth:
+        database: mastodon
+        username: mastodon
+        existingSecret: mastodon-secrets
+    redis:
+      enabled: true
+      auth:
+        existingSecret: "mastodon-secrets"
+    externalAuth:
+      oidc:
+        enabled: true
+        display_name: authentik
+        scope: openid,profile,email
+        client_id: "${OAUTH_CLIENT_ID}"
+        client_secret: ${OAUTH_SECRET}"
+        auth_endpoint: "https://auth.${PUBLIC_HOSTNAME}/application/o/authorize/"
+        token_endpoint: "https://auth.${PUBLIC_HOSTNAME}/application/o/token/"
+        end_session_endpoint: "https://auth.${PUBLIC_HOSTNAME}/application/o/oauth/end-session/"
+        user_info_endpoint: "https://auth.${PUBLIC_HOSTNAME}me/application/o/userinfo/"
+      oauth_global:
+        omniauth_only: true
+    affinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/part-of
+                operator: In
+                values:
+                  - rails
+          topologyKey: kubernetes.io/hostname

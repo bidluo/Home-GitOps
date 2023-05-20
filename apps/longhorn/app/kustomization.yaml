@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
 - helm-release.yaml
 - storageclass.yaml
+- ingress.yaml

@@ -5,6 +5,6 @@ metadata:
 provisioner: nfs.csi.k8s.io
 parameters:
   server: ${NAS_IP}
-  share: /volume1/Media
+  share: /volume2/Media
 reclaimPolicy: Retain
 volumeBindingMode: Immediate

@@ -24,7 +24,7 @@ resources:
 - n8n
 - photoview
 - goldilocks
-# - kube-prom
-- loki
+- kube-prom
+# - loki
 - prom-tail
 - uptime-kuma

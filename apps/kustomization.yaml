@@ -26,5 +26,5 @@ resources:
 - goldilocks
 - kube-prom
 # - loki
-- prom-tail
+# - prom-tail
 - uptime-kuma

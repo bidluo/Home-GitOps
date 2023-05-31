@@ -24,7 +24,7 @@ spec:
       PHOTOVIEW_MEDIA_CACHE: /app/cache
     image:
       repository: viktorstrate/photoview
-      tag: linux-amd64-30c1b2a1-push
+      tag: linux-amd64-228f2cc1-push
     service:
       main:
         ports:

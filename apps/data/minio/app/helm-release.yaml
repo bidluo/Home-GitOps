@@ -20,9 +20,12 @@ spec:
       pullPolicy: IfNotPresent
     rootUser: "${SECRET_MINIO_ACCESSKEY}"
     rootPassword: "${SECRET_MINIO_SECRETKEY}" 
+    mode: standalone
+    replicas: 1
     persistence:
       enabled: true
       existingClaim: minio-data
+      subPath: "minio"
     metrics:
       serviceMonitor:
         enabled: true

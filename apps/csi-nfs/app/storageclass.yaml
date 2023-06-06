@@ -4,4 +4,4 @@ metadata:
   name: nfs-csi
 provisioner: nfs.csi.k8s.io
 reclaimPolicy: Retain
-volumeBindingMode: Immediate
+volumeBindingMode: WaitForFirstConsumer

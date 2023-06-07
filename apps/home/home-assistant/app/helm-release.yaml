@@ -23,6 +23,18 @@ spec:
           http:
             enabled: true
             port: 8123
+      bridge:
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: "${LOCAL_LB_IP}"
+          metallb.universe.tf/allow-shared-ip: external-svc
+        ports:
+          http:
+            enabled: true
+            primary: true
+            port: 21064
+            protocol: TCP
     persistence:
       config:
         enabled: true

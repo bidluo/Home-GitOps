@@ -34,6 +34,6 @@ spec:
       configUrl: "${OAUTH_DISCOVERY_URL}"
       clientId: "${OAUTH_CLIENT_ID}"
       clientSecret: "${OAUTH_SECRET}"
-      claimName: ""
+      claimName: "policy"
       scopes: "openid,profile,email"
       redirectUri: "https://minio.${PUBLIC_HOSTNAME}/oauth_callback"

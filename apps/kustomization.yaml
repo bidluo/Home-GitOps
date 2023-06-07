@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - namespaces.yaml
 - data
+- home
 - project-zomboid-server
 - longhorn
 - metallb
@@ -26,6 +27,6 @@ resources:
 - photoview
 - goldilocks
 - kube-prom
-# - loki
-# - prom-tail
+- loki
+- prom-tail
 - uptime-kuma

@@ -16,3 +16,4 @@ resources:
 - prometheus.yaml
 - grafana.yaml
 - minio.yaml
+- cnpg.yaml

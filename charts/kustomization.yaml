@@ -11,7 +11,6 @@ resources:
 - jetstack.yaml
 - csi-nfs.yaml
 - intel.yaml
-- 8gears.yaml
 - fairwinds.yaml
 - prometheus.yaml
 - grafana.yaml

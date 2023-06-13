@@ -17,24 +17,31 @@ spec:
     image:
       repository: ghcr.io/home-assistant/home-assistant
       tag: 2023.6.0b6
+    hostNetwork: true
+    podAnnotations:
+      k8s.v1.cni.cncf.io/networks: |
+        [{
+          "name":"macvlan-static",
+          "namespace": "network",
+          "ips": ["192.168.1.171"]
+        }]
     service:
       main:
         ports:
           http:
             enabled: true
             port: 8123
-      bridge:
-        type: LoadBalancer
-        externalTrafficPolicy: Cluster
-        annotations:
-          metallb.universe.tf/loadBalancerIPs: "${LOCAL_LB_IP}"
-          metallb.universe.tf/allow-shared-ip: external-svc
-        ports:
-          http:
-            enabled: true
-            primary: true
-            port: 21064
-            protocol: TCP
+      # bridge:
+      #   type: LoadBalancer
+      #   externalTrafficPolicy: Cluster
+      #   annotations:
+      #     metallb.universe.tf/loadBalancerIPs: "${LOCAL_LB_IP}"
+      #     metallb.universe.tf/allow-shared-ip: external-svc
+      #   ports:
+      #     bridge:
+      #       enabled: true
+      #       port: 21064
+      #       protocol: TCP
     persistence:
       config:
         enabled: true

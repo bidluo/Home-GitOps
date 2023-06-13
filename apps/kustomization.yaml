@@ -4,6 +4,7 @@ resources:
 - namespaces.yaml
 - data
 - home
+- network
 - project-zomboid-server
 - longhorn
 - metallb

@@ -9,8 +9,6 @@ spec:
   targetNamespace: media
   interval: 10m
   prune: true
-  dependsOn:
-    - name: photoview-db
   sourceRef:
     kind: GitRepository
     name: flux-system

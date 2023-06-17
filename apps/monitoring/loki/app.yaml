@@ -5,8 +5,8 @@ metadata:
   name: loki-app
   namespace: flux-system
 spec:
-  path: ./apps/loki/app
-  targetNamespace: tools
+  path: ./apps/monitoring/loki/app
+  targetNamespace: monitoring
   interval: 10m
   prune: true
   dependsOn:
@@ -19,4 +19,4 @@ spec:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
       name: loki
-      namespace: tools
+      namespace: monitoring

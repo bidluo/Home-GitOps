@@ -2,23 +2,20 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: uptime-kuma
+  name: promtail-app
   namespace: flux-system
 spec:
-  path: ./apps/uptime-kuma/app
-  targetNamespace: tools
+  path: ./apps/monitoring/prom-tail/app
+  targetNamespace: monitoring
   interval: 10m
   prune: true
-  wait: true
+  dependsOn:
+    - name: loki-app
   sourceRef:
     kind: GitRepository
     name: flux-system
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
-      name: uptime-kuma
-      namespace: tools
-    - apiVersion: apps/v1
-      kind: Deployment
-      name: uptime-kuma
-      namespace: tools
+      name: promtail
+      namespace: monitoring

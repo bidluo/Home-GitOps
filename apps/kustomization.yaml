@@ -5,6 +5,8 @@ resources:
 - data
 - home
 - network
+- monitoring
+
 - project-zomboid-server
 - longhorn
 - metallb
@@ -25,9 +27,4 @@ resources:
 - intel-gpu-plugin
 - fireshare
 - photoview
-- goldilocks
-# - kube-prom
-# - loki
-# - prom-tail
-- uptime-kuma
 - photo-structure

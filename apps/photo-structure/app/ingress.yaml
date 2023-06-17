@@ -2,17 +2,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: pics-ingress
+  name: ps-ingress
   annotations:
     kubernetes.io/ingress.class: traefik
     cert-manager.io/cluster-issuer: "letsencrypt-production"
 spec:
   tls:
     - hosts:
-        - "pics.${PUBLIC_HOSTNAME}"
-      secretName: pics-tls
+        - "ps.${PUBLIC_HOSTNAME}"
+      secretName: ps-tls
   rules:
-    - host: "pics.${PUBLIC_HOSTNAME}"
+    - host: "ps.${PUBLIC_HOSTNAME}"
       http:
         paths:
           - path: /

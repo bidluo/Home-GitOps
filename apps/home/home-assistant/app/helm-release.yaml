@@ -19,7 +19,7 @@ spec:
       tag: 2023.6.2
     hostNetwork: true
     nodeSelector:
-      node-role.kubernetes.io/master: true
+      node-role.kubernetes.io/master: "true"
     service:
       main:
         ports:

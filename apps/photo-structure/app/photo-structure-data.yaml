@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: photo-structure-cache
+spec:
+  storageClassName: longhorn-xfs
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: photo-structure-data
+spec:
+  storageClassName: longhorn-backup
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi

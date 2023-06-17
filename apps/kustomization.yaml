@@ -30,3 +30,4 @@ resources:
 - loki
 - prom-tail
 - uptime-kuma
+- photo-structure

@@ -6,6 +6,7 @@ resources:
 - home
 - network
 - monitoring
+- social
 
 - project-zomboid-server
 - longhorn

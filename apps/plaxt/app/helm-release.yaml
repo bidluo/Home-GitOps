@@ -14,14 +14,12 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
   values:
-    nodeSelector:
-      kubernetes.io/arch: arm64
     envFrom:
       - secretRef:
           name: plaxt-secrets
     image:
       repository: xanderstrike/goplaxt
-      tag: latest-arm7
+      tag: latest
     service:
       main:
         ports:

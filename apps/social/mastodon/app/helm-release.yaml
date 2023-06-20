@@ -39,6 +39,7 @@ spec:
       existingSecret: mastodon-secrets
       existingSecretAccessKeyIDKey: MINIO_ACCESS_KEY
       existingSecretKeySecretKey: MINIO_SECRET_KEY
+      protocol: http
     externalDatabase:
       host: data-cluster-rw.data.svc.cluster.local
       port: 5432

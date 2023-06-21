@@ -17,3 +17,36 @@ spec:
                 name: minio-console
                 port:
                   number: 9001
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: mastodon-bucket-rewrite-path
+spec:
+  replacePathRegex:
+    regex: "^/"
+    replacement: "/mastodon"
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minio-mastodon-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+spec:
+  tls:
+    - hosts:
+        - "mast.s3.${PUBLIC_HOSTNAME}"
+      secretName: minio-mastodon-tls
+  rules:
+    - host: "mast.s3.${PUBLIC_HOSTNAME}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: minio
+                port:
+                  number: 9000

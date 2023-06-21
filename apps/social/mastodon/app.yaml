@@ -19,12 +19,8 @@ spec:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
       name: mastodon
-      namespace: mastodon
+      namespace: social 
     - apiVersion: apps/v1
       kind: Deployment
       name: mastodon-web
-      namespace: mastodon
-    - apiVersion: apps/v1
-      kind: Deployment
-      name: mastodon-sidekiq
-      namespace: mastodon
+      namespace: social

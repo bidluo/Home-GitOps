@@ -34,12 +34,12 @@ spec:
     minio:
       enabled: false
     externalS3:
-      host: minio.data.svc.cluster.local
-      port: 9000
+      host: "mast.s3.${PUBLIC_HOSTNAME}"
+      port: 443
       existingSecret: mastodon-secrets
       existingSecretAccessKeyIDKey: MINIO_ACCESS_KEY
       existingSecretKeySecretKey: MINIO_SECRET_KEY
-      protocol: http
+      protocol: https
     externalDatabase:
       host: data-cluster-rw.data.svc.cluster.local
       port: 5432

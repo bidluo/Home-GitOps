@@ -4,6 +4,7 @@ kind: Ingress
 metadata:
   name: goldilocks-ingress
 spec:
+  ingressClassName: traefik
   rules:
     - host: "goldilocks.${PUBLIC_HOSTNAME}"
       http:
@@ -12,6 +13,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: ak-outpost-monitoring
+                name: monitoring-outpost-service
                 port:
                   number: 9000 

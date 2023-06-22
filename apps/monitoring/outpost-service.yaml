@@ -1,0 +1,9 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: monitoring-outpost-service
+  namespace: monitoring
+spec:
+  type: ExternalName
+  externalName: ak-outpost-authentik-embedded-outpost.auth.svc.cluster.local

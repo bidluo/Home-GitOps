@@ -18,5 +18,9 @@ spec:
       externalTrafficPolicy: Cluster
       annotations:
         metallb.universe.tf/allow-shared-ip: external-svc
+    provider:
+      kubernetesCRD: 
+        enabled: true
+        allowCrossNamespace: true
     metrics:
       prometheus: {}

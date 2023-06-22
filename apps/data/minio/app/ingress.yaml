@@ -21,11 +21,21 @@ spec:
 apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
-  name: mastodon-bucket-rewrite-path
+  name: mastodon-cors-headers
 spec:
-  replacePathRegex:
-    regex: "^/"
-    replacement: "/mastodon"
+  headers:
+    accessControlAllowMethods:
+      - "GET"
+      - "OPTIONS"
+      - "PUT"
+    accessControlAllowHeaders: 
+      - "*"
+    accessControlAllowOriginList:
+      - "*"
+    accessControlMaxAge: 100
+    addVaryHeader: true
+    customResponseHeaders:
+      Access-Control-Allow-Origin: "*"
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -33,7 +43,8 @@ metadata:
   name: minio-mastodon-ingress
   annotations:
     kubernetes.io/ingress.class: traefik
-    cert-manager.io/cluster-issuer: "letsencrypt-production"
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    traefik.ingress.kubernetes.io/router.middlewares: data-mastodon-cors-headers@kubernetescrd
 spec:
   tls:
     - hosts:

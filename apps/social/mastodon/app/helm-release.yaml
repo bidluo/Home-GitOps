@@ -16,7 +16,7 @@ spec:
       interval: 5m
   values:
     image:
-      tag: 4.1.2-debian-11-r12
+      tag: 4.1.2-debian-11-r28
     localDomain: "${PUBLIC_HOSTNAME}"
     webDomain: "mast.${PUBLIC_HOSTNAME}"
     existingSecret: mastodon-secrets
@@ -34,8 +34,8 @@ spec:
     minio:
       enabled: false
     externalS3:
-      host: "mast.s3.${PUBLIC_HOSTNAME}"
-      port: 443
+      host: minio.data.svc.cluster.local
+      port: 9000
       existingSecret: mastodon-secrets
       existingSecretAccessKeyIDKey: MINIO_ACCESS_KEY
       existingSecretKeySecretKey: MINIO_SECRET_KEY

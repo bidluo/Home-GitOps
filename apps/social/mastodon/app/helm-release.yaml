@@ -23,8 +23,8 @@ spec:
     extraConfigExistingSecret: mastodon-oidc-secrets
     smtp:
       server: smtp.sendgrid.net
-      from_address: "mastodon@${PUBLIC_HOSTNAME}"
-      tls: true
+      from_address: "admin@${PUBLIC_HOSTNAME}"
+      tls: false
       existingSecret: mastodon-mail-secrets
     postgresql:
       enabled: false

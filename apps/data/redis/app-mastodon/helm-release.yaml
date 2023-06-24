@@ -1,0 +1,28 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: redis-mastodon
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: redis
+      version: 17.11.3
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-charts
+        namespace: flux-system
+  values:
+    architecture: standalone
+    image:
+      repository: bitnami
+      tag:	7.0.11-debian-11-r20
+      pullPolicy: IfNotPresent
+    auth:
+      enabled: true
+      existingSecret: redis-mastodon-secrets
+      existingSecretPasswordKey: REDIS_PASSWORD
+    master:
+      persistence:
+        existingClaim: redis-mastodon-data

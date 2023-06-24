@@ -16,7 +16,7 @@ spec:
   values:
     architecture: standalone
     image:
-      repository: bitnami
+      repository: bitnami/redis
       tag:	7.0.11-debian-11-r20
       pullPolicy: IfNotPresent
     auth:

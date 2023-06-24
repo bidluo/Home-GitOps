@@ -7,48 +7,46 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: mastodon
-      version: 1.5.3
+      chart: app-template
+      version: 1.5.1
       sourceRef:
         kind: HelmRepository
-        name: bitnami-charts
+        name: bjw-s-charts
         namespace: flux-system
       interval: 5m
   values:
     image:
-      tag: 4.1.2-debian-11-r28
-    localDomain: "${PUBLIC_HOSTNAME}"
-    webDomain: "mast.${PUBLIC_HOSTNAME}"
-    existingSecret: mastodon-secrets
-    extraConfigExistingSecret: mastodon-oidc-secrets
-    smtp:
-      server: smtp.sendgrid.net
-      from_address: "admin@${PUBLIC_HOSTNAME}"
-      tls: false
-      existingSecret: mastodon-mail-secrets
-    postgresql:
-      enabled: false
-    redis:
-      existingSecret: mastodon-secrets
-      existingSecretPasswordKey: REDIS_PASSWORD
-    minio:
-      enabled: false
-    externalS3:
-      host: minio.data.svc.cluster.local
-      port: 9000
-      existingSecret: mastodon-secrets
-      existingSecretAccessKeyIDKey: MINIO_ACCESS_KEY
-      existingSecretKeySecretKey: MINIO_SECRET_KEY
-      protocol: http
-    externalDatabase:
-      host: data-cluster-rw.data.svc.cluster.local
-      port: 5432
-      user: mastodon
-      existingSecret: mastodon-secrets
-      existingSecretPasswordKey: DB_PASS
-      database: mastodon
-    apache:
-      enabled: false
-    initJob:
-      # annotations:
-      createAdmin: false
+      repository: ghcr.io/mastodon/mastodon
+      tag: nightly-2023-06-24
+    command: 
+      - bundle 
+      - exec
+      - puma
+      - -C
+      - config/puma.rb
+    env:
+      LOCAL_DOMAIN: ${PUBLIC_HOSTNAME}
+      WEB_DOMAIN: mast.${PUBLIC_HOSTNAME}
+      DB_HOST: data-cluster-rw.data.svc.cluster.local
+      DB_USER: mastodon
+      DB_NAME: mastodon
+      REDIS_HOST: redis-mastodon-master.data.svc.cluster.local
+      SMTP_SERVER: smtp.sendgrid.net
+      SMTP_FROM_ADDRESS: admin@{PUBLIC_HOSTNAME}
+      S3_ENABLED: true
+      S3_BUCKET: mastodon
+      S3_HOSTNAME: minio.data.svc.cluster.local
+      S3_OVERRIDE_PATH_STYLE: false
+    envFrom:
+      - secretRef:
+          name: mastodon-secrets
+      - secretRef:
+          name: mastodon-oidc-secrets
+      - secretRef:
+          name: mastodon-mail-secrets
+    service:
+      main:
+        ports:
+          http:
+            enabled: true
+            port: 3000

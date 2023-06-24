@@ -19,9 +19,9 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: mastodon-web
+                name: mastodon
                 port:
-                  number: 80
+                  number: 3000
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -52,7 +52,6 @@ kind: Ingress
 metadata:
   name: mastodon-webfinger-redirect
   annotations:
-    kubernetes.io/ingress.class: traefik
     cert-manager.io/cluster-issuer: "letsencrypt-production"
 spec:
   ingressClassName: traefik

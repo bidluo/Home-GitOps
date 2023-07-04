@@ -19,7 +19,7 @@ spec:
           name: plaxt-secrets
     image:
       repository: shaneisrael/fireshare
-      tag: v1.2.12
+      tag: v1.2.13
     service:
       main:
         ports:

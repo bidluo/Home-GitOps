@@ -14,6 +14,12 @@ spec:
         name: longhorn-charts
         namespace: flux-system
   values:
+    longhornConversionWebhook:
+      replicas: 0
+    longhornAdmissionWebhook:
+      replicas: 0
+    longhornRecoveryBackend:
+      replicas: 0
     defaultSettings:
       backupTarget: "nfs://${NAS_IP}:/volume2/Backups"
       defaultLonghornStaticStorageClass: longhorn-backup

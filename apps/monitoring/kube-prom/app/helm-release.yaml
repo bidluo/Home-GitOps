@@ -74,7 +74,7 @@ spec:
       enabled: true
       image:
         repository: grafana/grafana
-        tag: 10.0.3
+        tag: 10.0.4
       envFromSecret: grafana-secrets
       dashboardProviders:
         dashboardproviders.yaml:

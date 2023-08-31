@@ -12,8 +12,6 @@ spec:
         kind: HelmRepository
         name: authentik-charts
         namespace: flux-system
-  dependsOn:
-    - name: authentik-postgresql
   values:
     envFrom:
       - secretRef:

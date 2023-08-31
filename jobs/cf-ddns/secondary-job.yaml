@@ -1,0 +1,18 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cloudflare-ddns-secondary
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: cloudflare-ddns
+              image: mirioeggmann/cloudflare-ddns:latest
+              envFrom:
+                - secretRef:
+                    name: secondary-cf-ddns-secrets
+          restartPolicy: OnFailure

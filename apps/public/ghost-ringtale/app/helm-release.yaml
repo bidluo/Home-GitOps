@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: ghost-ringale
+  name: ghost-ringtale
 spec:
   interval: 5m
   chart:
@@ -22,21 +22,21 @@ spec:
         ports:
           http:
             enabled: true
-            port: 2386
+            port: 2368
+    env:
+      url: "https://${SECONDARY_HOSTNAME}" 
+      database__client: sqlite3
+      database__connection__filename: content/data/ghost.db
+      database__useNullAsDefault: true
+      database__debug: false
+      mail__transport: SMTP
+      mail__options__service: Sendgrid
+      mail__options__host: smtp.sendgrid.net
+      mail__options__port: 587
+      mail__options__auth__user: apikey
+      mail__options__auth__pass: "${MAIL_PASS}"
     persistence:
       config:
         enabled: true
         existingClaim: ghost-data
         mountPath: /var/lib/ghost/content
-    ingress:
-      main:
-        enabled: true
-        hosts:
-          - host: "SECONDARY_HOSTNAME"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: ghost
-                  port: 2386
-

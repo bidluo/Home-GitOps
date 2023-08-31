@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: ghost-ringale
+  name: ghost-ringtale
   namespace: flux-system
 spec:
   path: ./apps/public/ghost-ringtale/app
@@ -18,5 +18,5 @@ spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
-      name: ghost-ringale
+      name: ghost-ringtale
       namespace: media

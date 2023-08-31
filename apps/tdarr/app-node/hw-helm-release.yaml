@@ -25,7 +25,7 @@ spec:
       serverIP: tdarr-server-server
     image:
       repository: haveagitgat/tdarr_node
-      tag: 2.00.25
+      tag: 2.10.02
     service:
       main:
         enabled: false

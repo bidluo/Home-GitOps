@@ -16,7 +16,7 @@ spec:
   values:
     image:
       repository: ghcr.io/linuxserver/tautulli
-      tag: 2.12.5
+      tag: 2.13.1
     service:
       main:
         ports:

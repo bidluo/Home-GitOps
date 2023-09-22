@@ -15,8 +15,6 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      tag: 4.1.4-debian-11-r0
     localDomain: "${PUBLIC_HOSTNAME}"
     webDomain: "mast.${PUBLIC_HOSTNAME}"
     existingSecret: mastodon-secrets

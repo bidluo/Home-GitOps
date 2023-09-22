@@ -3,8 +3,5 @@ kind: Kustomization
 resources:
 - helm-release.yaml
 - authentik-secrets.sops.yaml
-- authentik-postgres-secrets.sops.yaml
-- authentik-postgres-pvc.yaml
-- authentik-postgres-helm-release.yaml
 - ingress.yaml
 - role.yaml

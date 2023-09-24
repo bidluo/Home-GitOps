@@ -29,7 +29,7 @@ spec:
       type: daemonset
     image:
       repository: haveagitgat/tdarr_node
-      tag: 2.11.01
+      tag: 2.12.01
     service:
       main:
         enabled: false

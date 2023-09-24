@@ -5,5 +5,5 @@ resources:
 - namespace.yaml
 - minio
 - postgres
-- elasticsearch
+# - elasticsearch
 - redis

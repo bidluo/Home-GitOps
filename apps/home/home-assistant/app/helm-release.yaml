@@ -16,7 +16,7 @@ spec:
   values:
     image:
       repository: ghcr.io/home-assistant/home-assistant
-      tag: 2023.9.2
+      tag: 2023.9.3
     hostNetwork: true
     nodeSelector:
       node-role.kubernetes.io/master: "true"

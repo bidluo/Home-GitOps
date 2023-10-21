@@ -35,3 +35,7 @@ spec:
         existingClaim: home-assistant-config
         globalMounts:
           - path: /config
+      config_backup:
+        existingClaim: home-assistant-config-backup
+        globalMounts:
+          - path: /config-old

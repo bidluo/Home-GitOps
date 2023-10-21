@@ -31,7 +31,7 @@ spec:
             enabled: true
             port: 8123
     persistence:
-      config:
+      main-config:
         existingClaim: home-assistant-config
         globalMounts:
           - path: /config

@@ -21,9 +21,10 @@ spec:
             image:
               repository: ghcr.io/home-assistant/home-assistant
               tag: 2023.10.3
-    hostNetwork: true
-    nodeSelector:
-      node-role.kubernetes.io/master: "true"
+    defaultPodOptions:
+      hostNetwork: true
+      nodeSelector:
+        node-role.kubernetes.io/master: "true"
     service:
       main:
         ports:
@@ -34,8 +35,8 @@ spec:
       main-config:
         existingClaim: home-assistant-config
         globalMounts:
-          - path: /config
+          - path: /config-bak
       config-backup:
         existingClaim: home-assistant-config-backup
         globalMounts:
-          - path: /config-old
+          - path: /config

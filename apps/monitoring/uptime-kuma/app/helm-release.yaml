@@ -41,5 +41,5 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: ak-outpost-ingress
+                  name: ak-outpost-monitoring 
                   port: 9000

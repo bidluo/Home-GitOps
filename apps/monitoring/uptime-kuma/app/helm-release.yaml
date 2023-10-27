@@ -28,7 +28,7 @@ spec:
             enabled: true
             port: 3001
     persistence:
-      config:
+      main-config:
         existingClaim: uptime-kuma-config
         globalMounts:
           - path: /app/data

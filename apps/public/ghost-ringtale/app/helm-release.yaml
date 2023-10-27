@@ -16,7 +16,7 @@ spec:
   values:
     image:
       repository: ghost
-      tag: 5.70.1
+      tag: 5.70.2
     service:
       main:
         ports:

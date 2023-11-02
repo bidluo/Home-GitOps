@@ -13,6 +13,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: monitoring-outpost-service
+                name: ak-outpost-monitoring
                 port:
                   number: 9000 

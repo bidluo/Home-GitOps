@@ -26,7 +26,7 @@ spec:
               tag: linux-amd64-228f2cc1-push
             envFrom:
               - secretRef:
-                name: photoview-secrets
+                  name: photoview-secrets
             env:
               PHOTOVIEW_DATABASE_DRIVER: postgres
               PHOTOVIEW_MEDIA_CACHE: /app/cache

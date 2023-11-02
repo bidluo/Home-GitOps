@@ -26,7 +26,7 @@ spec:
           http:
             port: 8989
     persistence:
-      config:
+      main-config:
         existingClaim: sonarr-config
         globalMounts:
           - path: /config

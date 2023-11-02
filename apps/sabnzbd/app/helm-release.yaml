@@ -39,13 +39,12 @@ spec:
           - path: /downloads
     ingress:
       main:
+        enabled: true
         hosts:
           - host: "nzb.${PUBLIC_HOSTNAME}"
             paths:
               - path: /
                 pathType: Prefix
-                backend:
-                  service:
-                    name: sabnzbd
-                    port:
-                      number: 8080
+                service:
+                  name: main
+                  port: 8080

@@ -8,20 +8,25 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
   values:
-    nodeSelector:
-      intel.feature.node.kubernetes.io/gpu: "true"
-    resources:
-      limits:
-        gpu.intel.com/i915: "1"
-    image:
-      repository: ghcr.io/linuxserver/plex
-      tag: 1.32.7
+    defaultPodOptions:
+      nodeSelector:
+        intel.feature.node.kubernetes.io/gpu: "true"
+      resources:
+        limits:
+          gpu.intel.com/i915: "1"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/linuxserver/plex
+              tag: 1.32.7
     service:
       main:
         type: LoadBalancer
@@ -31,16 +36,14 @@ spec:
           metallb.universe.tf/allow-shared-ip: intel
         ports:
           http:
-            enabled: true
-            primary: true
             port: 32400
             protocol: TCP
     persistence:
-      config:
-        enabled: true
+      main-config:
         existingClaim: plex-config
-        mountPath: /config
+        globalMounts:
+          - path: /config
       data:
-        enabled: true
         existingClaim: data-nfs
-        mountPath: /sortedNFS
+        globalMounts:
+          - path: /sortedNFS

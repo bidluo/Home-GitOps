@@ -9,7 +9,6 @@ resources:
 - social
 - public
 
-- project-zomboid-server
 - longhorn
 - metallb
 - sonarr

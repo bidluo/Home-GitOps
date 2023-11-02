@@ -14,14 +14,9 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
   values:
-    nodeSelector:
-      kubernetes.io/arch: amd64
-    envFrom:
-      - secretRef:
-          name: photoview-secrets
-    env:
-      PHOTOVIEW_DATABASE_DRIVER: postgres
-      PHOTOVIEW_MEDIA_CACHE: /app/cache
+    defaultPodOptions:
+        nodeSelector:
+          kubernetes.io/arch: amd64
     controllers:
       main:
         containers:
@@ -29,6 +24,12 @@ spec:
             image:
               repository: viktorstrate/photoview
               tag: linux-amd64-228f2cc1-push
+            envFrom:
+              - secretRef:
+                name: photoview-secrets
+            env:
+              PHOTOVIEW_DATABASE_DRIVER: postgres
+              PHOTOVIEW_MEDIA_CACHE: /app/cache
     service:
       main:
         ports:

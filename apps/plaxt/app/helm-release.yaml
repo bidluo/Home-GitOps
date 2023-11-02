@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -17,17 +17,20 @@ spec:
     envFrom:
       - secretRef:
           name: plaxt-secrets
-    image:
-      repository: xanderstrike/goplaxt
-      tag: latest
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: xanderstrike/goplaxt
+              tag: latest
     service:
       main:
         ports:
           http:
-            enabled: true
             port: 8000
     persistence:
-      config:
-        enabled: true
+      main-config:
         existingClaim: plaxt-config
-        mountPath: /app/keystore
+        globalMounts:
+          - path: /app/keystore

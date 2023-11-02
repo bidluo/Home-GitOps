@@ -28,7 +28,9 @@ spec:
             enabled: true
             port: 8265
       server:
+        enabled: true
         type: LoadBalancer
+        controller: main
         externalTrafficPolicy: Cluster
         annotations:
           metallb.universe.tf/allow-shared-ip: external-svc

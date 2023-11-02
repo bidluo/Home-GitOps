@@ -33,7 +33,7 @@ spec:
         annotations:
           metallb.universe.tf/allow-shared-ip: external-svc
         ports:
-          server:
+          http:
             enabled: true
             port: 8266
     persistence:

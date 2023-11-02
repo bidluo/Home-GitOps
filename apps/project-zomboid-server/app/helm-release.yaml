@@ -7,20 +7,24 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
   values:
-    image:
-      repository: ghcr.io/bidluo/zomboid-dedicated-server
-      tag: latest
-    env:
-      SERVER_NAME: server
-    envFrom:
-      - secretRef:
-          name: pz-secrets
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/bidluo/zomboid-dedicated-server
+              tag: latest
+            env:
+              SERVER_NAME: server
+            envFrom:
+              - secretRef:
+                  name: pz-secrets
     service:
       main:
         type: LoadBalancer
@@ -29,23 +33,15 @@ spec:
           metallb.universe.tf/allow-shared-ip: external-svc
         ports:
           http:
-            enabled: true
-            primary: true
             port: 16261
-            nodePort: 16261
             protocol: UDP
           client:
-            enabled: true
             port: 16262
-            nodePort: 16262
             protocol: UDP
           steam:
-            enabled: true
             port: 8766
-            nodePort: 8766
             protocol: UDP
           rcon:
-            enabled: true
             port: 27015
             protocol: TCP
     podSecurityContext:
@@ -61,11 +57,9 @@ spec:
          enabled: false
     persistence:
       data:
-        enabled: true
-        type: pvc
         existingClaim: project-zomboid-server-data-pvc
-        subPath:
-          - path: Zomboid
+        subMounts:
+          - subPath: Zomboid
             mountPath: /home/steam/Zomboid
-          - path: ZomboidDedicatedServer
+          - subPath: ZomboidDedicatedServer
             mountPath: /home/steam/ZomboidDedicatedServer

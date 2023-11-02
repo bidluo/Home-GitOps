@@ -23,7 +23,7 @@ spec:
           main:
             image:
               repository: viktorstrate/photoview
-              tag: linux-amd64-228f2cc1-push
+              tag: edge
             envFrom:
               - secretRef:
                   name: photoview-secrets

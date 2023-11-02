@@ -8,29 +8,32 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
   values:
-    nodeSelector:
-      intel.feature.node.kubernetes.io/gpu: "true"
-    resources:
-      limits:
-        gpu.intel.com/i915: "1"
-    env:
-      # By default it uses ffmpeg bundled with the server which doesn't have support for HW encoding/decoding
-      ffmpegPath: /usr/local/bin/ffmpeg
-      serverIP: tdarr-server-server
-    image:
-      repository: haveagitgat/tdarr_node
-      tag: 2.14.02
+    defaultPodOptions:
+      nodeSelector:
+        intel.feature.node.kubernetes.io/gpu: "true"
+      resources:
+        limits:
+          gpu.intel.com/i915: "1"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: haveagitgat/tdarr_node
+              tag: 2.14.02
+            env:
+              ffmpegPath: /usr/local/bin/ffmpeg
+              serverIP: tdarr-server-server
     service:
       main:
         enabled: false
     persistence:
       media:
-        enabled: true
         existingClaim: data-nfs
         mountPath: /media

@@ -8,33 +8,36 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.3
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
         namespace: flux-system
   values:
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: intel.feature.node.kubernetes.io/gpu
-              operator: NotIn
-              values:
-              - "true"
-    env:
-      serverIP: tdarr-server-server
-    controller:
-      type: daemonset
-    image:
-      repository: haveagitgat/tdarr_node
-      tag: 2.14.02
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: intel.feature.node.kubernetes.io/gpu
+                    operator: NotIn
+                    values:
+                      - "true"
+    controllers:
+      main:
+        type: daemonset
+        containers:
+          main:
+            image:
+              repository: haveagitgat/tdarr_node
+              tag: 2.14.02
+            env:
+              serverIP: tdarr-server-server
     service:
       main:
         enabled: false
     persistence:
       media:
-        enabled: true
         existingClaim: data-nfs
         mountPath: /media

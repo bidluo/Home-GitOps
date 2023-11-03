@@ -18,8 +18,10 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/linuxserver/sonarr
+              repository: ghcr.io/onedr0p/sonarr
               tag: 3.0.10
+            securityContext:
+              runAsUser: 568
     service:
       main:
         ports:

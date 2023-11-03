@@ -18,8 +18,10 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/linuxserver/tautulli
+              repository: ghcr.io/onedr0p/tautulli
               tag: 2.13.2
+            securityContext:
+              runAsUser: 568
     service:
       main:
         ports:

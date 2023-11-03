@@ -19,8 +19,10 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/linuxserver/overseerr
+              repository: sctx/overseerr
               tag: 1.33.2
+            securityContext:
+              runAsUser: 0
     service:
       main:
         ports:

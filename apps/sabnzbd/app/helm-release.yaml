@@ -19,8 +19,10 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/linuxserver/sabnzbd
-              tag: 4.1.0
+              repository: ghcr.io/onedr0p/sabnzbd
+              tag: 4.1
+            securityContext:
+              runAsUser: 0
             env:
               TZ: "${TIMEZONE}"
     service:

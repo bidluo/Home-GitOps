@@ -43,4 +43,4 @@ spec:
       main-config:
         existingClaim: overseerr-config
         globalMounts:
-          - path: /config
+          - path: /app/config

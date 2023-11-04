@@ -12,18 +12,8 @@ resources:
 
 - longhorn
 - metallb
-- sonarr
 - traefik
 - authentik
 - cert-manager
 - csi-nfs
-- media-shared
-- sabnzbd
 - system-upgrade-controller
-- plex
-- tdarr
-- plaxt
-- radarr
-- tautulli
-- intel-gpu-plugin
-- photoview

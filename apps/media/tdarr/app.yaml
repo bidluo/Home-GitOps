@@ -5,7 +5,7 @@ metadata:
   name: tdarr-server
   namespace: flux-system
 spec:
-  path: ./apps/tdarr/app-server
+  path: ./apps/media/tdarr/app-server
   targetNamespace: media
   interval: 10m
   prune: true
@@ -27,7 +27,7 @@ metadata:
   name: tdarr-node
   namespace: flux-system
 spec:
-  path: ./apps/tdarr/app-node
+  path: ./apps/media/tdarr/app-node
   targetNamespace: media
   interval: 10m
   prune: true

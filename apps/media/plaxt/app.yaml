@@ -2,13 +2,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: intel-gpu-plugin 
+  name: plaxt
   namespace: flux-system
 spec:
-  path: ./apps/intel-gpu-plugin/plugin
+  path: ./apps/media/plaxt/app
   targetNamespace: media
   interval: 10m
   prune: true
+  dependsOn:
+    - name: longhorn-app
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -16,9 +18,5 @@ spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
-      name: intel-device-plugins-gpu
-      namespace: media
-    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
-      kind: HelmRelease
-      name: intel-device-plugins-operator
+      name: plaxt
       namespace: media

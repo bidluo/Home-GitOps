@@ -2,10 +2,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: radarr
+  name: plex
   namespace: flux-system
 spec:
-  path: ./apps/radarr/app
+  path: ./apps/media/plex/app
   targetNamespace: media
   interval: 10m
   prune: true
@@ -18,5 +18,5 @@ spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
-      name: radarr
+      name: plex
       namespace: media

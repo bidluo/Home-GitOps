@@ -34,6 +34,8 @@ spec:
               tag: 2.14.02
             env:
               serverIP: tdarr-server-server
+            securityContext:
+              runAsUser: 568
     service:
       main:
         enabled: false

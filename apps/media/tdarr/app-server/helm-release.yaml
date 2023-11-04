@@ -21,6 +21,8 @@ spec:
             image:
               repository: haveagitgat/tdarr
               tag: 2.14.02
+            securityContext:
+              runAsUser: 568
     service:
       main:
         ports:

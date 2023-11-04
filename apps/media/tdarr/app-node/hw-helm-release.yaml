@@ -30,6 +30,8 @@ spec:
             env:
               ffmpegPath: /usr/local/bin/ffmpeg
               serverIP: tdarr-server-server
+            securityContext:
+              runAsUser: 568
     service:
       main:
         enabled: false

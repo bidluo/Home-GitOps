@@ -22,7 +22,7 @@ spec:
               repository: ghcr.io/onedr0p/sabnzbd
               tag: 4.1
             securityContext:
-              runAsUser: 0
+              runAsUser: 568
             env:
               TZ: "${TIMEZONE}"
     service:

@@ -14,9 +14,6 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
   values:
-    envFrom:
-      - secretRef:
-          name: plaxt-secrets
     controllers:
       main:
         containers:
@@ -24,6 +21,9 @@ spec:
             image:
               repository: xanderstrike/goplaxt
               tag: latest
+            envFrom:
+              - secretRef:
+                  name: plaxt-secrets
     service:
       main:
         ports:

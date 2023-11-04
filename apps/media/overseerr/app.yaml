@@ -5,7 +5,7 @@ metadata:
   name: overseerr
   namespace: flux-system
 spec:
-  path: ./apps/overseerr/app
+  path: ./apps/media/overseerr/app
   targetNamespace: media
   interval: 10m
   prune: true

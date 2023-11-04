@@ -8,6 +8,7 @@ resources:
 - monitoring
 - social
 - public
+- media
 
 - longhorn
 - metallb
@@ -23,7 +24,6 @@ resources:
 - tdarr
 - plaxt
 - radarr
-- overseerr
 - tautulli
 - intel-gpu-plugin
 - photoview

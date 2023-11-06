@@ -112,6 +112,11 @@ spec:
         existingClaim: photos-nfs
         globalMounts:
           - path: /photos
+            readOnly: true
+      storage:
+        existingClaim: immich-storage
+        globalMounts:
+          - path: /usr/src/app/upload
     ingress:
       main:
         enabled: true

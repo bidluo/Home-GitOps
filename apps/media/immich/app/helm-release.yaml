@@ -112,7 +112,6 @@ spec:
         existingClaim: photos-nfs
         globalMounts:
           - path: /photos
-            readOnly: true
     ingress:
       main:
         enabled: true

@@ -17,9 +17,6 @@ spec:
     defaultPodOptions:
       nodeSelector:
         intel.feature.node.kubernetes.io/gpu: "true"
-      resources:
-        limits:
-          gpu.intel.com/i915: "1"
     controllers:
       main:
         containers:
@@ -29,6 +26,9 @@ spec:
               tag: 1.32.7.7621-871adbd44
             securityContext:
               runAsUser: 0
+            resources:
+              limits:
+                gpu.intel.com/i915: "1"
     service:
       main:
         type: LoadBalancer

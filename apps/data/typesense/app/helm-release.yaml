@@ -1,0 +1,35 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: typesense
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: typesense
+              tag: 0.26.0.rc32
+            command:
+              - "--data-dir /data"
+              - "--api-key=bleh"
+    service:
+      main:
+        ports:
+          http:
+            port: 8108
+    persistence:
+      main-config:
+        existingClaim: typesense-data
+        subMounts:
+          - mountPath: /data

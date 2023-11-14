@@ -20,7 +20,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-web
-              tag: v1.85.0
+              tag: v1.86.0
             env:
               TYPESENSE_ENABLED: false
               IMMICH_SERVER_URL: http://immich:3001
@@ -29,7 +29,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-proxy
-              tag: v1.85.0
+              tag: v1.86.0
             env:
               IMMICH_WEB_URL: http://immich-web:3000
               IMMICH_SERVER_URL: http://immich:3001
@@ -39,7 +39,7 @@ spec:
             nameOverride: immich-server
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.85.0
+              tag: v1.86.0
             command:
               - "/usr/src/app/start.sh"
               - "immich"
@@ -53,7 +53,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.85.0
+              tag: v1.86.0
             command:
               - "/usr/src/app/start.sh"
               - "microservices"
@@ -67,7 +67,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.85.0
+              tag: v1.86.0
             env:
               TYPESENSE_ENABLED: false
             envFrom:

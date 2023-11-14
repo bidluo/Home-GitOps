@@ -18,7 +18,7 @@ spec:
         containers:
           main:
             image:
-              repository: typesense
+              repository: typesense/typesense
               tag: 0.26.0.rc32
             command:
               - "--data-dir /data"
@@ -31,5 +31,5 @@ spec:
     persistence:
       main-config:
         existingClaim: typesense-data
-        subMounts:
-          - mountPath: /data
+        globalMounts:
+          - path: /data

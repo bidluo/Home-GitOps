@@ -40,5 +40,5 @@ spec:
     persistence:
       main-config:
         existingClaim: ghost-data
-        subMounts:
-          - mountPath: /var/lib/ghost/content
+        globalMounts:
+          - path: /var/lib/ghost/content

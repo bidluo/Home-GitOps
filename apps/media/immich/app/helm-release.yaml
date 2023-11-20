@@ -29,7 +29,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-proxy
-              tag: v1.86.0
+              tag: v1.87.0
             env:
               IMMICH_WEB_URL: http://immich-web:3000
               IMMICH_SERVER_URL: http://immich:3001

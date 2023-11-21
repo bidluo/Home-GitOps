@@ -39,7 +39,7 @@ spec:
             nameOverride: immich-server
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.86.0
+              tag: v1.88.2
             command:
               - "/usr/src/app/start.sh"
               - "immich"
@@ -53,7 +53,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.86.0
+              tag: v1.88.2
             command:
               - "/usr/src/app/start.sh"
               - "microservices"

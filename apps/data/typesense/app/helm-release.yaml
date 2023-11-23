@@ -21,7 +21,8 @@ spec:
               repository: typesense/typesense
               tag: 0.26.0.rc32
             command:
-              - "--data-dir /data"
+              - "/opt/typesense-server"
+              - "--data-dir=/data"
               - "--api-key=bleh"
     service:
       main:

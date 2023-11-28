@@ -20,7 +20,7 @@ spec:
           main:
             image:
               repository: haveagitgat/tdarr
-              tag: 2.15.01
+              tag: 2.16.01
     service:
       main:
         ports:

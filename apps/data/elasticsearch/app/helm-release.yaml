@@ -16,5 +16,5 @@ spec:
   values:
     image:
       repository: bitnami/elasticsearch
-      tag: 8.11.1-debian-11-r0
+      tag: 8.11.3-debian-11-r0
       pullPolicy: IfNotPresent

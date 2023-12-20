@@ -5,7 +5,7 @@ metadata:
   name: data-cluster
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:14.8-4
+  imageName: ghcr.io/bo0tzz/cnpgvecto.rs:14.10
   primaryUpdateStrategy: unsupervised
   storage:
     size: 10Gi
@@ -14,7 +14,9 @@ spec:
     name: cnpg-secrets
   postgresql:
     shared_preload_libraries:
-      - "vectors.so"
+      - "vectors"
+      - "cube"
+      - "earthdistance"
     parameters:
       max_connections: "600"
       shared_buffers: 512MB

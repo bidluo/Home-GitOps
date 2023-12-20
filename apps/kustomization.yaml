@@ -4,7 +4,6 @@ resources:
 - namespaces.yaml
 - data
 - home
-- network
 - monitoring
 - social
 - public

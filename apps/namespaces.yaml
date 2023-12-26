@@ -8,7 +8,7 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: network
+  name: system-upgrade
   labels:
     goldilocks.fairwinds.com/enabled: "true"
 ---

@@ -35,7 +35,9 @@ spec:
             envFrom:
               - secretRef:
                   name: wireguard-secrets
-
+    defaultPodOptions:
+      nodeSelector:
+        node-role.kubernetes.io/master: "true"
     service:
       main:
         type: LoadBalancer

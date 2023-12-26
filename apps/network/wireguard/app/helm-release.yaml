@@ -1,0 +1,57 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: wireguard
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/wg-easy/wg-easy
+              tag: 9
+            securityContext:
+              sysctls:
+                - name: net.ipv4.conf.all.src_valid_mark
+                  value: 1
+                - name: net.ipv4.ip_forward
+                  value: 1
+              capabilities:
+                add:
+                  - "NET_ADMIN"
+                  - "SYS_MODULE"
+            env:
+              WG_HOST: "${PUBLIC_HOSTNAME}" 
+            envFrom:
+              - secretRef:
+                  name: wireguard-secrets
+
+    service:
+      main:
+        type: LoadBalancer
+        externalTrafficPolicy: Cluster
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: "${LOCAL_LB_IP}"
+          metallb.universe.tf/allow-shared-ip: external-svc
+        ports:
+          http:
+            protocol: UDP
+            port: 51820
+          secondary:
+            protocol: UDP
+            port: 51821
+    persistence:
+      main-config:
+        existingClaim: wireguard-data 
+        globalMounts:
+          - path: /etc/wireguard

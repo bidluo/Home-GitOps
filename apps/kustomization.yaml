@@ -8,6 +8,7 @@ resources:
 - social
 - public
 - media
+- network
 
 - longhorn
 - metallb

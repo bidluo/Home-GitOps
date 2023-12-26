@@ -5,3 +5,4 @@ resources:
 - wireguard-secrets.sops.yaml
 - data-pvc.yaml
 - helm-release.yaml
+- ingress.yaml

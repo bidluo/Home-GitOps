@@ -21,7 +21,7 @@ spec:
               repository: ghcr.io/onedr0p/tautulli
               tag: 2.13.4
             securityContext:
-              runAsUser: 568
+              runAsUser: 0
     service:
       main:
         ports:
@@ -31,7 +31,7 @@ spec:
       main-config:
         existingClaim: tautulli-config
         globalMounts:
-          - mountPath: /config
+          - path: /config
     ingress:
       main:
         enabled: true

@@ -36,4 +36,4 @@ spec:
     persistence:
       media:
         existingClaim: data-nfs
-        mountPath: /media
+        path: /media

@@ -41,10 +41,10 @@ spec:
     persistence:
       data:
         existingClaim: tdarr-data
-        mountPath: /app/server
+        path: /app/server
       media:
         existingClaim: data-nfs
-        mountPath: /media
+        path: /media
     ingress:
       main:
         enabled: true

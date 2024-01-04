@@ -7,11 +7,10 @@ resources:
 - intel-gpu-plugin
 - media-shared
 - overseerr
-# - photoview
 - plaxt
 - plex
 - radarr
 - sabnzbd
 - sonarr
 - tautulli
-# - tdarr
+- tdarr

@@ -27,32 +27,23 @@ spec:
     defaultPodOptions:
       nodeSelector:
         node-role.kubernetes.io/master: "true"
-  service:
-    main:
-      type: LoadBalancer
-      externalTrafficPolicy: Cluster 
-      annotations:
-          metallb.universe.tf/loadBalancerIPs: "${LOCAL_LB_IP}"
-          metallb.universe.tf/allow-shared-ip: external-svc
-      ports:
-        dns-tcp:
-          port: 53
-          protocol: TCP
-        dns-udp:
-          port: 53
-          protocol: UDP
-        http:
-          port: 80
-          protocol: TCP
-        https:
-          port: 443
-          protocol: TCP
-        https-udp:
-          port: 443
-          protocol: UDP
-        alt-http:
-          port: 3000
-          protocol: TCP
+    service:
+      main:
+        type: LoadBalancer 
+        externalTrafficPolicy: Cluster 
+        annotations:
+            metallb.universe.tf/loadBalancerIPs: "${LOCAL_LB_IP}"
+            metallb.universe.tf/allow-shared-ip: external-svc
+        ports:
+          dns-tcp:
+            port: 53
+            protocol: TCP
+          dns-udp:
+            port: 53
+            protocol: UDP
+          http:
+            port: 3000
+            protocol: TCP
     persistence:
       main-config:
         existingClaim: adguard-config

@@ -24,11 +24,16 @@ spec:
             resources:
               limits: {}
               requests: {}
+    defaultPodOptions:
+      nodeSelector:
+        node-role.kubernetes.io/master: "true"
   service:
     main:
       type: LoadBalancer
-      externalTrafficPolicy: Local
-      annotations: {}
+      externalTrafficPolicy: Cluster 
+      annotations:
+          metallb.universe.tf/loadBalancerIPs: "${LOCAL_LB_IP}"
+          metallb.universe.tf/allow-shared-ip: external-svc
       ports:
         dns-tcp:
           port: 53

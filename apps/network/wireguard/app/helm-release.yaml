@@ -32,6 +32,7 @@ spec:
                   - "SYS_MODULE"
             env:
               WG_HOST: "${PUBLIC_HOSTNAME}" 
+              WG_DEFAULT_DNS: "${LOCAL_LB_IP}, 1.1.1.1, 8.8.8.8"
             envFrom:
               - secretRef:
                   name: wireguard-secrets

@@ -19,7 +19,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/sonarr
-              tag: 4.0.0
+              tag: 4.0.1
             securityContext:
               runAsUser: 0
     service:

@@ -3,8 +3,8 @@ kind: Plan
 metadata:
   name: k3s-server
 spec:
-  # renovate: datasource=docker depName=quay.io/kairos/kairos-ubuntu
-  version: v2.4.1-k3sv1.27.3-k3s1
+  # renovate: datasource=docker depName=quay.io/kairos/ubuntu
+  version: 23.10-standard-amd64-generic-v2.5.0-k3sv1.29.0-k3s1
   concurrency: 1
   serviceAccountName: system-upgrade
   nodeSelector:
@@ -18,6 +18,6 @@ spec:
     force: false
     disableEviction: true
   upgrade:
-    image: quay.io/kairos/kairos-ubuntu
+    image: quay.io/kairos/ubuntu
     command:
     - "/usr/sbin/suc-upgrade"

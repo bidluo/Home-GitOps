@@ -32,10 +32,6 @@ spec:
     kubeProxy:
       enabled: false
     alertmanager:
-      image:
-        registry: quay.io
-        repository: prometheus/alertmanager
-        tag: v0.26.0
       config:
         global:
           slack_api_url: "${MONITORING_DISCORD_WEBHOOK}"
@@ -72,9 +68,6 @@ spec:
             - receiver: 'discord'
     grafana:
       enabled: true
-      image:
-        repository: grafana/grafana
-        tag: 10.2.3
       envFromSecret: grafana-secrets
       dashboardProviders:
         dashboardproviders.yaml:
@@ -129,10 +122,6 @@ spec:
         hosts:
           - "grafana.${PUBLIC_HOSTNAME}"
     prometheus:
-      image:
-        registry: quay.io
-        repository: prometheus/prometheus
-        tag: v2.48.1
       prometheusSpec:
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
@@ -142,6 +131,7 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
+              storageClassName: longhorn-xfs
               resources:
                 requests:
-                  storage: 25Gi
+                  storage: 40Gi

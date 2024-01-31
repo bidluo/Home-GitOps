@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
@@ -8,7 +9,7 @@ spec:
   imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:14.10-v0.1.13
   primaryUpdateStrategy: unsupervised
   storage:
-    size: 10Gi
+    size: 20Gi
     storageClass: longhorn-xfs
   superuserSecret:
     name: cnpg-secrets
@@ -24,13 +25,13 @@ spec:
     enablePodMonitor: true
   backup:
     retentionPolicy: 30d
-    barmanObjectStore:
+    barmanObjectStore: 
       wal:
         compression: bzip2
         maxParallel: 8
       destinationPath: s3://cnpg/
       endpointURL: http://minio:9000
-      serverName: postgres-recovered
+      serverName: postgres-v2
       s3Credentials:
         accessKeyId:
           name: cnpg-secrets

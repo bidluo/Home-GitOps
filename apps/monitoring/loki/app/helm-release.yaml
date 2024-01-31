@@ -16,9 +16,6 @@ spec:
       interval: 5m
   values:
     loki:
-      image:
-        repository: grafana/loki
-        tag: 2.9.3
       auth_enabled: false
       storage:
         type: filesystem

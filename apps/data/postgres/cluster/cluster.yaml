@@ -30,7 +30,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://cnpg/
       endpointURL: http://minio:9000
-      serverName: postgres
+      serverName: postgres-recovered
       s3Credentials:
         accessKeyId:
           name: cnpg-secrets

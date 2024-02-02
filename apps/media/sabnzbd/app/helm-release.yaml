@@ -48,5 +48,5 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
-                  port: 8080
+                  name: ak-outpost-media
+                  port: 9000

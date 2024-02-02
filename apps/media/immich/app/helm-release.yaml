@@ -21,7 +21,7 @@ spec:
             nameOverride: immich-server
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.93.3
+              tag: v1.94.1
             command:
               - "/usr/src/app/start.sh"
               - "immich"
@@ -33,7 +33,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.93.3
+              tag: v1.94.1
             command:
               - "/usr/src/app/start.sh"
               - "microservices"
@@ -45,7 +45,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v1.93.3
+              tag: v1.94.1
             envFrom:
               - secretRef:
                   name: immich-secrets
@@ -76,9 +76,10 @@ spec:
           - path: /photos
             readOnly: true
       storage:
-        existingClaim: immich-storage
+        existingClaim: scratch-nfs
         globalMounts:
           - path: /usr/src/app/upload
+            subPath: Immich
     ingress:
       main:
         enabled: true

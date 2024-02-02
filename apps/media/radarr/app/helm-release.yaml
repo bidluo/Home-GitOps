@@ -38,9 +38,10 @@ spec:
         globalMounts:
           - path: /data
       downloads:
-        existingClaim: media-download
+        existingClaim: scratch-nfs
         globalMounts:
           - path: /downloads
+            subPath: Downloads
     ingress:
       main:
         enabled: true

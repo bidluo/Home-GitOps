@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 - helm-release.yaml
 - cnpg-secrets.sops.yaml
+- backup.yaml

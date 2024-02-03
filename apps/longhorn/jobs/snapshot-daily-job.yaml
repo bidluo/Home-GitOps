@@ -4,7 +4,7 @@ metadata:
   name: snapshot-daily
 spec:
   name: snapshot-daily
-  cron: "0 2 * * *"
+  cron: "0 0 * * 3/2" # Every Wed and Fri
   task: "snapshot"
   retain: 8
   concurrency: 2

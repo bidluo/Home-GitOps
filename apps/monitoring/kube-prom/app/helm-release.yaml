@@ -22,7 +22,7 @@ spec:
         - effect: NoExecute
           operator: Exists
     prometheusOperator:
-      createCustomResource: false
+      createCustomResource: true 
     kubeControllerManager:
       enabled: false
     kubeScheduler:
@@ -36,17 +36,18 @@ spec:
         global:
           resolve_timeout: 5m
         receivers:
-          - name: 'null'
-          - name: 'discord'
+          - name: "null"
+          - name: discord
             discord_configs:
-              - webhook_url: "${MONITORING_DISCORD_WEBHOOK}"
-                title: |-
-                  {{- if eq .Status "firing" -}}
-                    🔥 {{ len .Alerts.Firing }} Firing
-                  {{- else -}}
-                    ✅ {{ len .Alerts.Resolved }} Resolved
-                  {{- end -}}
-                text: >-
+              - webhook_url: ${MONITORING_DISCORD_WEBHOOK}
+                title: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing |
+                  len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{
+                  .CommonAnnotations.summary }} {{ else if ne
+                  .CommonAnnotations.message ""}}{{ .CommonAnnotations.message
+                  }} {{ else if ne .CommonAnnotations.description ""}}{{
+                  .CommonAnnotations.description }} {{ else }}{{
+                  .CommonLabels.alertname }}{{ end }}'
+                message: >-
                   {{ range .Alerts -}}
                     **Alert:** {{ .Annotations.title }}{{ if .Labels.severity }} `{{ .Labels.severity }}`{{ end }}
                   {{ if ne .Annotations.summary ""}}**Summary:** {{ .Annotations.summary }} {{ else if ne .Annotations.message ""}}**Message:** {{ .Annotations.message }} {{ else if ne .Annotations.description ""}}**Description:** {{ .Annotations.description }}{{ end }}
@@ -55,16 +56,18 @@ spec:
                     {{ end }}
                   {{ end }}
         route:
-          group_by: ['alertname', 'job']
+          group_by:
+            - alertname
+            - job
           group_wait: 30s
           group_interval: 5m
           repeat_interval: 6h
-          receiver: 'discord'
+          receiver: discord
           routes:
-            - receiver: 'null'
+            - receiver: "null"
               matchers:
                 - severity =~ "none"
-            - receiver: 'discord'
+            - receiver: discord
     grafana:
       enabled: true
       envFromSecret: grafana-secrets
@@ -72,7 +75,7 @@ spec:
         dashboardproviders.yaml:
           apiVersion: 1
           providers:
-            - name: "default"
+            - name: default
               orgId: 1
               folder: ""
               type: file
@@ -122,7 +125,7 @@ spec:
         enabled: true
         pathType: Prefix
         hosts:
-          - "grafana.${PUBLIC_HOSTNAME}"
+          - grafana.${PUBLIC_HOSTNAME}
     prometheus:
       prometheusSpec:
         ruleSelectorNilUsesHelmValues: false

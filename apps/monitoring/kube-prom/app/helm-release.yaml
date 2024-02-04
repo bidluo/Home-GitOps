@@ -39,11 +39,7 @@ spec:
           - name: 'null'
           - name: 'discord'
             discord_configs:
-              - channel: '#monitoring'
-                webhook_url: "${MONITORING_DISCORD_WEBHOOK}"
-                icon_url: https://avatars3.githubusercontent.com/u/3380462
-                username: 'Prometheus'
-                send_resolved: true
+              - webhook_url: "${MONITORING_DISCORD_WEBHOOK}"
                 title: |-
                   {{- if eq .Status "firing" -}}
                     🔥 {{ len .Alerts.Firing }} Firing

@@ -67,6 +67,9 @@ spec:
             - receiver: "null"
               matchers:
                 - severity =~ "none"
+            - receiver: "null"
+              matchers:
+                - job_name =~ "cloudflare.*"
             - receiver: discord
     grafana:
       enabled: true

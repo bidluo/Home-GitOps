@@ -26,7 +26,7 @@ jobs:
         run: |
           dist="ubuntu-hw"
           if [ -n "$TAG_NAME" ]; then
-            docker build -t ghcr.io/${{ github.repository_owner }}/$dist:$TAG_NAME "./images/$dist"
+            docker build --build-arg TAG=$TAG_NAME -t ghcr.io/${{ github.repository_owner }}/$dist:$TAG_NAME "./images/$dist"
             docker push ghcr.io/${{ github.repository_owner }}/$dist:$TAG_NAME
           else
             echo "Skipping - tag name not found."

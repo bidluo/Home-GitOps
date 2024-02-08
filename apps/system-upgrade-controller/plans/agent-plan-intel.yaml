@@ -4,8 +4,8 @@ kind: Plan
 metadata:
   name: k3s-agent-intel
 spec:
-  # renovate: datasource=docker depName=quay.io/kairos/ubuntu
-  version: 23.10-standard-amd64-generic-v2.5.0-k3sv1.29.0-k3s1
+  # renovate: datasource=docker depName=ghcr.io/bidluo/ubuntu-hw
+  version: 23.10-standard-amd64-i915-v2.5.0-k3sv1.29.0-k3s1
   concurrency: 1
   serviceAccountName: system-upgrade
   nodeSelector:
@@ -23,6 +23,6 @@ spec:
     force: false
     disableEviction: true
   upgrade:
-    image: quay.io/kairos/ubuntu
+    image: ghcr.io/bidluo/ubuntu-hw
     command:
     - "/usr/sbin/suc-upgrade"

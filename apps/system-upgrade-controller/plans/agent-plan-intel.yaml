@@ -5,7 +5,7 @@ metadata:
   name: k3s-agent-intel
 spec:
   # renovate: datasource=docker depName=ghcr.io/bidluo/ubuntu-hw
-  version: 23.10-standard-amd64-i915-v2.5.0-k3sv1.29.0-k3s1
+  version: 23.10-standard-amd64-i915-v2.5.0-k3sv1.29.0-k3s1-c0.1
   concurrency: 1
   serviceAccountName: system-upgrade
   nodeSelector:

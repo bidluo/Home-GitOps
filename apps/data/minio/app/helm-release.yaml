@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: minio
-      version: 5.0.15
+      version: 5.1.0
       sourceRef:
         kind: HelmRepository
         name: minio-charts
@@ -16,7 +16,6 @@ spec:
   values:
     image:
       repository: quay.io/minio/minio
-      tag: RELEASE.2024-02-17T01-15-57Z
       pullPolicy: IfNotPresent
     rootUser: "${SECRET_MINIO_ACCESSKEY}"
     rootPassword: "${SECRET_MINIO_SECRETKEY}" 

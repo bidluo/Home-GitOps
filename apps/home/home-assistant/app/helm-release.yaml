@@ -27,6 +27,7 @@ spec:
         node-role.kubernetes.io/master: "true"
     service:
       main:
+        controller: main
         ports:
           http:
             enabled: true

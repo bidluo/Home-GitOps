@@ -27,6 +27,7 @@ spec:
               TZ: "${TIMEZONE}"
     service:
       main:
+        controller: main
         ports:
           http:
             port: 8080

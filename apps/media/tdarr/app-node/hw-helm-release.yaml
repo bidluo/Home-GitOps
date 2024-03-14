@@ -33,6 +33,7 @@ spec:
     service:
       main:
         enabled: false
+        controller: main
     persistence:
       media:
         existingClaim: data-nfs

@@ -23,6 +23,7 @@ spec:
               tag: 2.17.01
     service:
       main:
+        controller: main
         ports:
           http:
             enabled: true

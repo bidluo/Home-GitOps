@@ -26,6 +26,7 @@ spec:
                   name: plaxt-secrets
     service:
       main:
+        controller: main
         ports:
           http:
             port: 8000

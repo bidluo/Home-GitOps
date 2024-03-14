@@ -34,6 +34,7 @@ spec:
               mail__options__auth__pass: "${MAIL_PASS}"
     service:
       main:
+        controller: main
         ports:
           http:
             port: 2368

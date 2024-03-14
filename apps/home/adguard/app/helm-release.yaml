@@ -30,6 +30,7 @@ spec:
     service:
       main:
         type: LoadBalancer 
+        controller: main
         externalTrafficPolicy: Cluster 
         annotations:
             metallb.universe.tf/loadBalancerIPs: "${LOCAL_LB_IP}"

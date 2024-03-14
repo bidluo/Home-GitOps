@@ -37,4 +37,5 @@ spec:
     persistence:
       media:
         existingClaim: data-nfs
-        path: /media
+        globalMounts:
+          - path: /media

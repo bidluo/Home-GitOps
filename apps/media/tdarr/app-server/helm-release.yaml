@@ -42,10 +42,12 @@ spec:
     persistence:
       data:
         existingClaim: tdarr-data
-        path: /app/server
+        globalMounts:
+          - path: /app/server
       media:
         existingClaim: data-nfs
-        path: /media
+        globalMounts:
+          - path: /media
     ingress:
       main:
         enabled: true

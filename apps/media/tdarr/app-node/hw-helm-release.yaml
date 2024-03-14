@@ -17,9 +17,6 @@ spec:
     defaultPodOptions:
       nodeSelector:
         intel.feature.node.kubernetes.io/gpu: "true"
-      resources:
-        limits:
-          gpu.intel.com/i915: "1"
     controllers:
       main:
         containers:
@@ -30,6 +27,9 @@ spec:
             env:
               ffmpegPath: /usr/local/bin/ffmpeg
               serverIP: tdarr-server-server
+            resources:
+              limits:
+                gpu.intel.com/i915: "1"
     service:
       main:
         enabled: false

@@ -36,6 +36,7 @@ spec:
               serverIP: tdarr-server-server
     service:
       main:
+        controller: main
         enabled: false
     persistence:
       media:

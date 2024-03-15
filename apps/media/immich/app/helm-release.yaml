@@ -89,5 +89,5 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main 
+                  name: immich-main 
                   port: 3001

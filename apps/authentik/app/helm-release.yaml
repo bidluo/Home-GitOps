@@ -13,9 +13,10 @@ spec:
         name: authentik-charts
         namespace: flux-system
   values:
-    envFrom:
-      - secretRef:
-          name: authentik-secrets
+    global:
+      envFrom:
+        - secretRef:
+            name: authentik-secrets
     authentik:
       error_reporting_enabled: true
       email:

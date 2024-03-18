@@ -42,5 +42,5 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  name: tautulli
                   port: 8181

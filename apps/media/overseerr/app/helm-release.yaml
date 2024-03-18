@@ -38,8 +38,8 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
-                  port: 80
+                  name: overseerr
+                  port: 5055
     persistence:
       main-config:
         existingClaim: overseerr-config

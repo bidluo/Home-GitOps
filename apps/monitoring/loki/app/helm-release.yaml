@@ -25,9 +25,9 @@ spec:
         retention_period: 7d
       rulerConfig:
         alertmanager_url: http://kube-prometheus-stack-alertmanager:9093
-      schema_config:
+      schemaConfig:
         configs:
-          - from: 2024-04-10
+          - from: "2024-04-01"
             store: boltdb-shipper
             object_store: filesystem
             schema: v11

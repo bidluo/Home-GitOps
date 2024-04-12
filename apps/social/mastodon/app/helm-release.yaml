@@ -19,6 +19,14 @@ spec:
     webDomain: "mast.${PUBLIC_HOSTNAME}"
     existingSecret: mastodon-secrets
     extraConfigExistingSecret: mastodon-oidc-secrets
+    web:
+      resources: 
+        requests:
+          cpu: 15m
+          memory: 814M
+        limits:
+          cpu: 15m
+          memory: 814M
     smtp:
       from_address: "admin@${PUBLIC_HOSTNAME}"
       tls: false

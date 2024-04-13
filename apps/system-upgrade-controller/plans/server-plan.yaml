@@ -4,7 +4,7 @@ metadata:
   name: k3s-server
 spec:
   # renovate: datasource=docker depName=quay.io/kairos/ubuntu
-  version: 23.10-standard-amd64-generic-v2.5.0-k3sv1.29.0-k3s1
+  version: 23.10-standard-amd64-generic-v3.0.5-k3sv1.29.3-k3s1
   concurrency: 1
   serviceAccountName: system-upgrade
   nodeSelector:

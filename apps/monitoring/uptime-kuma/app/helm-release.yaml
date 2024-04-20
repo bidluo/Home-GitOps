@@ -20,7 +20,7 @@ spec:
           main:
             image:
               repository: louislam/uptime-kuma
-              tag: 1.23.11-alpine
+              tag: 1.23.12-alpine
     service:
       main:
         controller: main

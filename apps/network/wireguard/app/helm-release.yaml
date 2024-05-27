@@ -19,7 +19,7 @@ spec:
           main:
             image:
               repository: ghcr.io/wg-easy/wg-easy
-              tag: 12
+              tag: 13
             securityContext:
               sysctls:
                 - name: net.ipv4.conf.all.src_valid_mark

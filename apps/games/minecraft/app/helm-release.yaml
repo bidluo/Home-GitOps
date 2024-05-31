@@ -1,0 +1,45 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: minecraft 
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    defaultPodOptions:
+      nodeSelector:
+        node-role.kubernetes.io/master: "true"
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/itzg/minecraft-server
+              tag: 2024.5.0-java21
+            env:
+              EULA: "TRUE"
+    service:
+      main:
+        type: LoadBalancer
+        controller: main
+        externalTrafficPolicy: Cluster
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: "${LOCAL_LB_IP}"
+          metallb.universe.tf/allow-shared-ip: external-svc
+        ports:
+          main-udp:
+            port: 25565
+            protocol: UDP
+    persistence:
+      main-config:
+        existingClaim: minecraft-data
+        globalMounts:
+          - path: /data

@@ -9,6 +9,7 @@ resources:
 - public
 - media
 - network
+- games
 
 - longhorn
 - metallb

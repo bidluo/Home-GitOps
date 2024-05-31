@@ -38,6 +38,9 @@ spec:
           main-udp:
             port: 25565
             protocol: UDP
+          main-tcp:
+            port: 25565
+            protocol: TCP
     persistence:
       main-config:
         existingClaim: minecraft-data

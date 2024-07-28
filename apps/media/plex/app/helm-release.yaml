@@ -23,7 +23,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/plex
-              tag: 1.32.8.7639-fb6452ebf
+              tag: 1.40.4.8679-424562606
             securityContext:
               runAsUser: 0
             resources:

@@ -23,7 +23,7 @@ spec:
           main:
             image:
               repository: haveagitgat/tdarr_node
-              tag: 2.23.01
+              tag: 2.24.04
             env:
               ffmpegPath: /usr/local/bin/ffmpeg
               serverIP: tdarr-server-server

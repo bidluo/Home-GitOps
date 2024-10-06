@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: haveagitgat/tdarr_node
-              tag: 2.25.01
+              tag: 2.26.01
             env:
               serverIP: tdarr-server-server
     service:

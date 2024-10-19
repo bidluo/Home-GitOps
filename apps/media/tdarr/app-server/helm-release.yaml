@@ -20,7 +20,7 @@ spec:
           main:
             image:
               repository: haveagitgat/tdarr
-              tag: 2.26.01
+              tag: 2.27.02
     service:
       main:
         controller: main

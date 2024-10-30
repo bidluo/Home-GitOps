@@ -22,24 +22,10 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.119.0
-            command:
-              - "/usr/src/app/start.sh"
-              - "immich"
             envFrom:
               - secretRef:
                   name: immich-secrets
-      microservices:
-        containers:
-          main:
-            image:
-              repository: ghcr.io/immich-app/immich-server
-              tag: v1.119.0
-            command:
-              - "/usr/src/app/start.sh"
-              - "microservices"
-            envFrom:
-              - secretRef:
-                  name: immich-secrets
+
       machine-learning:
         containers:
           main:
@@ -54,14 +40,7 @@ spec:
         controller: main
         ports:
           http:
-            port: 3001
-      microservices:
-        enabled: true
-        controller: microservices
-        ports:
-          http:
-            enabled: true
-            port: 3002
+            port: 2283
       machine-learning:
         enabled: true
         controller: machine-learning 

@@ -16,9 +16,6 @@ spec:
         name: intel-charts
         namespace: flux-system
   values:
-    image:
-      hub: intel
-      tag: "0.26.0"
     sharedDevNum: 2
     logLevel: 2
     resourceManager: false

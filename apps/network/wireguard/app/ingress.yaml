@@ -12,16 +12,6 @@ spec:
         - "wireguard.${PUBLIC_HOSTNAME}"
       secretName: plex-tls
   rules:
-    - host: "wireguard.${PUBLIC_HOSTNAME}"
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: wireguard
-                port:
-                  number: 51821
     - host: "wg.${PUBLIC_HOSTNAME}"
       http:
         paths:

@@ -20,7 +20,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/radarr
-              tag: 5.14.0.9383
+              tag: 5.16.3.9541
             securityContext:
               runAsUser: 0
     service:

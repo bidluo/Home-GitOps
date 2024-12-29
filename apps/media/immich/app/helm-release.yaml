@@ -69,4 +69,4 @@ spec:
                 pathType: Prefix
                 service:
                   name: immich-main 
-                  port: 3001
+                  port: 2283

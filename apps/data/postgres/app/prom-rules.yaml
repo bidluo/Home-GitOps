@@ -51,7 +51,7 @@ spec:
             description: "CNPG backup failed recently, requiring attention."
             summary: "CNPG backup failure detected."
           expr: |
-            (cnpg_collector_last_failed_backup_timestamp > 0) and (time() - cnpg_collector_last_failed_backup_timestamp > time() - cnpg_collector_last_available_backup_timestamp)
+            (cnpg_collector_last_failed_backup_timestamp > 0) and (cnpg_collector_last_failed_backup_timestamp > cnpg_collector_last_available_backup_timestamp)
           for: 5m
           labels:
             severity: critical

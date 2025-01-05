@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 - helm-release.yaml
 - immich-secrets.sops.yaml
+- immich-config.sops.yaml

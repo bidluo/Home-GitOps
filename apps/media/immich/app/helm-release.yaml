@@ -25,7 +25,6 @@ spec:
             envFrom:
               - secretRef:
                   name: immich-secrets
-
       machine-learning:
         containers:
           main:
@@ -59,11 +58,18 @@ spec:
         globalMounts:
           - path: /usr/src/app/upload
             subPath: Immich
+      config:
+        enabled: true
+        type: secret
+        name: immich-config
+        globalMounts:
+          - path: /config.json
+            subPath: config
     ingress:
       main:
         enabled: true
         hosts:
-          - host: "immich.${PUBLIC_HOSTNAME}"
+          - host: "img.${PUBLIC_HOSTNAME}"
             paths:
               - path: /
                 pathType: Prefix

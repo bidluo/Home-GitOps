@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 - gpu-device-helm-release.yaml
 - operator-helm-release.yaml
+- node-feature-discovery.yaml

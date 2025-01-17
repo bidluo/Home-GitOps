@@ -16,3 +16,4 @@ resources:
 - grafana.yaml
 - minio.yaml
 - cnpg.yaml
+- sigs.yaml

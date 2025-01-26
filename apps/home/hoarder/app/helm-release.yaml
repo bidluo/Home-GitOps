@@ -28,7 +28,7 @@ spec:
           main:
             image:
               repository: getmeili/meilisearch
-              tag: v1.12.4
+              tag: v1.12.7
             envFrom:
               - secretRef:
                   name: hoarder-secrets

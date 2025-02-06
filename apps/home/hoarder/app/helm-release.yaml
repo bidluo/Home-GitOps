@@ -19,7 +19,7 @@ spec:
           main:
             image:
               repository: ghcr.io/hoarder-app/hoarder
-              tag: 0.21.0
+              tag: 0.22.0
             envFrom:
               - secretRef:
                   name: hoarder-secrets

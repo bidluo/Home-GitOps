@@ -64,7 +64,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b update-base-image
-          git add Dockerfile
+          git add .
           git commit -m "Update base image to ${{ env.latest_tag }}"
           git push origin update-base-image
 

@@ -1,0 +1,72 @@
+name: Update Base Image
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  update-base-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq curl
+
+      - name: Fetch latest tag dynamically
+        id: fetch_tag
+        run: |
+          # Fetch all tags from the Quay.io registry
+          all_tags=$(curl -s https://quay.io/api/v1/repository/kairos/ubuntu/tag/?limit=100 | jq -r '.tags[].name')
+
+          # Define the base pattern to filter relevant tags
+          current_tag="24.04-standard-amd64-generic-v3.3.1-k3sv1.32.1-k3s1"
+
+          # Split the current tag into its major components
+          base_version=$(echo "$current_tag" | cut -d'-' -f1) # e.g., "24.04"
+          tag_pattern=$(echo "$current_tag" | cut -d'-' -f2-) # e.g., "standard-amd64-generic"
+
+          # Filter matching tags that follow the same structure
+          filtered_tags=$(echo "$all_tags" | grep "$tag_pattern" | grep -v '^sha256' | sort -V)
+
+          # Extract the latest tag (highest version)
+          latest_tag=$(echo "$filtered_tags" | sort -t'-' -k1,1 -V -k4,4 -V -k5,5 -V | tail -n1)
+
+          echo "Latest tag: $latest_tag"
+          echo "latest_tag=$latest_tag" >> $GITHUB_ENV
+
+      - name: Update all Dockerfiles
+        run: |
+          # Find all Dockerfiles under the images/ directory
+          find images/ -name 'Dockerfile' | while read -r dockerfile; do
+            echo "Updating $dockerfile..."
+
+            # Replace the base image tag with the latest
+            sed -i "s|quay.io/kairos/ubuntu:.*|quay.io/kairos/ubuntu:${{ env.latest_tag }}|" "$dockerfile"
+
+            echo "Updated $dockerfile with quay.io/kairos/ubuntu:${{ env.latest_tag }}"
+          done
+
+      - name: Commit and create PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Check if the file changed
+          if git diff --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b update-base-image
+          git add Dockerfile
+          git commit -m "Update base image to ${{ env.latest_tag }}"
+          git push origin update-base-image
+
+          # Create a PR
+          gh pr create --title "Update base image to ${{ env.latest_tag }}" --body "Automated update of base image to ${{ env.latest_tag }}."

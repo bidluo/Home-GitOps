@@ -1,4 +1,4 @@
-FROM quay.io/kairos/ubuntu:24.04-standard-amd64-generic-v3.3.1-k3sv1.32.1-k3s1
+FROM quay.io/kairos/ubuntu:22.04-standard-amd64-generic-v3.3.1-k3sv1.32.1-k3s1
 
 ARG TAG
 

@@ -24,7 +24,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          dist="ubuntu-hw"
+          dist="ubuntu-nfs"
           if [ -n "$TAG_NAME" ]; then
             docker build --build-arg TAG=$TAG_NAME -t ghcr.io/${{ github.repository_owner }}/$dist:$TAG_NAME "./images/$dist"
             docker push ghcr.io/${{ github.repository_owner }}/$dist:$TAG_NAME

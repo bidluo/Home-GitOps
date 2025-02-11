@@ -1,9 +1,19 @@
-name: Build and Push Docker Image with Git Tag
+name: Build and Push Docker Images with Git Tag
 
 on:
   push:
     tags:
       - '*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Tag name for the Docker image"
+        required: true
+        default: "latest"
+      variant:
+        description: "Specific variant to build (e.g., ubuntu-nfs). Leave empty to build all."
+        required: false
+        default: ""
 
 jobs:
   build-and-push:
@@ -19,18 +29,32 @@ jobs:
       - name: Login to GitHub Container Registry
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
-      - name: Extract tag name
-        run: echo "TAG_NAME=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
-
-      - name: Build and push Docker image
+      - name: Determine tag name
         run: |
-          dist="ubuntu-nfs"
-          if [ -n "$TAG_NAME" ]; then
-            docker build --build-arg TAG=$TAG_NAME -t ghcr.io/${{ github.repository_owner }}/$dist:$TAG_NAME "./images/$dist"
-            docker push ghcr.io/${{ github.repository_owner }}/$dist:$TAG_NAME
+          if [ -n "${{ github.event.inputs.tag_name }}" ]; then
+            echo "TAG_NAME=${{ github.event.inputs.tag_name }}" >> $GITHUB_ENV
           else
-            echo "Skipping - tag name not found."
+            echo "TAG_NAME=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
           fi
+
+      - name: Build and push Docker images
+        run: |
+          # Check if a specific variant was provided
+          if [ -n "${{ github.event.inputs.variant }}" ]; then
+            variants=("./images/${{ github.event.inputs.variant }}/Dockerfile")
+          else
+            variants=$(find ./images -name 'Dockerfile')
+          fi
+
+          # Loop through matching Dockerfiles and build/push images
+          for dockerfile in $variants; do
+            # Extract the directory name (e.g., ubuntu-nfs, ubuntu-hw)
+            dist=$(basename $(dirname "$dockerfile"))
+
+            # Build and push the image
+            echo "Building and pushing image for $dist with tag $TAG_NAME..."
+            docker build --build-arg TAG=$TAG_NAME -t ghcr.io/${{ github.repository_owner }}/$dist:$TAG_NAME "$(dirname "$dockerfile")"
+            docker push ghcr.io/${{ github.repository_owner }}/$dist:$TAG_NAME
+          done
         env:
           TAG_NAME: ${{ env.TAG_NAME }}
-

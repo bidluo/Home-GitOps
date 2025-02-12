@@ -6,7 +6,7 @@ RUN apt-get update && \
     apt-get install -y \
     initramfs-tools \
     zstd \
-    nfs-kernel-server \
+    tgt \
     linux-firmware && \ 
     apt-get clean && \ 
     rm -rf /var/lib/apt/lists/* && \

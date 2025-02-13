@@ -19,7 +19,7 @@ spec:
           main:
             image:
               repository: ghcr.io/diced/zipline
-              tag: v4-b793370
+              tag: v4-1717906
             envFrom:
               - secretRef:
                   name: zipline-secrets

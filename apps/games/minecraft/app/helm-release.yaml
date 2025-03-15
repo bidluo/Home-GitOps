@@ -23,7 +23,7 @@ spec:
           main:
             image:
               repository: ghcr.io/itzg/minecraft-server
-              tag: 2025.2.0-java21
+              tag: 2025.3.0-java21
             env:
               EULA: "TRUE"
     service:

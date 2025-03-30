@@ -22,8 +22,8 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/onedr0p/plex
-              tag: 1.40.4.8679-424562606
+              repository: ghcr.io/home-operations/plex
+              tag: 1.41.5
             securityContext:
               runAsUser: 0
             resources:

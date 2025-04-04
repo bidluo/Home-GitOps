@@ -23,9 +23,15 @@ spec:
           main:
             image:
               repository: ghcr.io/itzg/minecraft-server
-              tag: 2025.3.0-java21
+              tag: java23
             env:
               EULA: "TRUE"
+              TYPE: "PAPER"
+              VERSION: "1.21.4"
+              PLUGINS: |
+                https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
+                https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
+                https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.3.1/PAPER/ViaVersion-5.3.1.jar
     service:
       main:
         type: LoadBalancer
@@ -41,6 +47,9 @@ spec:
           main-tcp:
             port: 25565
             protocol: TCP
+          other:
+            port: 19132
+            protocol: UDP
     persistence:
       main-config:
         existingClaim: minecraft-data

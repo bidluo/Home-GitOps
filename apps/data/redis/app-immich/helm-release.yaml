@@ -10,7 +10,7 @@ spec:
       chart: redis
       version: 20.11.3
       sourceRef:
-        kind: HelmRepository
+        kind: OCIRepository
         name: bitnami-charts
         namespace: flux-system
   values:

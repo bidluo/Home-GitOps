@@ -19,8 +19,8 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/onedr0p/radarr
-              tag: 5.19.3.9730
+              repository: ghcr.io/home-operations/radarr
+              tag: 5.22.2
             securityContext:
               runAsUser: 0
     service:

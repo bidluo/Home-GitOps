@@ -18,8 +18,8 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/onedr0p/sonarr
-              tag: 4.0.12
+              repository: ghcr.io/home-operations/sonarr
+              tag: 4.0.14
             securityContext:
               runAsUser: 0
     service:

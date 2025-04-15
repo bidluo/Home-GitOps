@@ -23,7 +23,7 @@ spec:
           main:
             image:
               repository: ghcr.io/home-operations/plex
-              tag: 1.41.5
+              tag: 1.41.6
             securityContext:
               runAsUser: 0
             resources:

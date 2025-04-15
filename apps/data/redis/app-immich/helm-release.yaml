@@ -5,14 +5,11 @@ metadata:
   name: redis-immich
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: redis
-      version: 20.11.3
-      sourceRef:
-        kind: OCIRepository
-        name: bitnami-charts
-        namespace: flux-system
+  releaseName: redis
+  chartRef:
+    kind: OCIRepository
+    name: redis
+    namespace: flux-system
   values:
     architecture: standalone
     image:

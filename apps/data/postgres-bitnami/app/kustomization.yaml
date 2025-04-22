@@ -2,8 +2,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- namespace.yaml
-- home-assistant 
-- hoarder
-- adguard
-- n8n
+- helm-release.yaml
+- postgres-bitnami-secrets.sops.yaml 

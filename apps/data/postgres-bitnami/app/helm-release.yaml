@@ -1,0 +1,34 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: postgres-bitnami
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: postgresql
+      version: 12.10.0
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-charts
+        namespace: flux-system
+  values:
+    global:
+      postgresql:
+        auth:
+          existingSecret: postgres-bitnami-secrets
+          secretKeys:
+            adminPasswordKey: postgresql-password
+            userPasswordKey: postgresql-password
+          username: n8n
+          database: n8n
+    primary:
+      persistence:
+        enabled: true
+        storageClass: "nfs-client"
+        size: 10Gi
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true 

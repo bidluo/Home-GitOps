@@ -7,3 +7,4 @@ resources:
 - postgres
 # - elasticsearch
 - redis
+- postgres-bitnami

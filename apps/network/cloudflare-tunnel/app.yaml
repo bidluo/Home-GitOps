@@ -2,10 +2,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: wireguard
+  name: cloudflare-tunnel
   namespace: flux-system
 spec:
-  path: ./apps/network/wireguard/app
+  path: ./apps/network/cloudflare-tunnel/app
   targetNamespace: network
   interval: 10m
   prune: true
@@ -16,5 +16,5 @@ spec:
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
-      name: wireguard 
+      name: cloudflare-tunnel
       namespace: network

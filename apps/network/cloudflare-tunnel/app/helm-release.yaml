@@ -1,0 +1,24 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cloudflare-tunnel
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: cloudflare-tunnel
+      version: 0.3.2
+      sourceRef:
+        kind: HelmRepository
+        name: cloudflare-charts
+        namespace: flux-system
+  values:
+    cloudflare:
+      tunnelName: "${CF_TUNNEL_NAME}"
+      tunnelId: "${CF_TUNNEL_ID}"
+      secret: "${CF_TUNNEL_SECRET}"
+      account: "${CF_ACCOUNT}"
+      ingress:
+        - hostname: "sonarr.${PUBLIC_HOSTNAME}"
+          service: http://ak-outpost-media.media.svc.cluster.local:9000

@@ -18,3 +18,4 @@ resources:
 - cnpg.yaml
 - sigs.yaml
 - redis.yaml
+- cloudflare.yaml

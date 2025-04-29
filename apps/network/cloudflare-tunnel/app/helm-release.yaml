@@ -22,3 +22,38 @@ spec:
       ingress:
         - hostname: "sonarr.${PUBLIC_HOSTNAME}"
           service: http://ak-outpost-media.media.svc.cluster.local:9000
+        - hostname: "radarr.${PUBLIC_HOSTNAME}"
+          service: http://ak-outpost-media.media.svc.cluster.local:9000
+        - hostname: "nzb.${PUBLIC_HOSTNAME}"
+          service: http://ak-outpost-media.media.svc.cluster.local:9000
+        - hostname: "plex.${PUBLIC_HOSTNAME}"
+          service: http://plex.media.svc.cluster.local:32400
+        - hostname: "request.${PUBLIC_HOSTNAME}"
+          service: http://overseerr.media.svc.cluster.local:5055
+        - hostname: "img.${PUBLIC_HOSTNAME}"
+          service: http://immich-main.media.svc.cluster.local:2283
+        - hostname: "s.${PUBLIC_HOSTNAME}"
+          service: http://zipline.media.svc.cluster.local:3002
+        - hostname: "tautulli.${PUBLIC_HOSTNAME}"
+          service: http://tautulli.media.svc.cluster.local:8181
+        - hostname: "plaxt.${PUBLIC_HOSTNAME}"
+          service: http://plaxt.media.svc.cluster.local:8000
+        - hostname: "home.${PUBLIC_HOSTNAME}"
+          service: http://home-assistant.home.svc.cluster.local:8123
+        - hostname: "hoard.${PUBLIC_HOSTNAME}"
+          service: http://hoarder-main.home.svc.cluster.local:3000
+        - hostname: "auth.${PUBLIC_HOSTNAME}"
+          service: http://authentik-server.auth.svc.cluster.local:80
+        - hostname: "uptime.${PUBLIC_HOSTNAME}"
+          service: http://ak-outpost-monitoring.monitoring.svc.cluster.local:9000
+        - hostname: "goldilocks.${PUBLIC_HOSTNAME}"
+          service: http://ak-outpost-monitoring.monitoring.svc.cluster.local:9000
+        - hostname: "longhorn.${PUBLIC_HOSTNAME}"
+          service: http://ak-outpost-longhorn.longhorn-system.svc.cluster.local:9000
+        - hostname: "${PUBLIC_HOSTNAME}"
+          service: http://ghost.public.svc.cluster.local:2368
+        - hostname: "${SECONDARY_HOSTNAME}"
+          service: http://ghost-ringtale.public.svc.cluster.local:2368
+        - hostname: "wg.${PUBLIC_HOSTNAME}"
+          service: http://wireguard.network.svc.cluster.local:51820
+        - service: http_status:404

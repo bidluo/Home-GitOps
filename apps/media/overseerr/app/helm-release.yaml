@@ -29,17 +29,6 @@ spec:
         ports:
           http:
             port: 5055
-    ingress:
-      main:
-        enabled: true
-        hosts:
-          - host: "request.${PUBLIC_HOSTNAME}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: overseerr
-                  port: 5055
     persistence:
       main-config:
         existingClaim: overseerr-config

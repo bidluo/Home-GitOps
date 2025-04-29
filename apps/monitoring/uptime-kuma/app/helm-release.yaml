@@ -33,14 +33,3 @@ spec:
         existingClaim: uptime-kuma-config
         globalMounts:
           - path: /app/data
-    ingress:
-      main:
-        enabled: true
-        hosts:
-          - host: "uptime.${PUBLIC_HOSTNAME}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: ak-outpost-monitoring 
-                  port: 9000

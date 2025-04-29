@@ -41,14 +41,3 @@ spec:
         globalMounts:
           - path: /downloads
             subPath: Downloads
-    ingress:
-      main:
-        enabled: true
-        hosts:
-          - host: "nzb.${PUBLIC_HOSTNAME}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: ak-outpost-media
-                  port: 9000

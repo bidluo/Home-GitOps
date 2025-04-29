@@ -56,14 +56,3 @@ spec:
           meili: 
             main:
               - path: /meili_data
-    ingress:
-      main:
-        enabled: true
-        hosts:
-          - host: "hoard.${PUBLIC_HOSTNAME}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: hoarder-main
-                  port: 3000

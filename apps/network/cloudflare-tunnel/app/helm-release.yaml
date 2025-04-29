@@ -56,4 +56,3 @@ spec:
           service: http://ghost-ringtale.public.svc.cluster.local:2368
         - hostname: "wg.${PUBLIC_HOSTNAME}"
           service: http://wireguard.network.svc.cluster.local:51820
-        - service: http_status:404

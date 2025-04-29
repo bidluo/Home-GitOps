@@ -33,14 +33,3 @@ spec:
         existingClaim: tautulli-config
         globalMounts:
           - path: /config
-    ingress:
-      main:
-        enabled: true
-        hosts:
-          - host: "tautulli.${PUBLIC_HOSTNAME}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  name: tautulli
-                  port: 8181

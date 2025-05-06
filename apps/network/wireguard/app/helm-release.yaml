@@ -34,9 +34,6 @@ spec:
               WG_HOST: "${PUBLIC_HOSTNAME}" 
               WG_DEFAULT_DNS: "${LOCAL_LB_IP}, 1.1.1.1, 8.8.8.8"
               WG_MTU: "1280"
-              WG_ALLOWED_IPS: "0.0.0.0/0, ::/0"
-              WG_POST_UP: "iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE"
-              WG_POST_DOWN: "iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE"
             envFrom:
               - secretRef:
                   name: wireguard-secrets

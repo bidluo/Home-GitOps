@@ -55,4 +55,6 @@ spec:
         - hostname: "${SECONDARY_HOSTNAME}"
           service: http://ghost-ringtale.public.svc.cluster.local:2368
         - hostname: "wg.${PUBLIC_HOSTNAME}"
-          service: http://wireguard.network.svc.cluster.local:51820
+          service: udp://wireguard.network.svc.cluster.local:51820
+        - hostname: "wg-admin.${PUBLIC_HOSTNAME}"
+          service: http://wireguard.network.svc.cluster.local:51821

@@ -42,21 +42,54 @@ spec:
               liveness:
                 enabled: true
                 path: /
-                protocol: http
               readiness:
                 enabled: true
                 path: /
-                protocol: http
               startup:
                 enabled: true
                 path: /
-                protocol: http
+          exporter:
+            image:
+              repository: sakowicz/actual-budget-prometheus-exporter
+              tag: latest
+            env:
+              TZ: "${TIMEZONE}"
+              ACTUAL_SERVER_URL: "http://localhost:5006"
+              ACTUAL_BUDGET_ID_1: "main"
+              ACTUAL_PASSWORD: "${ACTUAL_PASSWORD}"
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                cpu: 100m
+                memory: 256Mi
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+            probes:
+              liveness:
+                enabled: true
+                path: /metrics
+                port: 3001
+              readiness:
+                enabled: true
+                path: /metrics
+                port: 3001
+              startup:
+                enabled: true
+                path: /metrics
+                port: 3001
     service:
       main:
         controller: main
         ports:
           http:
             port: 5006
+          metrics:
+            port: 3001
     persistence:
       main-config:
         existingClaim: actual-config

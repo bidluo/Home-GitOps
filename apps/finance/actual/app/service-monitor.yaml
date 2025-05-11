@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: actual-budget-monitor
+  namespace: finance
+  labels:
+    app: actual
+spec:
+  selector:
+    matchLabels:
+      app: actual
+  endpoints:
+  - port: metrics
+    interval: 30s
+    scrapeTimeout: 10s
+    path: /metrics 

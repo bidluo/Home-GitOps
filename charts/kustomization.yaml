@@ -19,3 +19,4 @@ resources:
 - sigs.yaml
 - redis.yaml
 - cloudflare.yaml
+- stakater.yaml

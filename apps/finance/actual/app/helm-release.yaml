@@ -1,0 +1,69 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: actual
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.7.3
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/actualbudget/actual-server
+              tag: 24.7.0
+            env:
+              TZ: "${TIMEZONE}"
+              ACTUAL_PORT: "5006"
+              ACTUAL_LOG_LEVEL: "info"
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                cpu: 500m
+                memory: 512Mi
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+            probes:
+              liveness:
+                enabled: true
+                path: /
+                protocol: http
+              readiness:
+                enabled: true
+                path: /
+                protocol: http
+              startup:
+                enabled: true
+                path: /
+                protocol: http
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 5006
+    persistence:
+      main-config:
+        existingClaim: actual-config
+        globalMounts:
+          - path: /data
+    podSecurityContext:
+      fsGroup: 1000
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 1000 

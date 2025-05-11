@@ -50,6 +50,8 @@ spec:
           service: http://ak-outpost-monitoring.monitoring.svc.cluster.local:9000
         - hostname: "longhorn.${PUBLIC_HOSTNAME}"
           service: http://ak-outpost-longhorn.longhorn-system.svc.cluster.local:9000
+        - hostname: "finance.${PUBLIC_HOSTNAME}"
+          service: http://actual.finance.svc.cluster.local:5006
         - hostname: "${PUBLIC_HOSTNAME}"
           service: http://ghost.public.svc.cluster.local:2368
         - hostname: "${SECONDARY_HOSTNAME}"

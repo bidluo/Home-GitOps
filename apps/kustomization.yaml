@@ -10,6 +10,7 @@ resources:
 - media
 - network
 - games
+- finance
 
 - longhorn
 - metallb
@@ -18,3 +19,4 @@ resources:
 - cert-manager
 - csi-nfs
 - system-upgrade-controller
+- reloader

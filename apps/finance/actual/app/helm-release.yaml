@@ -33,11 +33,6 @@ spec:
               limits:
                 cpu: 500m
                 memory: 512Mi
-            securityContext:
-              runAsUser: 1000
-              runAsGroup: 1000
-              readOnlyRootFilesystem: true
-              allowPrivilegeEscalation: false
             probes:
               liveness:
                 enabled: true
@@ -67,7 +62,7 @@ spec:
             securityContext:
               runAsUser: 1000
               runAsGroup: 1000
-              readOnlyRootFilesystem: true
+              readOnlyRootFilesystem: false
               allowPrivilegeEscalation: false
             probes:
               liveness:

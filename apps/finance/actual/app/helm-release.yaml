@@ -20,13 +20,13 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/actualbudget/actual-server
-              tag: 24.7.0
+              repository: ghcr.io/actualbudget/actual
+              tag: 25.5.0
             env:
               TZ: "${TIMEZONE}"
               ACTUAL_PORT: "5006"
               ACTUAL_LOG_LEVEL: "info"
-              OAUTH_ENABLED: "true"
+              ACTUAL_OPENID_AUTH_METHOD: "openid"
             envFrom:
               - secretRef:
                   name: actual-oauth-secrets

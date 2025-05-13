@@ -26,6 +26,10 @@ spec:
               TZ: "${TIMEZONE}"
               ACTUAL_PORT: "5006"
               ACTUAL_LOG_LEVEL: "info"
+              OAUTH_ENABLED: "true"
+            envFrom:
+              - secretRef:
+                  name: actual-oauth-secrets
             resources:
               requests:
                 cpu: 100m
@@ -49,9 +53,8 @@ spec:
               tag: latest
             env:
               TZ: "${TIMEZONE}"
-              ACTUAL_SERVER_URL: "http://localhost:5006"
+              ACTUAL_SERVER_URL: actual:5006
               ACTUAL_BUDGET_ID_1: "main"
-              ACTUAL_PASSWORD: "${ACTUAL_PASSWORD}"
             resources:
               requests:
                 cpu: 50m

@@ -6,4 +6,4 @@ resources:
   - prom-rules.yaml
   - service-monitor.yaml
   - grafana-dashboard.yaml
-  - secrets-template.yaml 
+  - oauth-secrets.sops.yaml 

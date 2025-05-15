@@ -56,3 +56,12 @@ spec:
           service: http://ghost.public.svc.cluster.local:2368
         - hostname: "${SECONDARY_HOSTNAME}"
           service: http://ghost-ringtale.public.svc.cluster.local:2368
+        - hostname: "wg.${PUBLIC_HOSTNAME}"
+          service: udp://wireguard.network.svc.cluster.local:51820
+        - hostname: "wg-admin.${PUBLIC_HOSTNAME}"
+          service: http://wireguard.network.svc.cluster.local:51821
+        # Monitoring services
+        - hostname: "grafana.${PUBLIC_HOSTNAME}"
+          service: http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local:80
+        - hostname: "uptime-kuma.${PUBLIC_HOSTNAME}"
+          service: http://uptime-kuma.monitoring.svc.cluster.local:3001

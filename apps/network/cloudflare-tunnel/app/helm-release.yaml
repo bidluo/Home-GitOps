@@ -65,3 +65,5 @@ spec:
           service: http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local:80
         - hostname: "uptime-kuma.${PUBLIC_HOSTNAME}"
           service: http://uptime-kuma.monitoring.svc.cluster.local:3001
+        - hostname: "grocy.${PUBLIC_HOSTNAME}"
+          service: http://grocy.home.svc.cluster.local:80

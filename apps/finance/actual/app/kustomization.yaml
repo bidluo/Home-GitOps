@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - config-pvc.yaml
-  - prom-rules.yaml
   - service-monitor.yaml
   - grafana-dashboard.yaml
   - oauth-secrets.sops.yaml 

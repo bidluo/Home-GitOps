@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: grocy
+  name: changedetection
 spec:
   interval: 5m
   chart:
@@ -18,20 +18,24 @@ spec:
         containers:
           main:
             image:
-              repository: linuxserver/grocy
-              tag: 4.5.0
+              repository: linuxserver/changedetection.io
+              tag: 0.49.17
             env:
               TZ: "${TIMEZONE}"
               PUID: "1000"
               PGID: "1000"
+              BASE_URL: "https://changedetection.${PUBLIC_HOSTNAME}"
+    defaultPodOptions:
+      nodeSelector:
+        node-role.kubernetes.io/master: "true"
     service:
       main:
         controller: main
         ports:
           http:
-            port: 80
+            port: 5000
     persistence:
       main-config:
-        existingClaim: grocy-config
+        existingClaim: changedetection-config
         globalMounts:
-          - path: /config 
+          - path: /datastore 

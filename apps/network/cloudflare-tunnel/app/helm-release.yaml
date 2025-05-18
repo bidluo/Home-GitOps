@@ -60,10 +60,13 @@ spec:
           service: udp://wireguard.network.svc.cluster.local:51820
         - hostname: "wg-admin.${PUBLIC_HOSTNAME}"
           service: http://wireguard.network.svc.cluster.local:51821
-        # Monitoring services
         - hostname: "grafana.${PUBLIC_HOSTNAME}"
           service: http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local:80
         - hostname: "uptime-kuma.${PUBLIC_HOSTNAME}"
           service: http://uptime-kuma.monitoring.svc.cluster.local:3001
         - hostname: "grocy.${PUBLIC_HOSTNAME}"
           service: http://grocy.home.svc.cluster.local:80
+        - hostname: "change.${PUBLIC_HOSTNAME}"
+          service: http://ak-outpost-home.home.svc.cluster.local:9000
+        - hostname: "adguard.${PUBLIC_HOSTNAME}"
+          service: http://adguard.home.svc.cluster.local:3000

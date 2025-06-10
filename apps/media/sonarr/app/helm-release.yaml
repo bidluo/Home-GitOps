@@ -19,7 +19,7 @@ spec:
           main:
             image:
               repository: ghcr.io/home-operations/sonarr
-              tag: 4.0.14
+              tag: 4.0.15
             securityContext:
               runAsUser: 0
     service:

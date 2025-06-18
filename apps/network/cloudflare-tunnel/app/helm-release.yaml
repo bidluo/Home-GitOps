@@ -42,6 +42,10 @@ spec:
           service: http://home-assistant.home.svc.cluster.local:8123
         - hostname: "hoard.${PUBLIC_HOSTNAME}"
           service: http://hoarder-main.home.svc.cluster.local:3000
+        - hostname: "grocy.${PUBLIC_HOSTNAME}"
+          service: http://grocy.home.svc.cluster.local:80
+        - hostname: "wake.${PUBLIC_HOSTNAME}"
+          service: http://upsnap.home.svc.cluster.local:8090
         - hostname: "auth.${PUBLIC_HOSTNAME}"
           service: http://authentik-server.auth.svc.cluster.local:80
         - hostname: "uptime.${PUBLIC_HOSTNAME}"

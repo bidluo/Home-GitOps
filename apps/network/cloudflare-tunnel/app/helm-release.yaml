@@ -74,3 +74,5 @@ spec:
           service: http://ak-outpost-home.home.svc.cluster.local:9000
         - hostname: "adguard.${PUBLIC_HOSTNAME}"
           service: http://adguard.home.svc.cluster.local:3000
+        - hostname: "git.${PUBLIC_HOSTNAME}"
+          service: http://gitea.gitea.svc.cluster.local:80

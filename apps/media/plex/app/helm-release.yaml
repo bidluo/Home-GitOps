@@ -19,7 +19,6 @@ spec:
         intel.feature.node.kubernetes.io/gpu: "true"
     controllers:
       main:
-        replicas: 0
         containers:
           main:
             image:

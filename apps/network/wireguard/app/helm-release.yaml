@@ -19,7 +19,7 @@ spec:
           main:
             image:
               repository: ghcr.io/wg-easy/wg-easy
-              tag: 15
+              tag: 14 # Do not upgrade, 15 is broken
             securityContext:
               sysctls:
                 - name: net.ipv4.conf.all.src_valid_mark

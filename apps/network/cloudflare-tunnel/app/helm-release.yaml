@@ -77,4 +77,4 @@ spec:
         - hostname: "git.${PUBLIC_HOSTNAME}"
           service: http://gitea.gitea.svc.cluster.local:80
         - hostname: "admin.${PUBLIC_HOSTNAME}"
-          service: "${LOCAL_LB_IP}:6443"
+          service: "http://${LOCAL_LB_IP}:6443"

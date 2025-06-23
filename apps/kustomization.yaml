@@ -16,7 +16,7 @@ resources:
 - metallb
 - traefik
 - authentik
-- cert-manager
+#- cert-manager
 - csi-nfs
 - system-upgrade-controller
 - reloader

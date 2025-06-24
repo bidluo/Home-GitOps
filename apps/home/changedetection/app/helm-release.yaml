@@ -19,7 +19,7 @@ spec:
           main:
             image:
               repository: linuxserver/changedetection.io
-              tag: 0.49.17
+              tag: 0.50.4
             env:
               TZ: "${TIMEZONE}"
               PUID: "1000"

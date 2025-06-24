@@ -1,0 +1,45 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ghost-third
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.1.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghost
+              tag: 5.126.1
+            env:
+              url: "https://${THIRD_HOSTNAME}" 
+              database__client: sqlite3
+              database__connection__filename: content/data/ghost.db
+              database__useNullAsDefault: true
+              database__debug: false
+              mail__transport: SMTP
+              mail__options__service: Sendgrid
+              mail__options__host: smtp.sendgrid.net
+              mail__options__port: 587
+              mail__options__auth__user: apikey
+              mail__options__auth__pass: "${MAIL_PASS}"
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 2368
+    persistence:
+      main-config:
+        existingClaim: ghost-data-third
+        globalMounts:
+          - path: /var/lib/ghost/content

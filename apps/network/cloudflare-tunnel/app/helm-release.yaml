@@ -61,6 +61,8 @@ spec:
         - hostname: "${SECONDARY_HOSTNAME}"
           #service: http://ghost-ringtale.public.svc.cluster.local:2368
           service: http://upsnap.home.svc.cluster.local:8090
+        - hostname: "amourcrave.com"
+          service: http://ghost-third.public.svc.cluster.local:2368
         - hostname: "wg.${PUBLIC_HOSTNAME}"
           service: udp://wireguard.network.svc.cluster.local:51820
         - hostname: "grafana.${PUBLIC_HOSTNAME}"

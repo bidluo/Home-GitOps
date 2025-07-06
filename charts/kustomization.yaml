@@ -7,7 +7,6 @@ resources:
 - metallb.yaml
 - traefik.yaml
 - authentik.yaml
-- bitnami.yaml
 - jetstack.yaml
 - csi-nfs.yaml
 - intel.yaml
@@ -20,3 +19,4 @@ resources:
 - redis.yaml
 - cloudflare.yaml
 - stakater.yaml
+- postgresql.yaml

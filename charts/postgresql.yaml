@@ -1,9 +1,11 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
-  name: bitnami-charts
+  name: postgresql
   namespace: flux-system
 spec:
   interval: 30m
-  url: oci://registry-1.docker.io/bitnamicharts
+  url: oci://registry-1.docker.io/bitnamicharts/postgresql
   timeout: 2m
+  ref: 
+    semver: "16.7.15"

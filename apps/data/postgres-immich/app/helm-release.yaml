@@ -1,0 +1,74 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: postgres-immich
+spec:
+  interval: 5m
+  releaseName: postgres-immich
+  chartRef:
+    kind: OCIRepository
+    name: postgresql
+    namespace: flux-system
+  values:
+    image:
+      registry: ghcr.io
+      repository: tensorchord/cloudnative-pgvecto.rs
+      tag: 14-v0.2.0
+      pullPolicy: IfNotPresent
+
+    global:
+      security:
+        allowInsecureImages: true
+    
+    auth:
+      existingSecret: postgres-immich-secrets
+      secretKeys:
+        adminPasswordKey: POSTGRES_PASSWORD
+        userPasswordKey: POSTGRES_PASSWORD
+        replicationPasswordKey: POSTGRES_PASSWORD
+    
+    primary:
+      name: primary
+      persistence:
+        existingClaim: postgres-immich-data
+      
+      initdb:
+        args: "--locale=en_US.UTF-8 --encoding=UTF-8"
+        scriptsConfigMap: postgres-immich-init
+        
+      resources:
+        limits:
+          memory: 2Gi
+          cpu: 1000m
+        requests:
+          memory: 1Gi
+          cpu: 500m
+          
+    postgresql:
+      sharedPreloadLibraries: "vectors"
+      postgresqlExtendedConf:
+        maxConnections: 300
+        sharedBuffers: 512MB
+        effectiveCacheSize: 1GB
+        maintenanceWorkMem: 128MB
+        checkpointCompletionTarget: 0.9
+        walBuffers: 16MB
+        defaultStatisticsTarget: 100
+        randomPageCost: 1.1
+        effectiveIoConcurrency: 200
+        workMem: 4MB
+        minWalSize: 2GB
+        maxWalSize: 4GB
+        maxWorkerProcesses: 2
+        maxParallelWorkersPerGather: 1
+        maxParallelWorkers: 2
+        maxParallelMaintenanceWorkers: 1
+        
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        namespace: data
+        interval: 30s
+        scrapeTimeout: 10s 

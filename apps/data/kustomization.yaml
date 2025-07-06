@@ -5,6 +5,8 @@ resources:
 - namespace.yaml
 - minio
 - postgres
-# - elasticsearch
+- postgres-immich
+- postgres-authentik
+- postgres-zipline
 - redis
 - gitea

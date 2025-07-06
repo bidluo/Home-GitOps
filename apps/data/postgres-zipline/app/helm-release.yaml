@@ -1,0 +1,79 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: postgres-zipline
+spec:
+  interval: 5m
+  releaseName: postgres-zipline
+  chartRef:
+    kind: OCIRepository
+    name: postgresql
+    namespace: flux-system
+  values:
+    image:
+      registry: docker.io
+      repository: bitnami/postgresql
+      tag: 16.5.0-debian-12-r8
+      pullPolicy: IfNotPresent
+    
+    auth:
+      existingSecret: postgres-zipline-secrets
+      secretKeys:
+        adminPasswordKey: POSTGRES_PASSWORD
+        userPasswordKey: POSTGRES_PASSWORD
+        replicationPasswordKey: POSTGRES_PASSWORD
+    
+    primary:
+      name: primary
+      persistence:
+        existingClaim: postgres-zipline-data
+        size: 5Gi
+        storageClass: longhorn-xfs
+      
+      initdb:
+        args: "--locale=en_US.UTF-8 --encoding=UTF-8"
+        
+      podSecurityContext:
+        enabled: true
+        fsGroup: 1001
+        
+      containerSecurityContext:
+        enabled: true
+        runAsUser: 1001
+        runAsNonRoot: true
+        
+      resources:
+        limits:
+          memory: 512Mi
+          cpu: 250m
+        requests:
+          memory: 256Mi
+          cpu: 125m
+          
+    postgresql:
+      postgresqlExtendedConf:
+        maxConnections: 100
+        sharedBuffers: 128MB
+        effectiveCacheSize: 256MB
+        maintenanceWorkMem: 32MB
+        checkpointCompletionTarget: 0.9
+        walBuffers: 4MB
+        defaultStatisticsTarget: 100
+        randomPageCost: 1.1
+        effectiveIoConcurrency: 200
+        workMem: 1MB
+        minWalSize: 512MB
+        maxWalSize: 1GB
+        maxWorkerProcesses: 2
+        maxParallelWorkersPerGather: 1
+        maxParallelWorkers: 2
+        maxParallelMaintenanceWorkers: 1
+        
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        namespace: data
+        interval: 30s
+        scrapeTimeout: 10s 

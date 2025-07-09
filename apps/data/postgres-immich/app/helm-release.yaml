@@ -14,7 +14,7 @@ spec:
     image:
       registry: ghcr.io
       repository: tensorchord/cloudnative-pgvecto.rs
-      tag: 14-v0.2.0
+      tag: 15-v0.2.0
       pullPolicy: IfNotPresent
 
     global:

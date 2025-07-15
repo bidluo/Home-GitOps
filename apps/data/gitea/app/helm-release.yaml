@@ -20,7 +20,7 @@ spec:
           main:
             image:
               repository: gitea/gitea
-              tag: 1.24.2
+              tag: 1.24.3
               pullPolicy: IfNotPresent
             env:
               USER_UID: "1000"

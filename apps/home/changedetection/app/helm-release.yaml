@@ -19,7 +19,7 @@ spec:
           main:
             image:
               repository: ghcr.io/dgtlmoon/changedetection.io
-              tag: 0.50.4
+              tag: 0.50.7
             env:
               BASE_URL: "https://changedetection.${PUBLIC_HOSTNAME}"
     defaultPodOptions:

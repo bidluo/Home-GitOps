@@ -6,4 +6,3 @@ resources:
 - minio
 - postgres
 - redis
-- gitea

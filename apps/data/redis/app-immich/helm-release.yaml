@@ -14,7 +14,7 @@ spec:
     architecture: standalone
     image:
       repository: bitnami/redis
-      tag:	8.0.2-debian-12-r3
+      tag:	8.0.3-debian-12-r2
       pullPolicy: IfNotPresent
     auth:
       enabled: true

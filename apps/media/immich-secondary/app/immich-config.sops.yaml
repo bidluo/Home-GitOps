@@ -1,0 +1,26 @@
+apiVersion: v1
+data:
+    config: ENC[AES256_GCM,data:WpQZect1UPQIHF8w8+fGuV6+8j2LuTo+yodxAXK3nwb1lkuvep90WW7QdunArN6JxUf29foGK1oUEYp7Y8BPmzV01JKsuVHo5QpbxHnU2tIEKCky7hEOcXOxyyYv6Pg9KmiWDUhVLkJIbLpsKv3MkKSEgOobU2HYkt4XDUzefOR6XNlabedIOyhJl6psxUFwtpRnqlK3oZeae2tk8e+fzf6qNukEW7c7XEs/d3G+m45jVjHfW2FSCuHK5FR3LMjjK3ljGPXl6oYuzM4PJb9oarT/l57JeLmXJi2otHMO4H6W+VT1DahrMqhw3ERlV7OYKfXdKRBOKc4jjlJcCp8UxMCrGZlSddxZnlPLfrudK+4n4iMim9mVerd2aNXVrnTxVbmtz2Hkj6lW2ELYtgcYvPzs4RW+vQxF9sJaS3CXDzmtggrRQ9wX3gAQcXx2nUVgkWBgg+h8squYWPLM5ZAgztovmVZ99eTATUiltietPl5Q6E6ei74dtUf4ObNba6chjqMyRx8snH4vFI4KIT2ms3UCjFpHfDEjAWjdUq8KsggqM9mtXn4/aNezudcsyqE0zzeElRff650rToy/W6l69gyO1S+WeILbsfa0c8QDWIhncJKFM81Tn7JnB/oHI2MhynEjv7I7YAG/vOUYVBzf2YLWPqoKGei9wJQDCvDXu3y06LbJkp7jChihEqGcYMSRUqWOa1n//YeOgw9G27JRXXg9qOU+0qiSX+63i1T+CNk+TNgKhuQtljxafZ+GcAf/AOFxZ21XwUJdPDrBlLrPZIYp0hB354bYKGKj6xJ8ltHUW3+XIKuikJgTQXsJ6YIGaD4334qFd59yR68WIrA7AeYU3A/7wSBYdthXLEyJou4h/KpIl+LVfgYg2E56c425PxJYg+KLpz/q2OE4ZY9iBZ59cXa+zQt3glKuCG+GA5XBe59GWo8YAS9VwHhrflmtxZ5cqZBjTgBtH3fQRW+GmgMn9QQL73T7blrD4qhrQFq/vf/ZF4s+VKn3u7VKCB7RRcixF11gflGZDseh81hoC1PD6tiL9WcbN+vKIJFuxKTU2hN9Q2CO9wsqACwM3yTWW4eICpEhhjiQD9trFTB6ddZTXJjbHElM3NVK0AMaoYPtfGQvfkx9dAOQPnBw1xUSUOVFetjL4u9QA0gIqr4eN+rfPYSfOw0XjX3M72gOQqwq69PC1pTBsy1a/oVM3zVF6GPu69LYCvyAt4nPnBabvHMNz+PZDVMrmBRVMvtNd76wTNZn7S3fPQ/y/BR4QkKozKZuIlq6mrOnEbJW,iv:g5qxGf+9xwEDBMctXniYhbxkXVcsTCVQFKVyUMKm2kY=,tag:1UZJxsbqUhVWIe/PjDxCng==,type:str]
+kind: Secret
+metadata:
+    name: immich-config-lotus
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1mt3e0vdhgcxtcqfv0jhfdeejkk8f48elacyua387nekmnfufsd4qhtwmqn
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA3bCs4QThvS1N1UFlSWmpp
+            UStxc1pNeU5ETmlIZ1l2Yy9xRkdoSlJmWmpRCkJJd3Jpb0Q4ZFVjblBuMzRNNHJP
+            ckMrSnJBRE92UTgreFVmRHB5b3NhTlUKLS0tIEoxM2hNVEd1TDJGajhva3EyV05s
+            eEhOdmhJMFJlbW4zRnJwbUVDdHErYmcKH1yCdGdtSqerlYQN8NCNHSHyph+Mehww
+            IcIoRV4dMx+r3i2DZ43qsUnodb+u/GNQeU8UjskWANgQAUEcK2bTuA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-01-05T12:24:02Z"
+    mac: ENC[AES256_GCM,data:FFhF83bC9PjsQ+mWnaLlJYoPpZ8hLlZb48gUnD74DluOGKfg1a7XuO5rzIsF42UHaZp+Dbf5xgmEjZiANCTz4z3zFDOXWfWrCdhDAXc8qP/yrBWL+YkgspIOIwucOhH20JTCKjo/zOQodCI0vyvbS+SyYxY4/R73yNYXG+NALEE=,iv:IehL9hHXKlTTG5TkhAQdp1kLcRkfCxOFtRrVhaacKpo=,tag:eEmtHMlsrkibGwsdqVoWzA==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.3

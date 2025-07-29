@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - immich
+- immich-secondary
 - intel-gpu-plugin
 - media-shared
 - overseerr

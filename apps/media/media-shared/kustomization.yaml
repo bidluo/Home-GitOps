@@ -7,3 +7,5 @@ resources:
 - media-download-pvc.yaml
 - photos-nfs-pv.yaml
 - photos-nfs-pvc.yaml
+- lotus-nfs-pv.yaml
+- lotus-nfs-pvc.yaml

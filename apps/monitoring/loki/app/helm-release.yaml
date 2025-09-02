@@ -48,6 +48,11 @@ spec:
         storageClass: longhorn-xfs
     test:
       enabled: false
+    compactor:
+      enabled: true
+      retention_enabled: true
+      retention_delete_delay: 2h
+      retention_delete_worker_count: 150
     monitoring:
       selfMonitoring:
         enabled: false

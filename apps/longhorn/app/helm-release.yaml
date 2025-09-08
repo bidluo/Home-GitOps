@@ -21,7 +21,8 @@ spec:
     longhornRecoveryBackend:
       replicas: 0
     defaultSettings:
-      backupTarget: "nfs://${NAS_IP}:/volume2/Backups"
+      backupTarget: "s3://longhorn@us-east-1/"
+      backupTargetCredentialSecret: longhorn-backup-secret
       defaultLonghornStaticStorageClass: longhorn-backup
     persistence:
       defaultClass: false

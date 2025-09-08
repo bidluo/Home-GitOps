@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
 - cf-ddns-secrets.sops.yaml
 - job.yaml
-# - secondary-job.yaml
-# - secondary-cf-ddns-secrets.sops.yaml
+- secondary-job.yaml
+- secondary-cf-ddns-secrets.sops.yaml

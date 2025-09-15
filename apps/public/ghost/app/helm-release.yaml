@@ -27,9 +27,13 @@ spec:
               database__useNullAsDefault: true
               database__debug: false
               mail__transport: SMTP
+              mail__logger: true
+              mail__from: "${MAIL_USER}"
               mail__options__service: Mailgun
               mail__options__host: smtp.mailgun.org
               mail__options__port: 587
+              mail__options__secure: false
+              mail__options__requireTLS: true
               mail__options__auth__user: "${MAIL_USER}"
               mail__options__auth__pass: "${MAIL_PASS}"
     service:

@@ -19,7 +19,7 @@ spec:
           main:
             image:
               repository: ghcr.io/home-operations/tautulli
-              tag: 2.15.2
+              tag: 2.16.0
             securityContext:
               runAsUser: 0
     service:

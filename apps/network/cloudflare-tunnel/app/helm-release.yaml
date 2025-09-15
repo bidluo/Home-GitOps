@@ -79,5 +79,3 @@ spec:
           service: http://adguard.home.svc.cluster.local:3000
         - hostname: "git.${PUBLIC_HOSTNAME}"
           service: http://gitea.gitea.svc.cluster.local:80
-        - hostname: "admin.${PUBLIC_HOSTNAME}"
-          service: "http://${LOCAL_LB_IP}:6443"

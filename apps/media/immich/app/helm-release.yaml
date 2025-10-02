@@ -21,7 +21,7 @@ spec:
             nameOverride: immich-server
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.136.0
+              tag: v2.0.0
             envFrom:
               - secretRef:
                   name: immich-secrets

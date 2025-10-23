@@ -20,7 +20,7 @@ spec:
           main:
             image:
               repository: seriousm4x/upsnap
-              tag: 5.2.2
+              tag: 5.2.3
             env:
               TZ: "${TIMEZONE}"
             resources:

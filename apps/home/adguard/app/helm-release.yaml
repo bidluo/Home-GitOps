@@ -20,7 +20,7 @@ spec:
           main:
             image:
               repository: adguard/adguardhome
-              tag: v0.107.67
+              tag: v0.107.69
             resources:
               limits: {}
               requests: {}

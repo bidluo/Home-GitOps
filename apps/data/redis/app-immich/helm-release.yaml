@@ -11,11 +11,6 @@ spec:
     name: redis
     namespace: flux-system
   values:
-    architecture: standalone
-    image:
-      repository: public.ecr.aws/docker/library/redis
-      tag: 8.4.0-alpine3.22
-      pullPolicy: IfNotPresent
     auth:
       enabled: true
       existingSecret: redis-immich-secrets

@@ -1,0 +1,18 @@
+---
+# Service for WireGuard UDP traffic
+apiVersion: v1
+kind: Service
+metadata:
+  name: pangolin-wireguard
+  namespace: network
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: pangolin
+    app.kubernetes.io/instance: pangolin
+  ports:
+    - name: wireguard
+      protocol: UDP
+      port: 51820
+      targetPort: wireguard
+

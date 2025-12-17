@@ -20,3 +20,4 @@ resources:
 - cloudflare.yaml
 - stakater.yaml
 - postgresql.yaml
+- fossorial.yaml

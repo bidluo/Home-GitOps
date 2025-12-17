@@ -67,6 +67,10 @@ spec:
           service: http://immich-lotus-main.media.svc.cluster.local:2283
         - hostname: "wg.${PUBLIC_HOSTNAME}"
           service: udp://wireguard.network.svc.cluster.local:51820
+        - hostname: "vpn.${PUBLIC_HOSTNAME}"
+          service: http://pangolin.network.svc.cluster.local:80
+        - hostname: "vpn-wg.${PUBLIC_HOSTNAME}"
+          service: udp://pangolin-wireguard.network.svc.cluster.local:51820
         - hostname: "grafana.${PUBLIC_HOSTNAME}"
           service: http://kube-prometheus-stack-grafana.monitoring.svc.cluster.local:80
         - hostname: "uptime-kuma.${PUBLIC_HOSTNAME}"

@@ -1,0 +1,103 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pangolin
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 4.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/fosrl/pangolin
+              tag: latest
+            env:
+              # Domain for Pangolin (will be exposed via CF Tunnel)
+              PANGOLIN_DOMAIN: "${PANGOLIN_DOMAIN}"
+              
+              # Database configuration - SQLite for simplicity
+              DATABASE_URL: "sqlite:///data/pangolin.db"
+              
+              # Admin credentials (set via secrets)
+              ADMIN_EMAIL: "${PANGOLIN_ADMIN_EMAIL}"
+              ADMIN_PASSWORD: "${PANGOLIN_ADMIN_PASSWORD}"
+              
+              # WireGuard configuration
+              WIREGUARD_ENDPOINT: "${PANGOLIN_DOMAIN}"
+              WIREGUARD_PORT: "51820"
+              
+              # Application settings
+              NODE_ENV: "production"
+              LOG_LEVEL: "info"
+            
+            envFrom:
+              - secretRef:
+                  name: pangolin-secrets
+            
+            # WireGuard requires NET_ADMIN capability
+            securityContext:
+              capabilities:
+                add:
+                  - NET_ADMIN
+                  - SYS_MODULE
+              sysctls:
+                - name: net.ipv4.conf.all.src_valid_mark
+                  value: "1"
+                - name: net.ipv4.ip_forward
+                  value: "1"
+                - name: net.ipv6.conf.all.forwarding
+                  value: "1"
+    
+    # Run on master node for better network access
+    defaultPodOptions:
+      nodeSelector:
+        node-role.kubernetes.io/master: "true"
+    
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            protocol: TCP
+            port: 80
+          https:
+            protocol: TCP
+            port: 443
+          wireguard:
+            protocol: UDP
+            port: 51820
+    
+    persistence:
+      data:
+        existingClaim: pangolin-data
+        globalMounts:
+          - path: /data
+      
+      # Mount for kernel modules if needed
+      lib-modules:
+        type: hostPath
+        hostPath: /lib/modules
+        hostPathType: Directory
+        globalMounts:
+          - path: /lib/modules
+            readOnly: true
+    
+    # Resource limits
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
+

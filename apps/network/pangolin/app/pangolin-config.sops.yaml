@@ -1,0 +1,23 @@
+apiVersion: v1
+stringData:
+    config.yml: ENC[AES256_GCM,data:zbJfSPTN94l7dWchBazvxy8VqbtygkF368elLDg4iY9hMlblWoufu2prb+sNn4mz40F+Xbf21NipXFFoo/fG1Q5XtCt78FnrbSdU3lfQDNdN0UDSc2SFNZW/eZTZhVnjvX0lrJeH0iExy6quvhDwR4TaUSRFVsA83NwiHQiZO2zRIVzamRKWhzqFR4AfkMN3cm2mQBQGHAV/a1fPdLJz/W03v59l5JOz6qrSehuI7i03fUMl2uxne7GzyOtvv4ibVMZcDmobxtE88UP7bHn4+5XwslxMgOOINbebg7TA8eqGseTllWBYPlabALuL6ywUsPFekz97PPqFUkzvAcmVKCdyCteldOz/+5GVlxNw2bVQbP3p6pwOgCYspY5P1oO+D2NrTpbPs8KGGXh7//Tr0Yg8GuV1kW3ZpUH2ql6vft+rPazEJP9QSz2KUu+OO1Yd1ww4H67Rxf9f/azLAlIqNaHzd0Kt0J6N8UtOieRrzTBCFzygcOTOWJkViDzfMQLKtPLWLGni7+IOL25FMKCLWqXAyEQydssBUUI4DPVZeRDWcnJlPWHqLWsho4tgDgj2YZvgvf+okOfbNDqXLCLJQA==,iv:2eEkrR676BH9v3o5hNNGO0kM4DrO8Cw1wamgYZuWaEQ=,tag:bM8riKFNMS77HoYnvBsKng==,type:str]
+kind: Secret
+metadata:
+    name: pangolin-config
+    namespace: network
+type: Opaque
+sops:
+    age:
+        - recipient: age1mt3e0vdhgcxtcqfv0jhfdeejkk8f48elacyua387nekmnfufsd4qhtwmqn
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBGTmRsQ0R3QzZpVldHT1U1
+            QWxIZWp2OXB4L1FkWDNXMHBsRDljaXVPMzFRCjF1NFBvaXFkQnBTL2xoZTB2dCtr
+            aTFmK1hKR3NzTnVma2hCUjNpT0dYN3MKLS0tIGFoSlNyRU1MaVJ6VDBWclVldDNX
+            NUgrYVcxSldJd0RTa2ZST0IrTUxLV3cKI5QDc/NTOfWtUEBQvtSM7qLuFDB9n/UH
+            2CDF18mgXjAWzL1TBDYLSSErZRZdRvdo+zy06HnMuf7tAEPFazDD3Q==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-12-19T04:36:38Z"
+    mac: ENC[AES256_GCM,data:/PzX6BZTm74I1YP/QdUGk58rDKwvMGvjHjneheoj2/CEHJhmYowHXtRQNRvzD7vmeRwZR9XOtOwsp1/ZZ3hQsfEHqdNaCqHiv/e1xfsOyikG0H+PuMnq+Enj7fTBkN5q4TbieKezIZSfhbQQn4Ivuy+pR5utuI7DHFXuB6/5u38=,iv:D+aeHVGaR6WROSiR3Nl9bKWC6spjUKDDCGnBuYB7hHY=,tag:blc1l51b74Uw5ReU3cd3WA==,type:str]
+    encrypted_regex: ^(data|stringData)$
+    version: 3.10.2

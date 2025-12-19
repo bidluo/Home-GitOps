@@ -21,25 +21,6 @@ spec:
             image:
               repository: ghcr.io/fosrl/pangolin
               tag: latest
-            env:
-              # Domain for Pangolin (will be exposed via CF Tunnel)
-              PANGOLIN_DOMAIN: "${PANGOLIN_DOMAIN}"
-              
-              # Database configuration - SQLite for simplicity
-              DATABASE_URL: "sqlite:///data/pangolin.db"
-              
-              # Admin credentials (set via secrets)
-              ADMIN_EMAIL: "${PANGOLIN_ADMIN_EMAIL}"
-              ADMIN_PASSWORD: "${PANGOLIN_ADMIN_PASSWORD}"
-              
-              # WireGuard configuration
-              WIREGUARD_ENDPOINT: "${PANGOLIN_DOMAIN}"
-              WIREGUARD_PORT: "51820"
-              
-              # Application settings
-              NODE_ENV: "production"
-              LOG_LEVEL: "info"
-            
             envFrom:
               - secretRef:
                   name: pangolin-secrets
@@ -82,6 +63,15 @@ spec:
         existingClaim: pangolin-data
         globalMounts:
           - path: /data
+      
+      # Mount config file
+      config:
+        enabled: true
+        type: secret
+        name: pangolin-config
+        globalMounts:
+          - path: /config/config.yml
+            subPath: config.yml
       
       # Mount for kernel modules if needed
       lib-modules:

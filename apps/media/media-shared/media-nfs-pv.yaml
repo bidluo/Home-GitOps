@@ -14,7 +14,7 @@ spec:
   csi:
     driver: nfs.csi.k8s.io
     readOnly: false
-    volumeHandle: ${NAS_IP}/volume2/Media##
+    volumeHandle: ${NAS_IP}/Media##
     volumeAttributes:
       server: ${NAS_IP}
-      share: /volume2/Media
+      share: /Media

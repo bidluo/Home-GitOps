@@ -28,7 +28,7 @@ spec:
   csi:
     driver: nfs.csi.k8s.io
     readOnly: false
-    volumeHandle: ${NAS_IP}/volume2/ClusterScratch##
+    volumeHandle: ${NAS_IP}/ClusterScratch##
     volumeAttributes:
       server: ${NAS_IP}
-      share: /volume2/ClusterScratch
+      share: /ClusterScratch

@@ -15,7 +15,7 @@ spec:
   csi:
     driver: nfs.csi.k8s.io
     readOnly: false
-    volumeHandle: ${NAS_IP}/Lotus##
+    volumeHandle: ${NAS_IP}/mnt/SSD/Lotus##
     volumeAttributes:
       server: ${NAS_IP}
-      share: /Lotus
+      share: /mnt/SSD/Lotus

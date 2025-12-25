@@ -15,7 +15,7 @@ spec:
   csi:
     driver: nfs.csi.k8s.io
     readOnly: false
-    volumeHandle: ${NAS_IP}/Photos##
+    volumeHandle: ${NAS_IP}/mnt/SSD/Photos##
     volumeAttributes:
       server: ${NAS_IP}
-      share: /Photos
+      share: /mnt/SSD/Photos

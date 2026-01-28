@@ -13,6 +13,9 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
   values:
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 4000
     controllers:
       main:
         containers:

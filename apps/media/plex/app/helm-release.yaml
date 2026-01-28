@@ -17,6 +17,8 @@ spec:
     defaultPodOptions:
       nodeSelector:
         intel.feature.node.kubernetes.io/gpu: "true"
+      securityContext:
+        fsGroup: 4000
     controllers:
       main:
         containers:

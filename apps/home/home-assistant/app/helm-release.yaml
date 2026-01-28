@@ -20,7 +20,7 @@ spec:
           main:
             image:
               repository: ghcr.io/home-assistant/home-assistant
-              tag: 2025.10.4
+              tag: 2025.12.5
     defaultPodOptions:
       hostNetwork: true
       nodeSelector:

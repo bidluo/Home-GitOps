@@ -9,6 +9,8 @@ spec:
   targetNamespace: media
   interval: 10m
   prune: true
+  dependsOn:
+    - name: cert-manager-app
   sourceRef:
     kind: GitRepository
     name: flux-system

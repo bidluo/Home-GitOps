@@ -26,7 +26,7 @@ spec:
             nameOverride: immich-server-lotus
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v2.1.0
+              tag: v2.5.0
             envFrom:
               - secretRef:
                   name: immich-secrets-lotus
@@ -35,7 +35,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
-              tag: v2.1.0
+              tag: v2.5.0
             envFrom:
               - secretRef:
                   name: immich-secrets-lotus

@@ -15,7 +15,8 @@ spec:
   values:
     defaultPodOptions:
       securityContext:
-        fsGroup: 4000
+        fsGroup: 3001
+        fsGroupChangePolicy: OnRootMismatch
     controllers:
       main:
         containers:

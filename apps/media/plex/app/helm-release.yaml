@@ -18,7 +18,8 @@ spec:
       nodeSelector:
         intel.feature.node.kubernetes.io/gpu: "true"
       securityContext:
-        fsGroup: 4000
+        fsGroup: 3001
+        fsGroupChangePolicy: OnRootMismatch
     controllers:
       main:
         containers:

@@ -1,0 +1,9 @@
+---
+# Tailscale Ingress Class for Funnel
+# Services using this class will be exposed publicly via Tailscale Funnel
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: tailscale
+spec:
+  controller: tailscale.com/ts-ingress

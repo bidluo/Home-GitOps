@@ -1,0 +1,50 @@
+---
+# Tailscale Funnel Ingress
+# Exposes Traefik publicly via Tailscale Funnel
+# All traffic flows: Internet → Funnel → Traefik → Services
+#
+# For custom domains (requires Personal Plus):
+# 1. Get the Tailscale hostname after deployment:
+#    kubectl get ingress -n network traefik-funnel -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+#    Example: traefik-funnel-abc123.ts.net
+#
+# 2. Add CNAME records in your DNS:
+#    yourdomain.com        CNAME  traefik-funnel-abc123.ts.net
+#    *.yourdomain.com      CNAME  traefik-funnel-abc123.ts.net
+#
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: traefik-funnel
+  namespace: network
+  annotations:
+    # Enable Tailscale Funnel for public access
+    tailscale.com/funnel: "true"
+    # Hostname in Tailscale admin (shows as traefik-funnel.tailnet-name.ts.net)
+    tailscale.com/hostname: "traefik-funnel"
+spec:
+  ingressClassName: tailscale
+  # Default backend - all traffic goes to Traefik
+  defaultBackend:
+    service:
+      name: traefik
+      port:
+        number: 80
+  # TLS is handled by Tailscale Funnel automatically
+  tls:
+    - hosts:
+        - traefik-funnel
+---
+# Service reference to Traefik in the traefik namespace
+# This allows the ingress in network namespace to reach Traefik
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik
+  namespace: network
+spec:
+  type: ExternalName
+  externalName: traefik.traefik.svc.cluster.local
+  ports:
+    - port: 80
+      targetPort: 80

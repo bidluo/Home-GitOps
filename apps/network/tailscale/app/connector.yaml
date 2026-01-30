@@ -1,0 +1,27 @@
+---
+# Tailscale Connector - Subnet Router
+# This advertises your home network to your Tailnet
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: home-network-router
+  namespace: network
+spec:
+  # Hostname in Tailscale admin
+  hostname: home-k8s-router
+  
+  # Subnet router configuration
+  subnetRouter:
+    # Advertise your home network - adjust to match your network
+    # Common examples: 192.168.1.0/24, 192.168.0.0/24, 10.0.0.0/24
+    advertiseRoutes:
+      - "${HOME_NETWORK_CIDR}"
+    
+  # Optional: Exit node allows routing ALL traffic through this node
+  # Uncomment if you want to use your home connection as a VPN exit
+  # exitNode: true
+  
+  # Tags for ACL policies (optional)
+  # tags:
+  #   - tag:k8s
+  #   - tag:home-router

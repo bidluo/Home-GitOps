@@ -1,0 +1,43 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tailscale-operator
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: tailscale-operator
+      version: 1.82.0
+      sourceRef:
+        kind: HelmRepository
+        name: tailscale-charts
+        namespace: flux-system
+  values:
+    # OAuth credentials from cluster-secrets (substituted by Flux)
+    oauth:
+      clientId: "${TS_OAUTH_CLIENT_ID}"
+      clientSecret: "${TS_OAUTH_CLIENT_SECRET}"
+    
+    # Operator configuration
+    operatorConfig:
+      logging: info
+    
+    # API server proxy (optional - for kubectl access via Tailscale)
+    apiServerProxyConfig:
+      mode: "noauth"
+    
+    # Proxy configuration for Funnel and ingress
+    proxyConfig:
+      # Default tags for created proxies
+      defaultTags:
+        - "tag:k8s"
+    
+    # Resource limits
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi

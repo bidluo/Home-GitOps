@@ -21,3 +21,4 @@ resources:
 - stakater.yaml
 - postgresql.yaml
 - fossorial.yaml
+- tailscale.yaml

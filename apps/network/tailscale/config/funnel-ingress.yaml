@@ -6,11 +6,11 @@
 # For custom domains (requires Personal Plus):
 # 1. Get the Tailscale hostname after deployment:
 #    kubectl get ingress -n network traefik-funnel -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
-#    Example: traefik-funnel-abc123.ts.net
+#    Example: traefik-funnel.tail1234.ts.net
 #
 # 2. Add CNAME records in your DNS:
-#    yourdomain.com        CNAME  traefik-funnel-abc123.ts.net
-#    *.yourdomain.com      CNAME  traefik-funnel-abc123.ts.net
+#    yourdomain.com        CNAME  traefik-funnel.tail1234.ts.net
+#    *.yourdomain.com      CNAME  traefik-funnel.tail1234.ts.net
 #
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -34,17 +34,3 @@ spec:
   tls:
     - hosts:
         - traefik-funnel
----
-# Service reference to Traefik in the traefik namespace
-# This allows the ingress in network namespace to reach Traefik
-apiVersion: v1
-kind: Service
-metadata:
-  name: traefik
-  namespace: network
-spec:
-  type: ExternalName
-  externalName: traefik.traefik.svc.cluster.local
-  ports:
-    - port: 80
-      targetPort: 80

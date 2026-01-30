@@ -1,0 +1,23 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: tailscale-config
+  namespace: flux-system
+spec:
+  path: ./apps/network/tailscale/config
+  targetNamespace: network
+  interval: 10m
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  # Wait for the operator to be ready (installs CRDs)
+  dependsOn:
+    - name: tailscale
+  healthChecks:
+    - apiVersion: tailscale.com/v1alpha1
+      kind: Connector
+      name: home-network-router
+      namespace: network

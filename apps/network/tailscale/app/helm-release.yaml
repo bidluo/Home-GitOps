@@ -18,26 +18,3 @@ spec:
     oauth:
       clientId: "${TS_OAUTH_CLIENT_ID}"
       clientSecret: "${TS_OAUTH_CLIENT_SECRET}"
-    
-    # Operator configuration
-    operatorConfig:
-      logging: info
-    
-    # API server proxy (optional - for kubectl access via Tailscale)
-    apiServerProxyConfig:
-      mode: "noauth"
-    
-    # Proxy configuration for Funnel and ingress
-    proxyConfig:
-      # Default tags for created proxies
-      defaultTags:
-        - "tag:k8s"
-    
-    # Resource limits
-    resources:
-      requests:
-        cpu: 50m
-        memory: 128Mi
-      limits:
-        cpu: 500m
-        memory: 512Mi

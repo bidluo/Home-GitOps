@@ -15,7 +15,9 @@ spec:
     # Advertise your home network - adjust to match your network
     # Common examples: 192.168.1.0/24, 192.168.0.0/24, 10.0.0.0/24
     advertiseRoutes:
-      - "${HOME_NETWORK_CIDR}"
+      # Flux postBuild substitution supports bash-style defaults.
+      # This prevents the manifest from rendering `null` when HOME_NETWORK_CIDR is missing.
+      - "${HOME_NETWORK_CIDR:=192.168.1.0/24}"
     
   # Optional: Exit node allows routing ALL traffic through this node
   # Uncomment if you want to use your home connection as a VPN exit

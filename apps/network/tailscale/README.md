@@ -89,6 +89,8 @@ stringData:
   HOME_NETWORK_CIDR: "192.168.1.0/24"
 ```
 
+If `HOME_NETWORK_CIDR` is missing, the Connector manifest uses a default of `192.168.1.0/24` to avoid rendering `null` (but you should still set this to match your real home network).
+
 Then encrypt:
 
 ```bash
@@ -220,6 +222,32 @@ kubectl logs -n network -l app.kubernetes.io/name=tailscale-operator
 ```
 
 Check OAuth credentials are correct in cluster-secrets.
+
+### `requested tags [tag:k8s-operator] are invalid or not permitted`
+
+If you see an operator log like:
+
+```text
+creating operator authkey: Status: 400, Message: "requested tags [tag:k8s-operator] are invalid or not permitted"
+```
+
+This is **not** controlled by `operatorConfig.defaultTags` in this repo (we already set `defaultTags: []`). The operator itself requests `tag:k8s-operator` when minting its own auth key via the Tailscale API.
+
+Fix it in Tailscale Admin:
+
+- **Make the tag valid (ACL)**: In Tailscale Admin → **Access controls** (ACL policy file), add a `tagOwners` entry for `tag:k8s-operator`, for example:
+
+  ```json
+  {
+    "tagOwners": {
+      "tag:k8s-operator": ["autogroup:admin"]
+    }
+  }
+  ```
+
+- **Make the tag permitted (OAuth client)**: In Tailscale Admin → **Settings → OAuth clients**, edit the OAuth client you generated and ensure it is allowed to create/manage devices with `tag:k8s-operator` (if you restricted allowed tags).
+
+Then restart the operator pod (or let Flux reconcile) and it should proceed past auth key creation.
 
 ### Funnel not working
 

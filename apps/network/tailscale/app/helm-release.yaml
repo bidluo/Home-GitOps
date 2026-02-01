@@ -18,3 +18,7 @@ spec:
     oauth:
       clientId: "${TS_OAUTH_CLIENT_ID}"
       clientSecret: "${TS_OAUTH_CLIENT_SECRET}"
+    
+    # Override default tags - empty array means no tags
+    operatorConfig:
+      defaultTags: []

@@ -23,7 +23,5 @@ spec:
   # Uncomment if you want to use your home connection as a VPN exit
   # exitNode: true
   
-  # Tags for ACL policies (optional)
-  # tags:
-  #   - tag:k8s
-  #   - tag:home-router
+  # Explicitly set empty tags to avoid default tags
+  tags: []

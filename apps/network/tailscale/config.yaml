@@ -13,6 +13,12 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  # Variable substitution from cluster-secrets
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: Secret
+        name: cluster-secrets
   # Wait for the operator to be ready (installs CRDs)
   dependsOn:
     - name: tailscale

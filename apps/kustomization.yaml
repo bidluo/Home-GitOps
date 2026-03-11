@@ -11,6 +11,7 @@ resources:
 - network
 - games
 - finance
+- paperclip
 
 - longhorn
 - metallb

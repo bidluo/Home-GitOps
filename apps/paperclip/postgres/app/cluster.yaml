@@ -1,0 +1,40 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: paperclip-pg
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:17
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 5Gi
+    storageClass: longhorn-xfs
+  superuserSecret:
+    name: paperclip-pg-cnpg-secrets
+  affinity:
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: "true"
+  postgresql:
+    parameters:
+      max_connections: "100"
+      shared_buffers: 128MB
+  monitoring:
+    enablePodMonitor: true
+  backup:
+    retentionPolicy: 30d
+    barmanObjectStore:
+      wal:
+        compression: bzip2
+        maxParallel: 4
+      destinationPath: s3://paperclip-backups/
+      endpointURL: https://gateway.storjshare.io
+      serverName: paperclip-pg-v1
+      s3Credentials:
+        accessKeyId:
+          name: paperclip-pg-cnpg-secrets
+          key: S3_ACCESS_KEY
+        secretAccessKey:
+          name: paperclip-pg-cnpg-secrets
+          key: S3_SECRET_KEY

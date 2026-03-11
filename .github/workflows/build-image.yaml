@@ -1,27 +1,65 @@
-name: Build and Push Docker Images with Git Tag
+name: Build and Push Docker Image
 
 on:
   push:
-    tags:
-      - '*'
+    branches: [main, master]
+    paths:
+      - 'images/**'
   workflow_dispatch:
     inputs:
-      tag_name:
-        description: "Tag name for the Docker image"
-        required: true
-        default: "latest"
       variant:
-        description: "Specific variant to build (e.g., ubuntu-nfs). Leave empty to build all."
+        description: "Image to build (e.g., paperclip, ubuntu-nfs). Leave empty to build all changed."
         required: false
         default: ""
 
 jobs:
-  build-and-push:
+  detect:
     runs-on: ubuntu-latest
-
+    outputs:
+      images: ${{ steps.set-matrix.outputs.images }}
     steps:
       - name: Check out code
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
+      - name: Determine which images to build
+        id: set-matrix
+        run: |
+          if [ -n "${{ github.event.inputs.variant }}" ]; then
+            # Manual dispatch for a specific image
+            echo 'images=["${{ github.event.inputs.variant }}"]' >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            # Detect changed images from the commit
+            changed=$(git diff --name-only HEAD~1 HEAD -- images/ \
+              | cut -d'/' -f2 | sort -u | jq -R -s -c 'split("\n") | map(select(length > 0))')
+            echo "images=${changed}" >> $GITHUB_OUTPUT
+          else
+            # Fallback: build all
+            changed=$(ls -d images/*/ | xargs -I{} basename {} | jq -R -s -c 'split("\n") | map(select(length > 0))')
+            echo "images=${changed}" >> $GITHUB_OUTPUT
+          fi
+
+  build:
+    needs: detect
+    if: needs.detect.outputs.images != '[]' && needs.detect.outputs.images != ''
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image: ${{ fromJson(needs.detect.outputs.images) }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+
+      - name: Read version
+        id: version
+        run: |
+          version_file="images/${{ matrix.image }}/VERSION"
+          if [ -f "$version_file" ]; then
+            echo "tag=$(cat $version_file | tr -d '[:space:]')" >> $GITHUB_OUTPUT
+          else
+            echo "tag=latest" >> $GITHUB_OUTPUT
+          fi
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -29,32 +67,18 @@ jobs:
       - name: Login to GitHub Container Registry
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
-      - name: Determine tag name
+      - name: Build and push
         run: |
-          if [ -n "${{ github.event.inputs.tag_name }}" ]; then
-            echo "TAG_NAME=${{ github.event.inputs.tag_name }}" >> $GITHUB_ENV
-          else
-            echo "TAG_NAME=$(echo ${GITHUB_REF#refs/tags/})" >> $GITHUB_ENV
-          fi
+          image="ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}"
+          tag="${{ steps.version.outputs.tag }}"
 
-      - name: Build and push Docker images
-        run: |
-          # Check if a specific variant was provided
-          if [ -n "${{ github.event.inputs.variant }}" ]; then
-            variants=("./images/${{ github.event.inputs.variant }}/Dockerfile")
-          else
-            variants=$(find ./images -name 'Dockerfile')
-          fi
+          docker build \
+            --build-arg TAG="$tag" \
+            -t "${image}:${tag}" \
+            -t "${image}:latest" \
+            "images/${{ matrix.image }}"
 
-          # Loop through matching Dockerfiles and build/push images
-          for dockerfile in $variants; do
-            # Extract the directory name (e.g., ubuntu-nfs, ubuntu-hw)
-            dist=$(basename $(dirname "$dockerfile"))
+          docker push "${image}:${tag}"
+          docker push "${image}:latest"
 
-            # Build and push the image
-            echo "Building and pushing image for $dist with tag $TAG_NAME..."
-            docker build --build-arg TAG=$TAG_NAME -t ghcr.io/${{ github.repository_owner }}/$dist:$TAG_NAME "$(dirname "$dockerfile")"
-            docker push ghcr.io/${{ github.repository_owner }}/$dist:$TAG_NAME
-          done
-        env:
-          TAG_NAME: ${{ env.TAG_NAME }}
+          echo "Pushed ${image}:${tag} and ${image}:latest"

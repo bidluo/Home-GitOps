@@ -20,7 +20,7 @@ spec:
           main:
             image:
               repository: ghcr.io/bidluo/paperclip
-              tag: latest
+              tag: "0.1.0"
             env:
               HOST: "0.0.0.0"
               PORT: "3100"

@@ -82,6 +82,6 @@ spec:
         - hostname: "adguard.${PUBLIC_HOSTNAME}"
           service: http://adguard.home.svc.cluster.local:3000
         - hostname: "paperclip.${PUBLIC_HOSTNAME}"
-          service: http://paperclip-main.paperclip.svc.cluster.local:3100
+          service: http://paperclip.paperclip.svc.cluster.local:3100
         - hostname: "git.${PUBLIC_HOSTNAME}"
           service: http://gitea.gitea.svc.cluster.local:80

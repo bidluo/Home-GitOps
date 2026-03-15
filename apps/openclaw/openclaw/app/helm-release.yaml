@@ -39,10 +39,14 @@ spec:
                 "gateway": {
                   "port": 18789,
                   "mode": "local",
+                  "trustedProxies": ["10.0.0.0/8"],
                   "controlUi": {
                     "allowedOrigins": [
                       "https://openclaw.${PUBLIC_HOSTNAME}"
-                    ]
+                    ],
+                    "dangerouslyDisableDeviceAuth": true,
+                    "allowInsecureAuth": true,
+                    "dangerouslyAllowHostHeaderOriginFallback": true
                   }
                 },
                 "browser": {

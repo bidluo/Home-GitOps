@@ -86,4 +86,4 @@ spec:
         - hostname: "git.${PUBLIC_HOSTNAME}"
           service: http://gitea.gitea.svc.cluster.local:80
         - hostname: "openclaw.${PUBLIC_HOSTNAME}"
-          service: http://openclaw-main.openclaw.svc.cluster.local:18789
+          service: http://openclaw.openclaw.svc.cluster.local:18789

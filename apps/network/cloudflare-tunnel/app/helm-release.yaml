@@ -85,3 +85,5 @@ spec:
           service: http://paperclip.paperclip.svc.cluster.local:3100
         - hostname: "git.${PUBLIC_HOSTNAME}"
           service: http://gitea.gitea.svc.cluster.local:80
+        - hostname: "openclaw.${PUBLIC_HOSTNAME}"
+          service: http://openclaw-main.openclaw.svc.cluster.local:18789

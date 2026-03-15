@@ -12,6 +12,7 @@ resources:
 - games
 - finance
 - paperclip
+- openclaw
 
 - longhorn
 - metallb

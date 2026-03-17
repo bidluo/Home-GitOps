@@ -16,6 +16,7 @@ RUN test -f server/dist/index.js || (echo "ERROR: server build output missing" &
 FROM base AS production
 WORKDIR /app
 COPY --from=build /app /app
+RUN npm install -g @anthropic-ai/claude-code
 
 ENV NODE_ENV=production \
     HOME=/paperclip \

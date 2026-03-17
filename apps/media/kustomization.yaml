@@ -12,6 +12,7 @@ resources:
 - plex
 - radarr
 - sabnzbd
+- metube
 - sonarr
 - tautulli
 - zipline

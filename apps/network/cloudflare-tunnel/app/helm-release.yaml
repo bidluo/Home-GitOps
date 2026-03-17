@@ -26,6 +26,8 @@ spec:
           service: http://ak-outpost-media.media.svc.cluster.local:9000
         - hostname: "nzb.${PUBLIC_HOSTNAME}"
           service: http://ak-outpost-media.media.svc.cluster.local:9000
+        - hostname: "downloads.${PUBLIC_HOSTNAME}"
+          service: http://ak-outpost-media.media.svc.cluster.local:9000
         - hostname: "plex.${PUBLIC_HOSTNAME}"
           service: http://plex.media.svc.cluster.local:32400
         - hostname: "request.${PUBLIC_HOSTNAME}"

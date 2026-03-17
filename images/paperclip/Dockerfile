@@ -9,8 +9,7 @@ ARG PAPERCLIP_VERSION=master
 WORKDIR /app
 RUN git clone --depth 1 --branch ${PAPERCLIP_VERSION} https://github.com/paperclipai/paperclip.git .
 RUN pnpm install --no-frozen-lockfile
-RUN pnpm --filter @paperclipai/ui build
-RUN pnpm --filter @paperclipai/server build
+RUN pnpm -r build
 RUN test -f server/dist/index.js || (echo "ERROR: server build output missing" && exit 1)
 
 FROM base AS production

@@ -16,6 +16,17 @@ spec:
   values:
     controllers:
       main:
+        initContainers:
+          chown:
+            image:
+              repository: alpine
+              tag: latest
+            command:
+              - /bin/sh
+              - -c
+              - chown -R 1000:1000 /app/config
+            securityContext:
+              runAsUser: 0
         containers:
           main:
             image:

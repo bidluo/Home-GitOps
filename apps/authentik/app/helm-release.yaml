@@ -23,6 +23,15 @@ spec:
         host: smtp.sendgrid.net
         username: apikey
         use_tls: true
+    server:
+      volumes:
+        - name: shm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 512Mi
+      volumeMounts:
+        - name: shm
+          mountPath: /dev/shm
     postgresql:
       enabled: false
     redis:

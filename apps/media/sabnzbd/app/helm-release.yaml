@@ -24,7 +24,7 @@ spec:
           main:
             image:
               repository: ghcr.io/home-operations/sabnzbd
-              tag: 5.0.3
+              tag: 5.0.4
             securityContext:
               runAsUser: 568
             env:

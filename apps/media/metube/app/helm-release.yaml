@@ -24,7 +24,7 @@ spec:
           main:
             image:
               repository: ghcr.io/alexta69/metube
-              tag: "2026.04.28"
+              tag: "2026.06.20"
             securityContext:
               runAsUser: 568
             env:

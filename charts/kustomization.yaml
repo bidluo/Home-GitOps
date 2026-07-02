@@ -13,7 +13,6 @@ resources:
 - fairwinds.yaml
 - prometheus.yaml
 - grafana.yaml
-- minio.yaml
 - cnpg.yaml
 - sigs.yaml
 - redis.yaml

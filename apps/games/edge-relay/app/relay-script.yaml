@@ -3,6 +3,10 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: edge-relay-script
+  annotations:
+    # Prevent Flux post-build substitution from eating the shell ${...}
+    # parameter expansions in relay.sh (they read container env at runtime).
+    kustomize.toolkit.fluxcd.io/substitute: disabled
 data:
   relay.sh: |
     #!/bin/sh

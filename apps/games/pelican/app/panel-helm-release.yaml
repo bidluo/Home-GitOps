@@ -17,6 +17,9 @@ spec:
     defaultPodOptions:
       nodeSelector:
         node-role.kubernetes.io/master: "true"
+      # Panel image runs as www-data (uid/gid 82); make the data PVC writable by it.
+      securityContext:
+        fsGroup: 82
     controllers:
       main:
         containers:
@@ -30,7 +33,7 @@ spec:
               APP_URL: "https://games.${PUBLIC_HOSTNAME}"
               BEHIND_PROXY: "true"
               TRUSTED_PROXIES: "127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
-              SKIP_CADDY: "true"
+              SKIP_CADDY: "false"
               XDG_DATA_HOME: /pelican-data
               CACHE_STORE: redis
               SESSION_DRIVER: redis

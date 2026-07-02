@@ -8,4 +8,3 @@ resources:
 - redis-helm-release.yaml
 - panel-helm-release.yaml
 - pelican-secrets.sops.yaml
-- ingress.yaml

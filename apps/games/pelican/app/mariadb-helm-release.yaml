@@ -23,7 +23,7 @@ spec:
           main:
             image:
               repository: mariadb
-              tag: "10.11"
+              tag: "12.3"
             args:
               - --default-authentication-plugin=mysql_native_password
             env:

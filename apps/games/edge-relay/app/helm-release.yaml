@@ -20,7 +20,7 @@ spec:
           main:
             image:
               repository: alpine
-              tag: "3.21"
+              tag: "3.24"
             command:
               - /bin/sh
               - /config/relay.sh

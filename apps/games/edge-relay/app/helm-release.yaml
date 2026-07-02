@@ -35,7 +35,10 @@ spec:
                   - NET_ADMIN
     defaultPodOptions:
       hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
+      # Edge node in a remote region: resolve via the node's own resolvers, not
+      # CoreDNS over the flannel WAN overlay (which is flaky and breaks `apk add`
+      # at startup). The relay only DNATs to an IP, so it needs no cluster DNS.
+      dnsPolicy: Default
       securityContext:
         runAsUser: 0
       nodeSelector:

@@ -87,5 +87,3 @@ spec:
           service: http://gitea.gitea.svc.cluster.local:80
         - hostname: "openclaw.${PUBLIC_HOSTNAME}"
           service: http://openclaw.openclaw.svc.cluster.local:18789
-        - hostname: "games.${PUBLIC_HOSTNAME}"
-          service: http://pelican-panel.games.svc.cluster.local:80

@@ -1,0 +1,35 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: edge-relay-script
+data:
+  relay.sh: |
+    #!/bin/sh
+    set -eu
+
+    TARGET="${RELAY_TARGET:?RELAY_TARGET required}"
+    PORT_START="${RELAY_PORT_START:-20000}"
+    PORT_END="${RELAY_PORT_END:-20100}"
+
+    apk add --no-cache iptables >/dev/null
+
+    echo "Forwarding to ${TARGET}, Wings range ${PORT_START}-${PORT_END}"
+
+    # Well-known game ports (1:1)
+    for port in 25565 19132 8766 27016 9700; do
+      iptables -t nat -A PREROUTING -p tcp --dport "${port}" -j DNAT --to-destination "${TARGET}:${port}"
+      iptables -t nat -A PREROUTING -p udp --dport "${port}" -j DNAT --to-destination "${TARGET}:${port}"
+    done
+
+    # Wings allocation block (same port on DO and home)
+    iptables -t nat -A PREROUTING -p tcp --dport "${PORT_START}:${PORT_END}" -j DNAT --to-destination "${TARGET}"
+    iptables -t nat -A PREROUTING -p udp --dport "${PORT_START}:${PORT_END}" -j DNAT --to-destination "${TARGET}"
+
+    iptables -t nat -A POSTROUTING -j MASQUERADE
+
+    echo "NAT rules installed:"
+    iptables -t nat -L PREROUTING -n -v
+
+    # Keep pod alive
+    exec sleep infinity

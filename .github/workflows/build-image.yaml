@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       variant:
-        description: "Image to build (e.g., paperclip, ubuntu-nfs). Leave empty to build all changed."
+        description: "Image to build (e.g., ubuntu-nfs, ubuntu-hw). Leave empty to build all changed."
         required: false
         default: ""
 

@@ -21,7 +21,7 @@ spec:
     longhornRecoveryBackend:
       replicas: 0
     defaultSettings:
-      backupTarget: "s3://longhorn@us-east-1/"
+      backupTarget: "s3://${B2_LONGHORN_BUCKET}@${B2_REGION}/"
       backupTargetCredentialSecret: longhorn-backup-secret
       defaultLonghornStaticStorageClass: longhorn-backup
     persistence:

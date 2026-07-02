@@ -32,8 +32,8 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://cnpg/
-      endpointURL: http://minio:9000
+      destinationPath: s3://${B2_CNPG_BUCKET}/
+      endpointURL: https://s3.${B2_REGION}.backblazeb2.com
       serverName: postgres-v2
       s3Credentials:
         accessKeyId:

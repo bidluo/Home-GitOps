@@ -46,6 +46,13 @@ spec:
       persistence:
         size: 20Gi
         storageClass: longhorn-xfs
+    # Right-size the memcached caches. Chart default sizes the pod memory
+    # request at allocatedMemory * 1.2 (8192Mi -> ~9.8Gi, 1024Mi -> ~1.2Gi),
+    # which is wildly oversized for a single-binary homelab Loki.
+    chunksCache:
+      allocatedMemory: 512
+    resultsCache:
+      allocatedMemory: 128
     test:
       enabled: false
     compactor:

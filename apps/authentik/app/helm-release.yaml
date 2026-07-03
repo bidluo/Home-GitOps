@@ -17,6 +17,15 @@ spec:
       envFrom:
         - secretRef:
             name: authentik-secrets
+      # Mount repo-managed blueprints into all authentik pods. The worker
+      # discovers /blueprints/custom and applies them idempotently.
+      volumes:
+        - name: blueprints-custom
+          configMap:
+            name: authentik-blueprints
+      volumeMounts:
+        - name: blueprints-custom
+          mountPath: /blueprints/custom
     authentik:
       error_reporting_enabled: true
       email:

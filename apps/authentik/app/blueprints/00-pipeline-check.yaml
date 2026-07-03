@@ -1,0 +1,8 @@
+# No-op blueprint. Its only purpose is to prove the custom blueprint mount
+# (/blueprints/custom, delivered via the authentik-blueprints ConfigMap) is
+# discovered and applied by the authentik worker. Real blueprints live
+# alongside this file. Safe to keep or remove once the pipeline is verified.
+version: 1
+metadata:
+  name: custom - pipeline check
+entries: []

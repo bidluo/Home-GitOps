@@ -5,3 +5,15 @@ resources:
 - authentik-secrets.sops.yaml
 - ingress.yaml
 - role.yaml
+
+# Custom blueprints are bundled into a ConfigMap and mounted into the authentik
+# pods at /blueprints/custom (see helm-release.yaml global.volumes). The worker
+# discovers and applies them. Stable name (no hash suffix) so the static volume
+# reference in the HelmRelease values keeps matching; the worker re-reads changed
+# files on its own schedule, so no pod restart is needed on content changes.
+configMapGenerator:
+- name: authentik-blueprints
+  files:
+  - blueprints/00-pipeline-check.yaml
+generatorOptions:
+  disableNameSuffixHash: true

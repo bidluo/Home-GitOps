@@ -19,7 +19,7 @@ spec:
           main:
             image:
               repository: linuxserver/grocy
-              tag: 4.5.0
+              tag: 4.6.0
             env:
               TZ: "${TIMEZONE}"
               PUID: "1000"

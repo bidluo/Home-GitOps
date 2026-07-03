@@ -18,7 +18,5 @@ resources:
 - redis.yaml
 - cloudflare.yaml
 - stakater.yaml
-- postgresql.yaml
-- fossorial.yaml
 - tailscale.yaml
 - openclaw.yaml

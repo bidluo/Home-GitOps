@@ -22,8 +22,9 @@ spec:
   # Wait for the operator to be ready (installs CRDs)
   dependsOn:
     - name: tailscale
-  healthChecks:
-    - apiVersion: tailscale.com/v1alpha1
-      kind: Connector
-      name: home-network-router
-      namespace: network
+  # NOTE: no healthCheck on the Connector. The Tailscale operator reports
+  # readiness via a non-standard `ConnectorReady` condition and does not set a
+  # top-level status.observedGeneration, so Flux's kstatus evaluates it as
+  # `Unknown` forever and the Kustomization perpetually times out (9m30s) even
+  # though the Connector is healthy. Gating on it is not possible until the
+  # CRD exposes a standard `Ready` condition.

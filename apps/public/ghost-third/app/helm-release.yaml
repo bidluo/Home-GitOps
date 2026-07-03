@@ -19,7 +19,7 @@ spec:
           main:
             image:
               repository: ghost
-              tag: 6.19.4
+              tag: 6.50.0
             env:
               url: "https://${THIRD_HOSTNAME}" 
               database__client: sqlite3

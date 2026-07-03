@@ -1,0 +1,67 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: sons-of-the-forest
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    defaultPodOptions:
+      # Windows dedicated server under Wine — heavy; let it land on the
+      # bigger worker (koko-bravo), not the 16Gi control-plane node.
+      # Image runs as PUID/PGID 1000; fsGroup makes the data PVC writable.
+      securityContext:
+        fsGroup: 1000
+    controllers:
+      main:
+        # SteamCMD download + Wine startup is slow; give it room and don't
+        # thrash-restart while it provisions on first boot.
+        strategy: Recreate
+        containers:
+          main:
+            image:
+              repository: docker.io/jammsen/sons-of-the-forest-dedicated-server
+              tag: latest
+            env:
+              PUID: "1000"
+              PGID: "1000"
+              ALWAYS_UPDATE_ON_START: "true"
+              SKIP_NETWORK_ACCESSIBILITY_TEST: "true"
+            resources:
+              requests:
+                cpu: 500m
+                memory: 3Gi
+              limits:
+                cpu: "4"
+                memory: 8Gi
+    service:
+      main:
+        type: LoadBalancer
+        controller: main
+        externalTrafficPolicy: Cluster
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: "${LOCAL_LB_IP}"
+          metallb.universe.tf/allow-shared-ip: external-svc
+        ports:
+          game-udp:
+            port: 8766
+            protocol: UDP
+          query-udp:
+            port: 27016
+            protocol: UDP
+          blob-udp:
+            port: 9700
+            protocol: UDP
+    persistence:
+      data:
+        existingClaim: sons-of-the-forest-data
+        globalMounts:
+          - path: /sonsoftheforest

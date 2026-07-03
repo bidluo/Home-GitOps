@@ -29,6 +29,11 @@ spec:
             image:
               repository: getmeili/meilisearch
               tag: v1.48.3
+            env:
+              # v1.48 refuses to start on a v1.34 database. This performs an
+              # in-place migration on startup (Meilisearch >=1.12). Safe to
+              # remove once the meili-data volume has been migrated to 1.48.
+              MEILI_EXPERIMENTAL_DUMPLESS_UPGRADE: "true"
             envFrom:
               - secretRef:
                   name: hoarder-secrets

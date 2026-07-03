@@ -15,6 +15,5 @@ configMapGenerator:
 - name: authentik-blueprints
   files:
   - blueprints/00-pipeline-check.yaml
-  - blueprints/sonarr.yaml
 generatorOptions:
   disableNameSuffixHash: true

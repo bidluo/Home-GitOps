@@ -25,6 +25,31 @@ spec:
         # SteamCMD download + Wine startup is slow; give it room and don't
         # thrash-restart while it provisions on first boot.
         strategy: Recreate
+        initContainers:
+          # The server advertises whatever ports its cfg holds, but playit hands
+          # out fixed public ports (55722-55724 range tunnel on one IP). Force the
+          # cfg's ports to match the public ports so the query->game->blob handoff
+          # stays on the same address. Idempotent; runs before the game reads cfg.
+          # The image only creates the cfg if missing, so it won't clobber this.
+          config-ports:
+            image:
+              repository: busybox
+              tag: "1.37"
+            command:
+              - sh
+              - -c
+              - |
+                cfg=/sonsoftheforest/userdata/dedicatedserver.cfg
+                if [ -f "$cfg" ]; then
+                  sed -i \
+                    -e 's/"QueryPort": [0-9]*/"QueryPort": 55722/' \
+                    -e 's/"GamePort": [0-9]*/"GamePort": 55723/' \
+                    -e 's/"BlobSyncPort": [0-9]*/"BlobSyncPort": 55724/' \
+                    "$cfg"
+                  echo "patched ports in $cfg:"; grep -E '"(Query|Game|BlobSync)Port"' "$cfg"
+                else
+                  echo "cfg not present yet; main container will create it (first boot)"
+                fi
         containers:
           main:
             image:
@@ -50,15 +75,17 @@ spec:
         annotations:
           metallb.universe.tf/loadBalancerIPs: "${LOCAL_LB_IP}"
           metallb.universe.tf/allow-shared-ip: external-svc
+        # Ports match the playit range-tunnel public ports (one IP, 55722-55724)
+        # so SotF advertises the same numbers players reach it on.
         ports:
-          game-udp:
-            port: 8766
-            protocol: UDP
           query-udp:
-            port: 27016
+            port: 55722
+            protocol: UDP
+          game-udp:
+            port: 55723
             protocol: UDP
           blob-udp:
-            port: 9700
+            port: 55724
             protocol: UDP
     persistence:
       data:

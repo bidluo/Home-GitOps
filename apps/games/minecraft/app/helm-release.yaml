@@ -23,10 +23,11 @@ spec:
           main:
             image:
               repository: ghcr.io/itzg/minecraft-server
-              tag: java23
-              # java23 is a rolling tag; the node had a stale cached image whose
-              # mc-image-helper still called Paper's dead v2 API (410 Gone).
-              # Always re-pull so it uses the current helper (fill.papermc.io/v3).
+              # Was `java23`, which itzg froze at 2025-04-13 — its mc-image-helper
+              # predates Paper's v3 API switch and hit the dead v2 endpoint
+              # (410 Gone). java21 is the maintained LTS rolling tag with the
+              # current helper (fill.papermc.io/v3); Paper 1.21.4 runs on Java 21.
+              tag: java21
               pullPolicy: Always
             env:
               EULA: "TRUE"

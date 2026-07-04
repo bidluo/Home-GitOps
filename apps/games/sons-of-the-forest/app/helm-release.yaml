@@ -15,8 +15,17 @@ spec:
         namespace: flux-system
   values:
     defaultPodOptions:
-      # Windows dedicated server under Wine — heavy; let it land on the
-      # bigger worker (koko-bravo), not the 16Gi control-plane node.
+      # hostNetwork: bind koko-bravo's real IP (192.168.1.152) directly — no
+      # metallb LB, no kube-proxy SNAT. SotF then sees/advertises a reachable
+      # address, which the LoadBalancer + SNAT path broke (server showed in the
+      # Steam browser but "Connect" pointed at a dead/SNAT'd address).
+      # Pinned to koko-bravo so the connect IP is stable.
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      nodeSelector:
+        kubernetes.io/hostname: koko-bravo
+      # Windows dedicated server under Wine — heavy; keep it on the bigger
+      # worker (koko-bravo), not the 16Gi control-plane node.
       # Image runs as PUID/PGID 1000; fsGroup makes the data PVC writable.
       securityContext:
         fsGroup: 1000
@@ -68,25 +77,11 @@ spec:
                 cpu: "4"
                 memory: 8Gi
     service:
+      # Disabled: with hostNetwork the server binds koko-bravo (192.168.1.152)
+      # directly, so the LoadBalancer/metallb path (and its SNAT) is bypassed.
+      # Reachable at 192.168.1.152:55722 (query) / :55723 (game) / :55724 (blob).
       main:
-        type: LoadBalancer
-        controller: main
-        externalTrafficPolicy: Cluster
-        annotations:
-          metallb.universe.tf/loadBalancerIPs: "${LOCAL_LB_IP}"
-          metallb.universe.tf/allow-shared-ip: external-svc
-        # Ports match the playit range-tunnel public ports (one IP, 55722-55724)
-        # so SotF advertises the same numbers players reach it on.
-        ports:
-          query-udp:
-            port: 55722
-            protocol: UDP
-          game-udp:
-            port: 55723
-            protocol: UDP
-          blob-udp:
-            port: 55724
-            protocol: UDP
+        enabled: false
     persistence:
       data:
         existingClaim: sons-of-the-forest-data

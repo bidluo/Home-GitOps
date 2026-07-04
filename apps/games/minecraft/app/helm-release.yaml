@@ -32,13 +32,16 @@ spec:
             env:
               EULA: "TRUE"
               TYPE: "PAPER"
-              VERSION: "1.21.4"
+              VERSION: "26.2"
+              # 26.2 is a fresh MC release; Paper only ships experimental (ALPHA)
+              # builds for it so far, so allow that channel (default is stable).
+              PAPER_CHANNEL: "experimental"
               PLUGINS: |
                 https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
                 https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
-                https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.3.1/PAPER/ViaVersion-5.3.1.jar
-                https://github.com/EssentialsX/Essentials/releases/download/2.21.0/EssentialsX-2.21.0.jar
-                https://github.com/EssentialsX/Essentials/releases/download/2.21.0/EssentialsXChat-2.21.0.jar
+                https://github.com/ViaVersion/ViaVersion/releases/download/5.10.0/ViaVersion-5.10.0.jar
+                https://github.com/EssentialsX/Essentials/releases/download/2.22.0/EssentialsX-2.22.0.jar
+                https://github.com/EssentialsX/Essentials/releases/download/2.22.0/EssentialsXChat-2.22.0.jar
     service:
       main:
         type: LoadBalancer

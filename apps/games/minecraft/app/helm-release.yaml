@@ -23,11 +23,11 @@ spec:
           main:
             image:
               repository: ghcr.io/itzg/minecraft-server
-              # Was `java23`, which itzg froze at 2025-04-13 — its mc-image-helper
-              # predates Paper's v3 API switch and hit the dead v2 endpoint
-              # (410 Gone). java21 is the maintained LTS rolling tag with the
-              # current helper (fill.papermc.io/v3); Paper 1.21.4 runs on Java 21.
-              tag: java21
+              # Minecraft 26.1+ requires Java 25+. `latest` tracks the newest
+              # maintained image (current Java + the fill.papermc.io/v3 helper).
+              # (Avoid pinned javaXX tags — itzg froze java23 at 2025-04-13, whose
+              # old helper hit Paper's dead v2 API and 410'd.)
+              tag: latest
               pullPolicy: Always
             env:
               EULA: "TRUE"

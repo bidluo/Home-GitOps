@@ -1,0 +1,50 @@
+version: 1
+metadata:
+  name: custom - app - uptime-kuma
+entries:
+- model: authentik_providers_proxy.proxyprovider
+  state: present
+  identifiers:
+    name: UptimeKuma
+  attrs:
+    access_token_validity: hours=24
+    authentication_flow: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
+    authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+    external_host: https://uptime.liaw.me
+    intercept_header_auth: true
+    internal_host: http://uptime-kuma:3001
+    internal_host_ssl_validation: true
+    invalidation_flow: !Find [authentik_flows.flow, [slug, default-provider-invalidation-flow]]
+    mode: proxy
+    name: UptimeKuma
+    property_mappings:
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''email''']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: Proxy outpost']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''openid''']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''profile''']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: Application Entitlements']]
+    refresh_token_validity: days=30
+    skip_path_regex: '^/$
+
+      ^/status
+
+      ^/assets/
+
+      ^/assets
+
+      ^/icon.svg
+
+      ^/api/.*
+
+      ^/upload/.*
+
+      ^/metrics'
+- model: authentik_core.application
+  state: present
+  identifiers:
+    slug: uptime-kuma
+  attrs:
+    name: Uptime Kuma
+    policy_engine_mode: any
+    provider: !Find [authentik_providers_proxy.proxyprovider, [name, UptimeKuma]]
+    slug: uptime-kuma

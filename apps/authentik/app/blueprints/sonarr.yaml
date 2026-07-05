@@ -1,0 +1,36 @@
+version: 1
+metadata:
+  name: custom - app - sonarr
+entries:
+- model: authentik_providers_proxy.proxyprovider
+  state: present
+  identifiers:
+    name: Sonarr
+  attrs:
+    access_token_validity: hours=24
+    authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+    external_host: https://sonarr.liaw.me
+    intercept_header_auth: true
+    internal_host: http://sonarr:8989
+    internal_host_ssl_validation: true
+    invalidation_flow: !Find [authentik_flows.flow, [slug, default-provider-invalidation-flow]]
+    mode: proxy
+    name: Sonarr
+    property_mappings:
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''email''']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: Proxy outpost']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''openid''']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''profile''']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: Application Entitlements']]
+    refresh_token_validity: days=30
+    skip_path_regex: feed/calendar
+- model: authentik_core.application
+  state: present
+  identifiers:
+    slug: sonarr
+  attrs:
+    group: media
+    name: Sonarr
+    policy_engine_mode: any
+    provider: !Find [authentik_providers_proxy.proxyprovider, [name, Sonarr]]
+    slug: sonarr

@@ -1,0 +1,46 @@
+version: 1
+metadata:
+  name: custom - app - photoview
+entries:
+- model: authentik_providers_proxy.proxyprovider
+  state: present
+  identifiers:
+    name: PhotoView
+  attrs:
+    access_token_validity: hours=24
+    authentication_flow: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
+    authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+    external_host: https://photos.liaw.me
+    internal_host: http://photoview:80
+    internal_host_ssl_validation: true
+    invalidation_flow: !Find [authentik_flows.flow, [slug, default-provider-invalidation-flow]]
+    mode: proxy
+    name: PhotoView
+    property_mappings:
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''email''']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: Proxy outpost']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''openid''']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''profile''']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: Application Entitlements']]
+    refresh_token_validity: days=30
+    skip_path_regex: '/share/*
+
+      /assets/*
+
+      /manifest.json
+
+      /api/*
+
+      /photoview-logo.svg
+
+      /service-worker.js'
+- model: authentik_core.application
+  state: present
+  identifiers:
+    slug: photoview
+  attrs:
+    group: media
+    name: PhotoView
+    policy_engine_mode: any
+    provider: !Find [authentik_providers_proxy.proxyprovider, [name, PhotoView]]
+    slug: photoview

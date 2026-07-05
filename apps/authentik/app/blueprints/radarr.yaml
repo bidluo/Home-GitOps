@@ -1,0 +1,35 @@
+version: 1
+metadata:
+  name: custom - app - radarr
+entries:
+- model: authentik_providers_proxy.proxyprovider
+  state: present
+  identifiers:
+    name: Radarr
+  attrs:
+    access_token_validity: hours=24
+    authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+    external_host: https://radarr.liaw.me
+    intercept_header_auth: true
+    internal_host: http://radarr:7878
+    internal_host_ssl_validation: true
+    invalidation_flow: !Find [authentik_flows.flow, [slug, default-provider-invalidation-flow]]
+    mode: proxy
+    name: Radarr
+    property_mappings:
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''email''']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: Proxy outpost']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''openid''']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''profile''']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: Application Entitlements']]
+    refresh_token_validity: days=30
+- model: authentik_core.application
+  state: present
+  identifiers:
+    slug: radarr
+  attrs:
+    group: media
+    name: Radarr
+    policy_engine_mode: any
+    provider: !Find [authentik_providers_proxy.proxyprovider, [name, Radarr]]
+    slug: radarr

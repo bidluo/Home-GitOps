@@ -15,5 +15,21 @@ configMapGenerator:
 - name: authentik-blueprints
   files:
   - blueprints/00-pipeline-check.yaml
+  - blueprints/actual.yaml
+  - blueprints/changedetection.yaml
+  - blueprints/goldilocks.yaml
+  - blueprints/hoarder.yaml
+  - blueprints/immich.yaml
+  - blueprints/longhorn.yaml
+  - blueprints/metube.yaml
+  - blueprints/n8n.yaml
+  - blueprints/oauth.yaml
+  - blueprints/overseerr.yaml
+  - blueprints/photoview.yaml
+  - blueprints/radarr.yaml
+  - blueprints/sabnzbd.yaml
+  - blueprints/sonarr.yaml
+  - blueprints/tdarr.yaml
+  - blueprints/uptime-kuma.yaml
 generatorOptions:
   disableNameSuffixHash: true

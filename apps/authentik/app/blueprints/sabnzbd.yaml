@@ -32,4 +32,4 @@ entries:
     policy_engine_mode: any
     provider: !Find [authentik_providers_proxy.proxyprovider, [name, Sabnzbd]]
     slug: sabnzbd
-# (re-applied to clear a stale error status from a worker queue jam)
+    meta_icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/sabnzbd.png

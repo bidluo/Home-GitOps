@@ -39,3 +39,4 @@ entries:
     policy_engine_mode: any
     provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Actual]]
     slug: actual
+    meta_icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/actual-budget.png

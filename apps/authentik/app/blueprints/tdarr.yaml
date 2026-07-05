@@ -32,3 +32,4 @@ entries:
     policy_engine_mode: any
     provider: !Find [authentik_providers_proxy.proxyprovider, [name, Tdarr]]
     slug: tdarr
+    meta_icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/tdarr.png

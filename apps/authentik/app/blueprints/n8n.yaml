@@ -33,3 +33,4 @@ entries:
     policy_engine_mode: any
     provider: !Find [authentik_providers_proxy.proxyprovider, [name, n8n]]
     slug: n8n
+    meta_icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/n8n.png

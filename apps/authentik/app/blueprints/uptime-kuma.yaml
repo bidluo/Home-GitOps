@@ -48,3 +48,4 @@ entries:
     policy_engine_mode: any
     provider: !Find [authentik_providers_proxy.proxyprovider, [name, UptimeKuma]]
     slug: uptime-kuma
+    meta_icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/uptime-kuma.png

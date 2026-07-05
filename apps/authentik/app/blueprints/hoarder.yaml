@@ -38,3 +38,4 @@ entries:
     policy_engine_mode: any
     provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Hoarder]]
     slug: hoarder
+    meta_icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/karakeep.png

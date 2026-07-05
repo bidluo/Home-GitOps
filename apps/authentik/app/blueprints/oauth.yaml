@@ -44,3 +44,4 @@ entries:
     policy_engine_mode: any
     provider: !Find [authentik_providers_oauth2.oauth2provider, [name, OAuth]]
     slug: oauth
+    meta_icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/authentik.png

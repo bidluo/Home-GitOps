@@ -21,7 +21,6 @@ configMapGenerator:
   - blueprints/hoarder.yaml
   - blueprints/immich.yaml
   - blueprints/login-passwordless.yaml
-  - blueprints/login-mfa-split.yaml
   - blueprints/longhorn.yaml
   - blueprints/metube.yaml
   - blueprints/n8n.yaml

@@ -22,3 +22,32 @@ spec:
         operator: Exists
       - effect: NoExecute
         operator: Exists
+    # Noise trimming. longhorn + loki-self + vpa were ~77% of ingestion at
+    # ~2.85GB/day and filled the 20Gi volume. Drop their info/debug chatter,
+    # keep warnings/errors. Each drop is scoped to its namespace/app so nothing
+    # else is affected.
+    config:
+      snippets:
+        pipelineStages:
+          - cri: {}
+          # longhorn (logrus/logfmt: level=info)
+          - match:
+              selector: '{namespace="longhorn-system"}'
+              stages:
+                - drop:
+                    expression: '.*level=(debug|info|trace).*'
+                    drop_counter_reason: noise_longhorn
+          # loki logging into itself (logfmt: level=info)
+          - match:
+              selector: '{namespace="monitoring", app="loki"}'
+              stages:
+                - drop:
+                    expression: '.*level=(debug|info).*'
+                    drop_counter_reason: noise_loki_self
+          # goldilocks VPA (klog: I=info, W=warn, E=error) — drop info lines
+          - match:
+              selector: '{namespace="monitoring", app="vpa"}'
+              stages:
+                - drop:
+                    expression: '^I\d{4} .*'
+                    drop_counter_reason: noise_vpa

@@ -1,0 +1,52 @@
+# Split MFA validation so the two login paths don't share one stage:
+#   - password path (default flow, order 30): TOTP/static only, so after the
+#     password it goes straight to the TOTP code instead of auto-prompting the
+#     passkey (which forced a cancel -> "try another way").
+#   - passkey path (passwordless flow, order 20): a dedicated webauthn-only stage.
+# The shipped default blueprint does NOT pin device_classes on the shared stage,
+# and it does not manage the passwordless flow, so neither edit here gets reverted.
+version: 1
+metadata:
+  name: custom - login - split mfa (password->totp, passkey->webauthn)
+entries:
+  # Password path: drop webauthn from the shared stage -> straight to TOTP.
+  - model: authentik_stages_authenticator_validate.authenticatorvalidatestage
+    state: present
+    identifiers:
+      name: default-authentication-mfa-validation
+    attrs:
+      device_classes:
+        - static
+        - totp
+        - duo
+        - sms
+      not_configured_action: skip
+      webauthn_user_verification: preferred
+      last_auth_threshold: seconds=0
+
+  # New webauthn-only stage for the passwordless (passkey) path.
+  - model: authentik_stages_authenticator_validate.authenticatorvalidatestage
+    state: present
+    identifiers:
+      name: passwordless-webauthn-validation
+    attrs:
+      device_classes:
+        - webauthn
+      not_configured_action: skip
+      webauthn_user_verification: preferred
+      last_auth_threshold: seconds=0
+
+  # Repoint the passwordless flow's order-20 binding onto the webauthn stage.
+  # Remove the old binding first, then add the new (avoids a (target,order) clash).
+  - model: authentik_flows.flowstagebinding
+    state: absent
+    identifiers:
+      target: !Find [authentik_flows.flow, [slug, passwordless]]
+      order: 20
+      stage: !Find [authentik_stages_authenticator_validate.authenticatorvalidatestage, [name, default-authentication-mfa-validation]]
+  - model: authentik_flows.flowstagebinding
+    state: present
+    identifiers:
+      target: !Find [authentik_flows.flow, [slug, passwordless]]
+      order: 20
+      stage: !Find [authentik_stages_authenticator_validate.authenticatorvalidatestage, [name, passwordless-webauthn-validation]]

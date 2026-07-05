@@ -1,45 +1,19 @@
-# REVERTED. The split broke passwordless login: repointing the passwordless
-# flow's order-20 to a fresh webauthn-only validate stage stopped the passkey
-# assertion (it bounced back to step 1). Restore the original working state:
-# shared stage keeps all device classes (incl webauthn) and the passwordless flow
-# uses it again. Net effect back to: passkey works; password path shows the
-# passkey prompt first (cancel -> TOTP) — acceptable per the user.
+# The `passwordless` flow started with a username-identification stage, so the
+# "Use a passkey" button just re-showed the login page. A passwordless flow must
+# begin with the WebAuthn assertion. Remove the identification binding so the
+# flow is: authenticator-validate (webauthn, passwordless) -> user-login. The
+# authenticator-validate stage, reached with no identified user, performs the
+# passwordless passkey assertion (which identifies + authenticates).
+#
+# Only touches the passwordless flow's own binding — the password login path is a
+# separate flow and is unaffected.
 version: 1
 metadata:
-  name: custom - login - split mfa (password->totp, passkey->webauthn)
+  name: custom - login - passwordless flow fix
 entries:
-  # Restore webauthn on the shared MFA-validation stage.
-  - model: authentik_stages_authenticator_validate.authenticatorvalidatestage
-    state: present
-    identifiers:
-      name: default-authentication-mfa-validation
-    attrs:
-      device_classes:
-        - static
-        - totp
-        - webauthn
-        - duo
-        - sms
-      not_configured_action: skip
-      webauthn_user_verification: preferred
-      last_auth_threshold: seconds=0
-
-  # Restore the passwordless flow's order-20 binding to the shared stage.
   - model: authentik_flows.flowstagebinding
     state: absent
     identifiers:
       target: !Find [authentik_flows.flow, [slug, passwordless]]
-      order: 20
-      stage: !Find [authentik_stages_authenticator_validate.authenticatorvalidatestage, [name, passwordless-webauthn-validation]]
-  - model: authentik_flows.flowstagebinding
-    state: present
-    identifiers:
-      target: !Find [authentik_flows.flow, [slug, passwordless]]
-      order: 20
-      stage: !Find [authentik_stages_authenticator_validate.authenticatorvalidatestage, [name, default-authentication-mfa-validation]]
-
-  # Remove the unused webauthn-only stage.
-  - model: authentik_stages_authenticator_validate.authenticatorvalidatestage
-    state: absent
-    identifiers:
-      name: passwordless-webauthn-validation
+      order: 10
+      stage: !Find [authentik_stages_identification.identificationstage, [name, default-authentication-identification]]

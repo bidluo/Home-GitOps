@@ -5,3 +5,15 @@ resources:
 - app.yaml
 - pod-monitor.yaml
 - prometheus-rules.yaml
+
+# Grafana dashboards as code: the grafana sidecar loads any ConfigMap labeled
+# grafana_dashboard=1 (cluster-wide). JSON lives in dashboards/.
+configMapGenerator:
+- name: grafana-dashboard-cluster-logs
+  namespace: monitoring
+  files:
+  - dashboards/cluster-logs.json
+  options:
+    labels:
+      grafana_dashboard: "1"
+    disableNameSuffixHash: true

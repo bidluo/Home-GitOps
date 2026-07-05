@@ -1,0 +1,73 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "graphTooltip": 0,
+  "title": "Cluster Logs",
+  "uid": "homelab-cluster-logs",
+  "tags": ["homelab", "logs", "loki"],
+  "time": { "from": "now-1h", "to": "now" },
+  "timezone": "",
+  "schemaVersion": 39,
+  "templating": {
+    "list": [
+      {
+        "name": "ds",
+        "type": "datasource",
+        "query": "loki",
+        "current": {},
+        "hide": 0,
+        "label": "Loki datasource"
+      },
+      {
+        "name": "namespace",
+        "type": "query",
+        "datasource": { "type": "loki", "uid": "${ds}" },
+        "query": "label_values(namespace)",
+        "refresh": 2,
+        "includeAll": true,
+        "multi": true,
+        "current": { "text": "All", "value": "$__all" },
+        "label": "Namespace"
+      },
+      {
+        "name": "search",
+        "type": "textbox",
+        "query": "",
+        "current": { "text": "", "value": "" },
+        "label": "Filter (regex)"
+      }
+    ]
+  },
+  "panels": [
+    {
+      "title": "Log rate by namespace (lines/s)",
+      "type": "timeseries",
+      "datasource": { "type": "loki", "uid": "${ds}" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "fieldConfig": { "defaults": { "custom": { "fillOpacity": 20, "stacking": { "mode": "normal" } } }, "overrides": [] },
+      "targets": [
+        { "refId": "A", "expr": "sum by (namespace) (rate({namespace=~\"$namespace\"}[$__interval]))", "legendFormat": "{{namespace}}" }
+      ]
+    },
+    {
+      "title": "Error-level lines by namespace (lines/s)",
+      "type": "timeseries",
+      "datasource": { "type": "loki", "uid": "${ds}" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "fieldConfig": { "defaults": { "custom": { "fillOpacity": 20 }, "color": { "mode": "fixed", "fixedColor": "red" } }, "overrides": [] },
+      "targets": [
+        { "refId": "A", "expr": "sum by (namespace) (rate({namespace=~\"$namespace\"} |~ \"(?i)(level=error|\\\"level\\\":\\\"error\\\"|^E[0-9]{4}| ERROR )\"[$__interval]))", "legendFormat": "{{namespace}}" }
+      ]
+    },
+    {
+      "title": "Logs",
+      "type": "logs",
+      "datasource": { "type": "loki", "uid": "${ds}" },
+      "gridPos": { "h": 18, "w": 24, "x": 0, "y": 8 },
+      "options": { "showTime": true, "wrapLogMessage": false, "enableLogDetails": true, "dedupStrategy": "none", "sortOrder": "Descending" },
+      "targets": [
+        { "refId": "A", "expr": "{namespace=~\"$namespace\"} |~ \"(?i)$search\"" }
+      ]
+    }
+  ]
+}

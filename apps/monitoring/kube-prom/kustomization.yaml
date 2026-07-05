@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 - app.yaml
 - pod-monitor.yaml
+- prometheus-rules.yaml

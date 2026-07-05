@@ -1,0 +1,48 @@
+---
+# Homelab-specific alerts on top of the kube-prometheus-stack defaults.
+# Prometheus ruleSelector is {} so this is picked up without a special label.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: homelab-rules
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: homelab.rules
+      rules:
+        # Postgres base backups going stale. serverName is weekly, so >8d = a
+        # missed cycle. Guard >0 to skip replicas that report epoch (no backup).
+        - alert: CNPGBackupStale
+          expr: |
+            (time() - cnpg_collector_last_available_backup_timestamp) > 8 * 24 * 3600
+            and cnpg_collector_last_available_backup_timestamp > 0
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: "CloudNativePG backup is stale"
+            description: "Last successful backup is {{ $value | humanizeDuration }} old (cluster/instance {{ $labels.pod }})."
+
+        # A Deployment that should have replicas but has none available.
+        - alert: DeploymentUnavailable
+          expr: |
+            kube_deployment_status_replicas_available == 0
+            and kube_deployment_spec_replicas > 0
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Deployment has no available replicas"
+            description: "{{ $labels.namespace }}/{{ $labels.deployment }} has 0 available replicas for 15m."
+
+        # Crash-looping containers (caught several this session).
+        - alert: PodRestartingFrequently
+          expr: increase(kube_pod_container_status_restarts_total[1h]) > 5
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Container is restarting frequently"
+            description: "{{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) restarted {{ $value | printf \"%.0f\" }}x in the last hour."

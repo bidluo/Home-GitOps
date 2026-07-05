@@ -20,6 +20,7 @@ configMapGenerator:
   - blueprints/goldilocks.yaml
   - blueprints/hoarder.yaml
   - blueprints/immich.yaml
+  - blueprints/login-passwordless.yaml
   - blueprints/longhorn.yaml
   - blueprints/metube.yaml
   - blueprints/n8n.yaml

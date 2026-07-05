@@ -44,7 +44,11 @@ spec:
     singleBinary:
       replicas: 1
       persistence:
-        size: 20Gi
+        # Expanded 20->40Gi: at ~2.85GB/day x 7d retention the 20Gi volume hit
+        # 100% (bytes AND inodes) and wedged Loki. StatefulSet volumeClaimTemplate
+        # size is immutable, so this change requires deleting the STS with
+        # --cascade=orphan so helm can recreate it (the PVC was expanded live).
+        size: 40Gi
         storageClass: longhorn-xfs
     # Right-size the memcached caches. Chart default sizes the pod memory
     # request at allocatedMemory * 1.2 (8192Mi -> ~9.8Gi, 1024Mi -> ~1.2Gi),

@@ -27,7 +27,7 @@ spec:
             env:
               PAPERLESS_URL: "https://paperless.${PUBLIC_HOSTNAME}"
               PAPERLESS_TIME_ZONE: "${TIMEZONE}"
-              PAPERLESS_DBHOST: data-cluster-rw.data.svc.cluster.local
+              PAPERLESS_DBHOST: paperless-pg-rw.data.svc.cluster.local
               PAPERLESS_DBNAME: paperless
               PAPERLESS_DBUSER: paperless
               PAPERLESS_OCR_LANGUAGE: eng

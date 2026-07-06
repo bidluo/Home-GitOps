@@ -15,31 +15,14 @@ tunnel, SOPS/age). Nothing deploys until Flux reconciles this branch.
 
 ## Manual steps required BEFORE reconcile (or the app crashloops)
 
-### 1. Create Postgres databases + roles (Paperless, Postiz)
-The shared `data-cluster` does not create per-app DBs declaratively. Passwords are already
-generated and stored (encrypted) in the app secrets — pull them out, don't retype:
+### 1. Postgres databases — declarative, no action needed
+Paperless and Postiz each get their own CloudNativePG cluster (`paperless-pg`, `postiz-pg`
+in the `data` namespace) which creates the database + owner role automatically via
+`bootstrap.initdb` — **no manual `psql`.** The owner password lives in the cluster's
+`*-pg-owner` SOPS secret and matches the app's own secret.
 
-```sh
-# Paperless DB password:
-sops -d apps/home/paperless/app/paperless-secrets.sops.yaml | grep PAPERLESS_DBPASS
-# Postiz DB password (inside the DATABASE_URL):
-sops -d apps/social/postiz/app/postiz-secrets.sops.yaml | grep DATABASE_URL
-```
-
-Then, connected to `data-cluster` as superuser (e.g. `kubectl exec` into the primary pod
-and run `psql`, or `kubectl cnpg psql data-cluster`):
-
-```sql
-CREATE ROLE paperless WITH LOGIN PASSWORD '<PAPERLESS_DBPASS>';
-CREATE DATABASE paperless OWNER paperless;
-
-CREATE ROLE postiz WITH LOGIN PASSWORD '<POSTIZ_DBPASS>';
-CREATE DATABASE postiz OWNER postiz;
-```
-
-Both apps run their own migrations on first boot. If Postiz's Prisma migration errors on a
-missing extension, create it once as superuser in the `postiz` DB:
-`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
+If Postiz's Prisma migration ever errors on a missing extension, exec into the primary and
+create it once as superuser: `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
 
 ### 2. Assign the Authentik proxy providers to the outposts (UI step)
 The blueprints create the proxy providers + applications automatically, but the *managed

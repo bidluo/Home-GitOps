@@ -11,6 +11,7 @@ spec:
   dependsOn:
     - name: longhorn-app
     - name: redis-postiz-app
+    - name: postgres-postiz
   sourceRef:
     kind: GitRepository
     name: flux-system

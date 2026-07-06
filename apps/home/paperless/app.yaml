@@ -11,6 +11,7 @@ spec:
   dependsOn:
     - name: longhorn-app
     - name: redis-paperless-app
+    - name: postgres-paperless
   sourceRef:
     kind: GitRepository
     name: flux-system

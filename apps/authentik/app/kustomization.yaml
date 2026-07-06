@@ -18,8 +18,10 @@ configMapGenerator:
   - blueprints/actual.yaml
   - blueprints/changedetection.yaml
   - blueprints/goldilocks.yaml
+  - blueprints/homepage.yaml
   - blueprints/hoarder.yaml
   - blueprints/immich.yaml
+  - blueprints/paperless.yaml
   - blueprints/login-passwordless.yaml
   - blueprints/longhorn.yaml
   - blueprints/metube.yaml
@@ -27,6 +29,7 @@ configMapGenerator:
   - blueprints/oauth.yaml
   - blueprints/overseerr.yaml
   - blueprints/photoview.yaml
+  - blueprints/prowlarr.yaml
   - blueprints/radarr.yaml
   - blueprints/sabnzbd.yaml
   - blueprints/sonarr.yaml

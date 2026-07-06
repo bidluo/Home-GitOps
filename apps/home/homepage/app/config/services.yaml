@@ -1,0 +1,78 @@
+---
+- Media:
+    - Plex:
+        href: https://plex.${PUBLIC_HOSTNAME}
+        icon: plex.png
+        description: Streaming
+    - Overseerr:
+        href: https://request.${PUBLIC_HOSTNAME}
+        icon: overseerr.png
+        description: Requests
+    - Sonarr:
+        href: https://sonarr.${PUBLIC_HOSTNAME}
+        icon: sonarr.png
+        description: TV
+    - Radarr:
+        href: https://radarr.${PUBLIC_HOSTNAME}
+        icon: radarr.png
+        description: Movies
+    - Prowlarr:
+        href: https://prowlarr.${PUBLIC_HOSTNAME}
+        icon: prowlarr.png
+        description: Indexers
+    - SABnzbd:
+        href: https://nzb.${PUBLIC_HOSTNAME}
+        icon: sabnzbd.png
+        description: Downloads
+    - Tautulli:
+        href: https://tautulli.${PUBLIC_HOSTNAME}
+        icon: tautulli.png
+        description: Plex stats
+    - Immich:
+        href: https://img.${PUBLIC_HOSTNAME}
+        icon: immich.png
+        description: Photos
+
+- Home:
+    - Home Assistant:
+        href: https://home.${PUBLIC_HOSTNAME}
+        icon: home-assistant.png
+        description: Automation
+    - AdGuard:
+        href: https://adguard.${PUBLIC_HOSTNAME}
+        icon: adguard-home.png
+        description: DNS
+    - Paperless:
+        href: https://paperless.${PUBLIC_HOSTNAME}
+        icon: paperless-ngx.png
+        description: Documents
+    - Grocy:
+        href: https://grocy.${PUBLIC_HOSTNAME}
+        icon: grocy.png
+        description: Groceries
+    - Postiz:
+        href: https://postiz.${PUBLIC_HOSTNAME}
+        icon: postiz.png
+        description: Social scheduler
+    - PicoShare:
+        href: https://share.${PUBLIC_HOSTNAME}
+        icon: mdi-file-upload
+        description: File sharing
+
+- Infrastructure:
+    - Grafana:
+        href: https://grafana.${PUBLIC_HOSTNAME}
+        icon: grafana.png
+        description: Dashboards
+    - Longhorn:
+        href: https://longhorn.${PUBLIC_HOSTNAME}
+        icon: longhorn.png
+        description: Storage
+    - Uptime Kuma:
+        href: https://uptime-kuma.${PUBLIC_HOSTNAME}
+        icon: uptime-kuma.png
+        description: Status
+    - Authentik:
+        href: https://auth.${PUBLIC_HOSTNAME}
+        icon: authentik.png
+        description: SSO

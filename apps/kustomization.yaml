@@ -12,6 +12,7 @@ resources:
 - games
 - finance
 - openclaw
+- tools
 
 - longhorn
 - metallb

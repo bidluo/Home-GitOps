@@ -24,6 +24,10 @@ spec:
           service: http://ak-outpost-media.media.svc.cluster.local:9000
         - hostname: "radarr.${PUBLIC_HOSTNAME}"
           service: http://ak-outpost-media.media.svc.cluster.local:9000
+        - hostname: "prowlarr.${PUBLIC_HOSTNAME}"
+          service: http://ak-outpost-media.media.svc.cluster.local:9000
+        - hostname: "share.${PUBLIC_HOSTNAME}"
+          service: http://picoshare.media.svc.cluster.local:4001
         - hostname: "nzb.${PUBLIC_HOSTNAME}"
           service: http://ak-outpost-media.media.svc.cluster.local:9000
         - hostname: "downloads.${PUBLIC_HOSTNAME}"
@@ -81,6 +85,12 @@ spec:
           service: http://grocy.home.svc.cluster.local:80
         - hostname: "change.${PUBLIC_HOSTNAME}"
           service: http://ak-outpost-home.home.svc.cluster.local:9000
+        - hostname: "paperless.${PUBLIC_HOSTNAME}"
+          service: http://ak-outpost-home.home.svc.cluster.local:9000
+        - hostname: "dash.${PUBLIC_HOSTNAME}"
+          service: http://ak-outpost-home.home.svc.cluster.local:9000
+        - hostname: "postiz.${PUBLIC_HOSTNAME}"
+          service: http://postiz.social.svc.cluster.local:5000
         - hostname: "adguard.${PUBLIC_HOSTNAME}"
           service: http://adguard.home.svc.cluster.local:3000
         - hostname: "git.${PUBLIC_HOSTNAME}"

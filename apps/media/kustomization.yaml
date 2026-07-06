@@ -8,8 +8,10 @@ resources:
 - intel-gpu-plugin
 - media-shared
 - overseerr
+- picoshare
 - plaxt
 - plex
+- prowlarr
 - radarr
 - sabnzbd
 - metube

@@ -1,0 +1,12 @@
+---
+- Homelab:
+    - Flux:
+        - abbr: FL
+          href: https://fluxcd.io/flux/
+    - Longhorn:
+        - abbr: LH
+          href: https://longhorn.io/docs/
+- Dev:
+    - GitHub:
+        - abbr: GH
+          href: https://github.com

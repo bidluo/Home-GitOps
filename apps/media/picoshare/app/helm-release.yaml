@@ -1,0 +1,39 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: picoshare
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/mtlynch/picoshare
+              tag: latest
+            env:
+              PORT: "4001"
+              PS_BEHIND_PROXY: "true"
+            envFrom:
+              - secretRef:
+                  name: picoshare-secrets
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 4001
+    persistence:
+      data:
+        existingClaim: picoshare-data
+        globalMounts:
+          - path: /data

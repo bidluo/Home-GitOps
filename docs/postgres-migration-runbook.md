@@ -59,12 +59,34 @@ Variables per app:
    the secret host to `data-cluster-rw` and resume. Drop the old DB only in the final decommission
    phase, after everything is verified.
 
-## Immich notes (PR3)
-- `immich-pg` uses the pgvecto.rs image; ensure `CREATE EXTENSION IF NOT EXISTS vectors;` exists in
-  each target DB (the image provides it) before restore, or restore with the extension pre-created.
-- Two DBs (`immich`, `limmich`) live in one `immich-pg` cluster; repeat step 3 for each.
-- Stop immich server + machine-learning + any workers during the dump. Verify photo browse **and**
-  search (search exercises the vector index) afterward.
+## Immich (PR3) — concrete cutover
+`immich-pg` (pgvecto.rs) hosts BOTH databases: `immich` (initdb) and `limmich` (Database CR + managed
+role). Owner passwords are **reused** from the existing immich secrets, so the app flip is host-only.
+
+1. Reconcile; confirm cluster + both DBs exist:
+   ```sh
+   kubectl get cluster,database -n data | grep immich
+   kubectl exec -n data immich-pg-1 -- psql -U postgres -c "\l" | grep -E 'immich|limmich'
+   ```
+2. Quiesce both Immich instances (server + machine-learning):
+   ```sh
+   flux suspend hr immich immich-lotus -n media
+   kubectl scale deploy -n media -l app.kubernetes.io/instance=immich --replicas=0
+   kubectl scale deploy -n media -l app.kubernetes.io/instance=immich-lotus --replicas=0
+   ```
+3. Dump→restore each DB. Restore as **superuser, WITHOUT `--no-owner`** so ownership carries over and the
+   `vectors`/`cube`/`earthdistance` extensions get created (they need superuser):
+   ```sh
+   kubectl exec -n data data-cluster-3 -- pg_dump -U postgres -Fc -d immich \
+    | kubectl exec -i -n data immich-pg-1 -- pg_restore -U postgres --no-acl -d immich
+   kubectl exec -n data data-cluster-3 -- pg_dump -U postgres -Fc -d limmich \
+    | kubectl exec -i -n data immich-pg-1 -- pg_restore -U postgres --no-acl -d limmich
+   ```
+   A few "already exists" notices for the extensions are benign. Sanity-check counts (e.g. `assets`).
+4. Tell me — I flip `DB_HOSTNAME` in both immich secrets to `immich-pg-rw.data.svc.cluster.local` (host only),
+   commit; you push.
+5. `flux resume hr immich immich-lotus -n media`; verify photos **browse and search** (search exercises the
+   vector index) on both instances. Old immich/limmich DBs stay in data-cluster as fallback.
 
 ## Authentik notes (PR4 — do last)
 - Authentik gates all SSO. Keep the old DB as break-glass; if login breaks, revert the secret host to

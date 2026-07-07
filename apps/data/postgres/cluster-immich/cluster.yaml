@@ -1,0 +1,54 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: immich-pg
+spec:
+  instances: 1
+  primaryUpdateStrategy: unsupervised
+  # pgvecto.rs image + preloaded `vectors` — required by Immich (matches the old data-cluster).
+  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:14-v0.3.0
+  storage:
+    size: 10Gi
+    storageClass: longhorn-xfs
+  affinity:
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: "true"
+  postgresql:
+    shared_preload_libraries:
+      - "vectors"
+      - "cube"
+      - "earthdistance"
+  monitoring:
+    enablePodMonitor: true
+  bootstrap:
+    initdb:
+      database: immich
+      owner: immich
+      secret:
+        name: immich-pg-owner
+  # Second database (immich-secondary / "lotus") lives in the same pgvecto cluster.
+  managed:
+    roles:
+      - name: limmich
+        ensure: present
+        login: true
+        passwordSecret:
+          name: limmich-pg-owner
+  backup:
+    retentionPolicy: 30d
+    barmanObjectStore:
+      destinationPath: s3://${B2_CNPG_BUCKET}/
+      endpointURL: https://s3.${B2_REGION}.backblazeb2.com
+      serverName: immich-pg
+      wal:
+        compression: bzip2
+        maxParallel: 8
+      s3Credentials:
+        accessKeyId:
+          name: cnpg-secrets
+          key: S3_ACCESS_KEY
+        secretAccessKey:
+          name: cnpg-secrets
+          key: S3_SECRET_KEY

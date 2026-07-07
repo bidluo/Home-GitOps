@@ -6,3 +6,4 @@ resources:
 - cluster-paperless.yaml
 - cluster-postiz.yaml
 - cluster-zipline.yaml
+- cluster-immich.yaml

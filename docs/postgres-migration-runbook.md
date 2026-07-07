@@ -88,7 +88,26 @@ role). Owner passwords are **reused** from the existing immich secrets, so the a
 5. `flux resume hr immich immich-lotus -n media`; verify photos **browse and search** (search exercises the
    vector index) on both instances. Old immich/limmich DBs stay in data-cluster as fallback.
 
-## Authentik notes (PR4 — do last)
-- Authentik gates all SSO. Keep the old DB as break-glass; if login breaks, revert the secret host to
-  `data-cluster-rw` and resume — `kubectl` access is unaffected regardless.
-- Rotate the weak `postgrespassword` during the cutover.
+## Authentik (PR4 — do last) — concrete cutover + break-glass
+Authentik gates all SSO. `authentik-pg` is plain PG (only `plpgsql`), db+owner `authentik` via initdb,
+password **rotated** off the default `postgrespassword` (new value in `authentik-pg-owner`). The app flip
+changes **both** `AUTHENTIK_POSTGRESQL__HOST` and `__PASSWORD`.
+
+**Break-glass first:** before you start, note the current rollback = revert both `__HOST` (→ `data-cluster-rw`)
+and `__PASSWORD` (→ `postgrespassword`) in `authentik-secrets` and restart. `kubectl` is unaffected if SSO is
+down, so you can always recover from the terminal. Do this during a low-traffic window.
+
+1. After pushing the cluster commit, confirm `authentik-pg` healthy + db exists.
+2. Quiesce Authentik (stops writes to the old DB):
+   ```sh
+   kubectl scale deploy -n auth authentik-server authentik-worker --replicas=0
+   ```
+3. Dump→restore (superuser, keep ownership; `authentik` role pre-exists via initdb):
+   ```sh
+   kubectl exec -n data data-cluster-3 -- pg_dump -U postgres -Fc -d authentik \
+    | kubectl exec -i -n data authentik-pg-1 -- pg_restore -U postgres --no-acl -d authentik
+   ```
+   Check table count == 207.
+4. Tell me — I flip `__HOST` + `__PASSWORD` in `authentik-secrets`, commit; you push.
+5. Scale back up: `kubectl scale deploy -n auth authentik-server authentik-worker --replicas=1`.
+   Verify a full login flow to a downstream app (e.g. Longhorn/Sonarr via the outpost). Old DB stays as fallback.

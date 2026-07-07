@@ -7,3 +7,4 @@ resources:
 - cluster-postiz.yaml
 - cluster-zipline.yaml
 - cluster-immich.yaml
+- cluster-authentik.yaml

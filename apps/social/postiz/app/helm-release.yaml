@@ -30,6 +30,14 @@ spec:
               STORAGE_PROVIDER: "local"
               UPLOAD_DIRECTORY: "/uploads"
               NEXT_PUBLIC_UPLOAD_DIRECTORY: "/uploads"
+              # SSO login via Authentik (OIDC). Client secret is in postiz-secrets.
+              POSTIZ_GENERIC_OAUTH: "true"
+              POSTIZ_OAUTH_URL: "https://auth.${PUBLIC_HOSTNAME}/application/o/postiz/"
+              POSTIZ_OAUTH_AUTH_URL: "https://auth.${PUBLIC_HOSTNAME}/application/o/authorize/"
+              POSTIZ_OAUTH_TOKEN_URL: "https://auth.${PUBLIC_HOSTNAME}/application/o/token/"
+              POSTIZ_OAUTH_USERINFO_URL: "https://auth.${PUBLIC_HOSTNAME}/application/o/userinfo/"
+              POSTIZ_OAUTH_CLIENT_ID: "5989339b40f4a92ed7c828192bd037c5ae2c6b77"
+              NEXT_PUBLIC_POSTIZ_OAUTH_DISPLAY_NAME: "Authentik"
             envFrom:
               - secretRef:
                   name: postiz-secrets

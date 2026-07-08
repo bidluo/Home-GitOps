@@ -1,0 +1,38 @@
+version: 1
+metadata:
+  name: custom - app - postiz
+entries:
+- model: authentik_providers_oauth2.oauth2provider
+  state: present
+  identifiers:
+    name: Postiz
+  attrs:
+    access_code_validity: minutes=1
+    access_token_validity: minutes=5
+    authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
+    client_id: 5989339b40f4a92ed7c828192bd037c5ae2c6b77
+    client_secret: !Env 'AUTHENTIK_POSTIZ_CLIENT_SECRET'
+    client_type: confidential
+    include_claims_in_id_token: true
+    invalidation_flow: !Find [authentik_flows.flow, [slug, default-provider-invalidation-flow]]
+    issuer_mode: per_provider
+    name: Postiz
+    property_mappings:
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''email''']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''openid''']]
+    - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''profile''']]
+    redirect_uris:
+    - matching_mode: strict
+      url: https://postiz.liaw.me/auth/callback/oauth
+    refresh_token_validity: days=30
+    sub_mode: hashed_user_id
+- model: authentik_core.application
+  state: present
+  identifiers:
+    slug: postiz
+  attrs:
+    name: Postiz
+    policy_engine_mode: any
+    provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Postiz]]
+    slug: postiz
+    meta_icon: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/postiz.png

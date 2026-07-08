@@ -29,6 +29,7 @@ configMapGenerator:
   - blueprints/oauth.yaml
   - blueprints/overseerr.yaml
   - blueprints/photoview.yaml
+  - blueprints/postiz.yaml
   - blueprints/prowlarr.yaml
   - blueprints/radarr.yaml
   - blueprints/sabnzbd.yaml

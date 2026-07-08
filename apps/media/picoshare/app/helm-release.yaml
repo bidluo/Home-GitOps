@@ -18,8 +18,8 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/mtlynch/picoshare
-              tag: latest
+              repository: docker.io/mtlynch/picoshare
+              tag: v1.5.4
             env:
               PORT: "4001"
               PS_BEHIND_PROXY: "true"

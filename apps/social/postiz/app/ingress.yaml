@@ -1,0 +1,19 @@
+---
+# Tailnet-private Tailscale Ingress (NO funnel annotation) — Postiz is reachable
+# only on the tailnet at https://postiz.tail8f0d9.ts.net, with automatic HTTPS.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: postiz
+  annotations:
+    tailscale.com/hostname: "postiz"
+spec:
+  ingressClassName: tailscale
+  defaultBackend:
+    service:
+      name: postiz
+      port:
+        number: 5000
+  tls:
+    - hosts:
+        - postiz

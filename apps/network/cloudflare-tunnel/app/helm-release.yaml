@@ -89,8 +89,8 @@ spec:
           service: http://ak-outpost-home.home.svc.cluster.local:9000
         - hostname: "dash.${PUBLIC_HOSTNAME}"
           service: http://ak-outpost-home.home.svc.cluster.local:9000
-        - hostname: "postiz.${PUBLIC_HOSTNAME}"
-          service: http://postiz.social.svc.cluster.local:5000
+        # Postiz is intentionally NOT exposed via the public tunnel — reachable over
+        # Tailscale/LAN only (reduces public attack surface). It keeps its Authentik OIDC login.
         - hostname: "adguard.${PUBLIC_HOSTNAME}"
           service: http://adguard.home.svc.cluster.local:3000
         - hostname: "git.${PUBLIC_HOSTNAME}"

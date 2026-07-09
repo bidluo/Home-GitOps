@@ -1,19 +1,28 @@
 ---
-# Tailnet-private Tailscale Ingress (NO funnel annotation) — Postiz is reachable
-# only on the tailnet at https://postiz.tail8f0d9.ts.net, with automatic HTTPS.
+# Internal-only ingress: postiz.i.liaw.me is served by Traefik (192.168.1.170) and
+# resolves only on the tailnet/LAN (via AdGuard). Public *.liaw.me (CF tunnel) does
+# NOT cover the deeper *.i.liaw.me label, so this never resolves publicly. Cert via
+# DNS-01 (letsencrypt-dns) since the name isn't publicly reachable for HTTP-01.
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: postiz
   annotations:
-    tailscale.com/hostname: "postiz"
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: "letsencrypt-dns"
 spec:
-  ingressClassName: tailscale
-  defaultBackend:
-    service:
-      name: postiz
-      port:
-        number: 5000
   tls:
     - hosts:
-        - postiz
+        - "postiz.i.${PUBLIC_HOSTNAME}"
+      secretName: postiz-i-tls
+  rules:
+    - host: "postiz.i.${PUBLIC_HOSTNAME}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: postiz
+                port:
+                  number: 5000

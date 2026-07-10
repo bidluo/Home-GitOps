@@ -27,6 +27,7 @@ configMapGenerator:
   - blueprints/metube.yaml
   - blueprints/n8n.yaml
   - blueprints/oauth.yaml
+  - blueprints/outposts.yaml
   - blueprints/overseerr.yaml
   - blueprints/photoview.yaml
   - blueprints/postiz.yaml

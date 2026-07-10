@@ -1,0 +1,27 @@
+version: 1
+metadata:
+  name: custom - outpost assignments
+# Declarative outpost -> provider membership. This is the SINGLE source of truth for
+# which proxy providers each managed outpost serves — a new SSO app must be added to the
+# relevant list here (the m2m is set wholesale, so omitting one un-assigns it).
+entries:
+- model: authentik_outposts.outpost
+  state: present
+  identifiers:
+    name: Media
+  attrs:
+    providers:
+      - !Find [authentik_providers_proxy.proxyprovider, [name, "Sonarr"]]
+      - !Find [authentik_providers_proxy.proxyprovider, [name, "Radarr"]]
+      - !Find [authentik_providers_proxy.proxyprovider, [name, "Sabnzbd"]]
+      - !Find [authentik_providers_proxy.proxyprovider, [name, "Provider for Metube"]]
+      - !Find [authentik_providers_proxy.proxyprovider, [name, "Prowlarr"]]
+- model: authentik_outposts.outpost
+  state: present
+  identifiers:
+    name: Home
+  attrs:
+    providers:
+      - !Find [authentik_providers_proxy.proxyprovider, [name, "Provider for Changedetection"]]
+      - !Find [authentik_providers_proxy.proxyprovider, [name, "Paperless"]]
+      - !Find [authentik_providers_proxy.proxyprovider, [name, "Homepage"]]

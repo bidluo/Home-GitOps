@@ -23,6 +23,8 @@ entries:
     - !Find [authentik_providers_oauth2.scopemapping, [name, 'authentik default OAuth Mapping: OpenID ''profile''']]
     redirect_uris:
     - matching_mode: strict
+      url: https://postiz.i.liaw.me/settings
+    - matching_mode: strict
       url: https://postiz.i.liaw.me/auth/callback/oauth
     refresh_token_validity: days=30
     sub_mode: hashed_user_id

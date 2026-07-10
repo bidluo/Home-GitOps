@@ -26,6 +26,12 @@ spec:
               tag: 1.37.0
             securityContext:
               runAsUser: 0
+            env:
+              # Auth required (no anonymous remote access), but the Authentik outpost
+              # connects from a cluster-local address so its own login is skipped —
+              # Authentik is the real gate. Same as Sonarr/Radarr, done declaratively.
+              PROWLARR__AUTH__METHOD: "Forms"
+              PROWLARR__AUTH__REQUIRED: "DisabledForLocalAddresses"
     service:
       main:
         controller: main

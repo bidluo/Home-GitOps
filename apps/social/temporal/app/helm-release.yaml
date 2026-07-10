@@ -29,7 +29,13 @@ spec:
               VISIBILITY_DBNAME: temporal_visibility
               # DBs are pre-created by CNPG (initdb + Database CR); just set up schema.
               SKIP_DB_CREATE: "true"
-              ENABLE_ES: "false"
+              # Elasticsearch advanced visibility (Postgres visibility caps custom Text
+              # search attributes at 3; Postiz needs more).
+              ENABLE_ES: "true"
+              ES_SEEDS: elasticsearch.social.svc.cluster.local
+              ES_PORT: "9200"
+              ES_VERSION: v7
+              ES_SCHEME: http
               DEFAULT_NAMESPACE: default
               DEFAULT_NAMESPACE_RETENTION: "72h"
               # Bind/broadcast on the pod IP so the service reaches it (auto-setup defaults to 127.0.0.1).

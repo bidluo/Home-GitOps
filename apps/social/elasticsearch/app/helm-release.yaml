@@ -1,0 +1,51 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: elasticsearch
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+  values:
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: docker.elastic.co/elasticsearch/elasticsearch
+              tag: 7.17.24
+            env:
+              discovery.type: single-node
+              xpack.security.enabled: "false"
+              # niofs instead of mmapfs -> avoids needing node sysctl vm.max_map_count
+              node.store.allow_mmap: "false"
+              bootstrap.memory_lock: "false"
+              cluster.routing.allocation.disk.threshold_enabled: "false"
+              ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+            resources:
+              requests:
+                cpu: 200m
+                memory: 1Gi
+              limits:
+                memory: 1536Mi
+    service:
+      main:
+        controller: main
+        ports:
+          http:
+            port: 9200
+    persistence:
+      data:
+        existingClaim: elasticsearch-data
+        globalMounts:
+          - path: /usr/share/elasticsearch/data

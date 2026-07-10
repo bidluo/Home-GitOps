@@ -7,3 +7,4 @@ resources:
 - cluster-zipline.yaml
 - cluster-immich.yaml
 - cluster-authentik.yaml
+- cluster-temporal.yaml

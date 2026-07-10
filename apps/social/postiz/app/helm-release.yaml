@@ -25,6 +25,7 @@ spec:
               FRONTEND_URL: "https://postiz.i.${PUBLIC_HOSTNAME}"
               NEXT_PUBLIC_BACKEND_URL: "https://postiz.i.${PUBLIC_HOSTNAME}/api"
               BACKEND_INTERNAL_URL: "http://localhost:3000"
+              TEMPORAL_ADDRESS: "temporal.social.svc.cluster.local:7233"
               IS_GENERAL: "true"
               DISABLE_REGISTRATION: "false"
               STORAGE_PROVIDER: "local"

@@ -16,6 +16,17 @@ spec:
   values:
     controllers:
       main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-config:
+            image:
+              repository: docker.io/library/busybox
+              tag: "1.37"
+            command:
+              - sh
+              - -c
+              - cp -f /config-src/AdGuardHome.yaml /opt/adguardhome/conf/AdGuardHome.yaml
         containers:
           main:
             image:
@@ -46,6 +57,12 @@ spec:
             port: 3000
             protocol: TCP
     persistence:
+      config-src:
+        type: secret
+        name: adguard-config-file
+        globalMounts:
+          - path: /config-src
+            readOnly: true
       main-config:
         existingClaim: adguard-config
         globalMounts:

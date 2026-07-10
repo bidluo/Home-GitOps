@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 - adguard-pvc.yaml
 - helm-release.yaml
+- adguard-config-file.sops.yaml

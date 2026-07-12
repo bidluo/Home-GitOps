@@ -5,21 +5,18 @@ kind: Cluster
 metadata:
   name: immich-pg
 spec:
-  instances: 2
+  instances: 1
   primaryUpdateStrategy: unsupervised
   # pgvecto.rs image + preloaded `vectors` — required by Immich (matches the old data-cluster).
   imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:14-v0.3.0
   storage:
     size: 10Gi
     storageClass: longhorn-xfs
-  # HA: 2 instances (primary + hot standby) forced onto different nodes via pod
-  # anti-affinity, so a single node loss/reboot leaves the DB serving. Dropped the
-  # control-plane pin — the standby lands on koko-bravo (larger, near-empty node).
-  # Physical (streaming) replication carries the pgvecto.rs data + extensions.
-  affinity:
-    enablePodAntiAffinity: true
-    topologyKey: kubernetes.io/hostname
-    podAntiAffinityType: required
+  # NO HA for this cluster (unlike the others): pgvecto.rs stores vector-index
+  # segments under pg_vectors/ with paths too long for the tar format pg_basebackup
+  # uses to clone a replica ("file name too long for tar format"), so CNPG cannot
+  # build a streaming standby. Stays single-instance; durability = Longhorn
+  # replication + B2 backups.
   resources:
     requests:
       cpu: 250m

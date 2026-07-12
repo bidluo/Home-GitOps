@@ -39,7 +39,7 @@ rules:
     - list
     - patch
   - apiGroups:
-    - traefik.containo.us
+    - traefik.io
     resources:
     - middlewares
     verbs:

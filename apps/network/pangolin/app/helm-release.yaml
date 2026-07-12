@@ -42,7 +42,7 @@ spec:
     # Run on master node for better network access
     defaultPodOptions:
       nodeSelector:
-        node-role.kubernetes.io/master: "true"
+        node-role.kubernetes.io/control-plane: "true"
     
     service:
       main:

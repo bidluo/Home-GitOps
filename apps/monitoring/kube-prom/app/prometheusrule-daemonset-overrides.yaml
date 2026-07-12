@@ -1,0 +1,59 @@
+---
+# Re-adds the stock KubeDaemonSetMisScheduled / KubeDaemonSetRolloutStuck alerts
+# (disabled in the HelmRelease via defaultRules.disabled) with one change: exclude
+# Longhorn's `engine-image-*` daemonsets. Longhorn manages those daemonsets' pod
+# placement itself and reports desired=0 / misscheduled=N to kube-state-metrics,
+# which fires both alerts as false positives even when the engine image is healthy
+# and in active use. Only Longhorn names daemonsets `engine-image-*`, so real
+# daemonset problems (node-exporter, longhorn-manager/csi-plugin, etc.) still alert.
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kubernetes-apps-daemonset-overrides
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+    - name: kubernetes-apps-daemonset-overrides
+      rules:
+        - alert: KubeDaemonSetRolloutStuck
+          expr: |-
+            (
+              (
+                kube_daemonset_status_current_number_scheduled{job="kube-state-metrics", namespace=~".*", daemonset!~"engine-image-.*"}
+                  !=
+                kube_daemonset_status_desired_number_scheduled{job="kube-state-metrics", namespace=~".*", daemonset!~"engine-image-.*"}
+              ) or (
+                kube_daemonset_status_number_misscheduled{job="kube-state-metrics", namespace=~".*", daemonset!~"engine-image-.*"}
+                  !=
+                0
+              ) or (
+                kube_daemonset_status_updated_number_scheduled{job="kube-state-metrics", namespace=~".*", daemonset!~"engine-image-.*"}
+                  !=
+                kube_daemonset_status_desired_number_scheduled{job="kube-state-metrics", namespace=~".*", daemonset!~"engine-image-.*"}
+              ) or (
+                kube_daemonset_status_number_available{job="kube-state-metrics", namespace=~".*", daemonset!~"engine-image-.*"}
+                  !=
+                kube_daemonset_status_desired_number_scheduled{job="kube-state-metrics", namespace=~".*", daemonset!~"engine-image-.*"}
+              )
+            ) and (
+              changes(kube_daemonset_status_updated_number_scheduled{job="kube-state-metrics", namespace=~".*", daemonset!~"engine-image-.*"}[5m])
+                ==
+              0
+            )
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            description: 'DaemonSet {{ $labels.namespace }}/{{ $labels.daemonset }} has not finished or progressed for at least 15m on cluster {{ $labels.cluster }}.'
+            runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubedaemonsetrolloutstuck
+            summary: DaemonSet rollout is stuck.
+        - alert: KubeDaemonSetMisScheduled
+          expr: kube_daemonset_status_number_misscheduled{job="kube-state-metrics", namespace=~".*", daemonset!~"engine-image-.*"} > 0
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            description: '{{ $value }} Pods of DaemonSet {{ $labels.namespace }}/{{ $labels.daemonset }} are running where they are not supposed to run on cluster {{ $labels.cluster }}.'
+            runbook_url: https://runbooks.prometheus-operator.dev/runbooks/kubernetes/kubedaemonsetmisscheduled
+            summary: DaemonSet pods are misscheduled.

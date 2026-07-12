@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 - helm-release.yaml
 - grafana-secrets.sops.yaml
+- prometheusrule-daemonset-overrides.yaml

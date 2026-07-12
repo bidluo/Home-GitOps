@@ -15,6 +15,14 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    defaultRules:
+      # These two stock rules are re-added (with a Longhorn engine-image exclusion)
+      # in prometheusrule-daemonset-overrides.yaml. Longhorn's `engine-image-*`
+      # daemonsets report desired=0/misscheduled=N to kube-state-metrics by design,
+      # which trips both alerts as false positives even though the engine is healthy.
+      disabled:
+        KubeDaemonSetMisScheduled: true
+        KubeDaemonSetRolloutStuck: true
     prometheus-node-exporter:
       tolerations:
         - effect: NoSchedule

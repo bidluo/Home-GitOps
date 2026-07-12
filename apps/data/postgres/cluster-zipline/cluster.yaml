@@ -5,15 +5,26 @@ kind: Cluster
 metadata:
   name: zipline-pg
 spec:
-  instances: 1
+  instances: 2
   primaryUpdateStrategy: unsupervised
   # No imageName -> operator default (current PostgreSQL major). Plain PG, no extensions.
   storage:
     size: 5Gi
     storageClass: longhorn-xfs
+  # HA: 2 instances (primary + hot standby) forced onto different nodes via pod
+  # anti-affinity, so a single node loss/reboot leaves the DB serving. Dropped the
+  # control-plane pin — the standby lands on koko-bravo (larger, near-empty node)
+  # instead of stacking every DB on the smaller control-plane node.
   affinity:
-    nodeSelector:
-      node-role.kubernetes.io/control-plane: "true"
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+    podAntiAffinityType: required
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 768Mi
   monitoring:
     enablePodMonitor: true
   bootstrap:

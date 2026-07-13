@@ -13,8 +13,12 @@ spec:
         name: bjw-s-charts
         namespace: flux-system
   values:
-    defaultPodOptions:
-      serviceAccountName: homepage
+    # app-template v5 manages service accounts via this top-level map (the old
+    # defaultPodOptions.serviceAccountName isn't a valid field). Single entry ->
+    # SA named after the release (`homepage`); the main controller auto-uses it.
+    # The ClusterRole/Binding for it live in rbac.yaml.
+    serviceAccount:
+      homepage: {}
     controllers:
       main:
         containers:

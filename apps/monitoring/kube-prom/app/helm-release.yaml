@@ -23,6 +23,10 @@ spec:
       disabled:
         KubeDaemonSetMisScheduled: true
         KubeDaemonSetRolloutStuck: true
+        # Not actionable on a 2-node cluster: it fires when requests can't fit
+        # after losing a node, but with only 2 nodes you can't reserve N+1 memory
+        # headroom anyway. Would need a 3rd node to be meaningful.
+        KubeMemoryOvercommit: true
     prometheus-node-exporter:
       tolerations:
         - effect: NoSchedule

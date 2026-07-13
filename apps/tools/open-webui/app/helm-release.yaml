@@ -29,6 +29,12 @@ spec:
             envFrom:
               - secretRef:
                   name: openwebui-secrets
+            resources:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 1536Mi
     service:
       main:
         controller: main

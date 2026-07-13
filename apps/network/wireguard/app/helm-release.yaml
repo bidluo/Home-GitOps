@@ -37,9 +37,12 @@ spec:
             envFrom:
               - secretRef:
                   name: wireguard-secrets
-    defaultPodOptions:
-      nodeSelector:
-        node-role.kubernetes.io/control-plane: "true"
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 256Mi
     service:
       main:
         type: LoadBalancer

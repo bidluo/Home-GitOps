@@ -22,9 +22,12 @@ spec:
               tag: 0.55.7
             env:
               BASE_URL: "https://changedetection.${PUBLIC_HOSTNAME}"
-    defaultPodOptions:
-      nodeSelector:
-        node-role.kubernetes.io/control-plane: "true"
+            resources:
+              requests:
+                cpu: 50m
+                memory: 192Mi
+              limits:
+                memory: 512Mi
     service:
       main:
         controller: main

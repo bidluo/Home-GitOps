@@ -30,8 +30,12 @@ spec:
             securityContext:
               runAsUser: 0
             resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
               limits:
                 gpu.intel.com/i915: "1"
+                memory: 1Gi
     service:
       main:
         type: LoadBalancer

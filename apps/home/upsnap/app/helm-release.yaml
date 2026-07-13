@@ -30,9 +30,6 @@ spec:
               limits:
                 cpu: 500m
                 memory: 512Mi
-    defaultPodOptions:
-      nodeSelector:
-        node-role.kubernetes.io/control-plane: "true"
     service:
       main:
         controller: main

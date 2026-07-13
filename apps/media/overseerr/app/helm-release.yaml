@@ -32,6 +32,12 @@ spec:
             image:
               repository: ghcr.io/seerr-team/seerr
               tag: v3.3.0
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
     service:
       main:
         controller: main

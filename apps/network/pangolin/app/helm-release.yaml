@@ -38,12 +38,12 @@ spec:
                   value: "1"
                 - name: net.ipv6.conf.all.forwarding
                   value: "1"
-    
-    # Run on master node for better network access
-    defaultPodOptions:
-      nodeSelector:
-        node-role.kubernetes.io/control-plane: "true"
-    
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 512Mi
     service:
       main:
         controller: main
@@ -81,13 +81,4 @@ spec:
         globalMounts:
           - path: /lib/modules
             readOnly: true
-    
-    # Resource limits
-    resources:
-      requests:
-        cpu: 100m
-        memory: 256Mi
-      limits:
-        cpu: 1000m
-        memory: 1Gi
 

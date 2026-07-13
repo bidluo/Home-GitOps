@@ -33,11 +33,11 @@ spec:
               repository: adguard/adguardhome
               tag: v0.107.77
             resources:
-              limits: {}
-              requests: {}
-    defaultPodOptions:
-      nodeSelector:
-        node-role.kubernetes.io/control-plane: "true"
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 256Mi
     service:
       main:
         type: LoadBalancer 

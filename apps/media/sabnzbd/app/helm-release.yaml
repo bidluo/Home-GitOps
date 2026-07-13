@@ -29,6 +29,12 @@ spec:
               runAsUser: 568
             env:
               TZ: "${TIMEZONE}"
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                memory: 1Gi
     service:
       main:
         controller: main

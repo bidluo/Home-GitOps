@@ -42,6 +42,14 @@ spec:
             envFrom:
               - secretRef:
                   name: postiz-secrets
+            # postiz creeps toward ~2.3Gi (likely a Node.js leak); the limit caps
+            # it (restart on breach) so it can't thrash the node again.
+            resources:
+              requests:
+                cpu: 100m
+                memory: 1Gi
+              limits:
+                memory: 3Gi
     service:
       main:
         controller: main

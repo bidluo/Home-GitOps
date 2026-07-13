@@ -32,6 +32,12 @@ spec:
               # Authentik is the real gate. Same as Sonarr/Radarr, done declaratively.
               PROWLARR__AUTH__METHOD: "Forms"
               PROWLARR__AUTH__REQUIRED: "DisabledForLocalAddresses"
+            resources:
+              requests:
+                cpu: 50m
+                memory: 192Mi
+              limits:
+                memory: 512Mi
     service:
       main:
         controller: main

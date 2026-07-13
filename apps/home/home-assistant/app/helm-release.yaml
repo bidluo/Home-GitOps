@@ -21,8 +21,16 @@ spec:
             image:
               repository: ghcr.io/home-assistant/home-assistant
               tag: 2026.7.0
+            resources:
+              requests:
+                cpu: 100m
+                memory: 384Mi
+              limits:
+                memory: 768Mi
     defaultPodOptions:
       hostNetwork: true
+      # Kept pinned (exception to the GPU-only rule): hostNetwork ties HA to a
+      # node's IP, and moving it can break LAN device integrations / mDNS.
       nodeSelector:
         node-role.kubernetes.io/control-plane: "true"
     service:

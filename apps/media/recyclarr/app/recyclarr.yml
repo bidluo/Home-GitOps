@@ -10,7 +10,7 @@ sonarr:
     include:
       # v8 high-level template (id) — bundles quality definition + the WEB-1080p
       # profile + its custom formats. `recyclarr list <thing> sonarr` shows options.
-      - template: web-1080p-v4
+      - template: web-1080p
 
 radarr:
   main:

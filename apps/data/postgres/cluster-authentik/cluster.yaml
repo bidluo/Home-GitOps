@@ -33,19 +33,11 @@ spec:
       owner: authentik
       secret:
         name: authentik-pg-owner
-  backup:
-    retentionPolicy: 30d
-    barmanObjectStore:
-      destinationPath: s3://${B2_CNPG_BUCKET}/
-      endpointURL: https://s3.${B2_REGION}.backblazeb2.com
-      serverName: authentik-pg
-      wal:
-        compression: bzip2
-        maxParallel: 8
-      s3Credentials:
-        accessKeyId:
-          name: cnpg-secrets
-          key: S3_ACCESS_KEY
-        secretAccessKey:
-          name: cnpg-secrets
-          key: S3_SECRET_KEY
+  # Backups via the Barman Cloud Plugin -> shared ObjectStore `cnpg-b2`.
+  # serverName preserved (authentik-pg) so this continues the existing B2 stream.
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: cnpg-b2
+        serverName: authentik-pg

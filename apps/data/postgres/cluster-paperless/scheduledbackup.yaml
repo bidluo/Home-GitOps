@@ -5,6 +5,9 @@ kind: ScheduledBackup
 metadata:
   name: paperless-pg
 spec:
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io
   schedule: "@weekly"
   immediate: true
   backupOwnerReference: self

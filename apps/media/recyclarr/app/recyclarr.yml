@@ -8,9 +8,9 @@ sonarr:
     delete_old_custom_formats: true
     replace_existing_custom_formats: true
     include:
-      - template: sonarr-quality-definition-series
-      - template: sonarr-v4-quality-profile-web-1080p
-      - template: sonarr-v4-custom-formats-web-1080p
+      # v8 high-level template (id) — bundles quality definition + the WEB-1080p
+      # profile + its custom formats. `recyclarr list <thing> sonarr` shows options.
+      - template: web-1080p-v4
 
 radarr:
   main:
@@ -19,6 +19,6 @@ radarr:
     delete_old_custom_formats: true
     replace_existing_custom_formats: true
     include:
-      - template: radarr-quality-definition-movie
-      - template: radarr-quality-profile-hd-bluray-web
-      - template: radarr-custom-formats-hd-bluray-web
+      # v8 high-level template (id) — bundles quality definition + the HD Bluray+WEB
+      # profile + its custom formats.
+      - template: hd-bluray-web

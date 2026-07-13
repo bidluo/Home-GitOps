@@ -13,6 +13,7 @@ resources:
 - plex
 - prowlarr
 - radarr
+- recyclarr
 - sabnzbd
 - metube
 - sonarr

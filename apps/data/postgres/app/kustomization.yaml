@@ -5,4 +5,5 @@ resources:
 - helm-release.yaml
 - plugin-barman-cloud.yaml
 - objectstore.yaml
+- podmonitor.yaml
 - cnpg-secrets.sops.yaml

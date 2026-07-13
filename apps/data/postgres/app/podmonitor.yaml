@@ -1,0 +1,19 @@
+---
+# Self-managed PodMonitor for all CNPG clusters — replaces the per-cluster
+# spec.monitoring.enablePodMonitor (deprecated). Selects every CNPG instance pod
+# in the namespace and scrapes its metrics port, matching what the operator's
+# auto-PodMonitor did (cnpg.io/podRole=instance, port `metrics`). One monitor
+# covers all clusters, so new clusters are picked up automatically.
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: cnpg-clusters
+  labels:
+    release: kube-prometheus-stack
+spec:
+  namespaceSelector: {}
+  selector:
+    matchLabels:
+      cnpg.io/podRole: instance
+  podMetricsEndpoints:
+    - port: metrics

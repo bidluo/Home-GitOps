@@ -28,8 +28,6 @@ spec:
       - "vectors"
       - "cube"
       - "earthdistance"
-  monitoring:
-    enablePodMonitor: true
   bootstrap:
     initdb:
       database: immich

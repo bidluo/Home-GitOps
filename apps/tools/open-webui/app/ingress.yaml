@@ -1,0 +1,29 @@
+---
+# Internal-only ingress: openwebui.i.liaw.me is served by Traefik (192.168.1.170)
+# and resolves only on the tailnet/LAN (via AdGuard). Kept off the public internet
+# — Open WebUI holds cloud LLM API keys + chat history (fat attack vector), same
+# reasoning as postiz. Cert via DNS-01 (letsencrypt-dns) since the name isn't
+# publicly reachable for HTTP-01.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: open-webui
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-dns"
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - "openwebui.i.${PUBLIC_HOSTNAME}"
+      secretName: openwebui-i-tls
+  rules:
+    - host: "openwebui.i.${PUBLIC_HOSTNAME}"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: open-webui
+                port:
+                  number: 8080

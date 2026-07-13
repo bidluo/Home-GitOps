@@ -33,6 +33,12 @@ spec:
         username: apikey
         use_tls: true
     server:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 512Mi
+        limits:
+          memory: 1Gi
       volumes:
         - name: shm
           emptyDir:
@@ -41,6 +47,13 @@ spec:
       volumeMounts:
         - name: shm
           mountPath: /dev/shm
+    worker:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 512Mi
+        limits:
+          memory: 1Gi
     postgresql:
       enabled: false
     redis:

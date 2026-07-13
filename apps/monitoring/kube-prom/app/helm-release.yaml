@@ -81,6 +81,12 @@ spec:
             - receiver: discord
     grafana:
       enabled: true
+      resources:
+        requests:
+          cpu: 50m
+          memory: 384Mi
+        limits:
+          memory: 768Mi
       envFromSecret: grafana-secrets
       dashboardProviders:
         dashboardproviders.yaml:
@@ -136,6 +142,12 @@ spec:
           - grafana.${PUBLIC_HOSTNAME}
     prometheus:
       prometheusSpec:
+        resources:
+          requests:
+            cpu: 200m
+            memory: 1536Mi
+          limits:
+            memory: 2560Mi
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false

@@ -21,7 +21,7 @@ spec:
           main:
             image:
               repository: ghcr.io/gethomepage/homepage
-              tag: v0.10.9
+              tag: v1.13.2
             env:
               HOMEPAGE_ALLOWED_HOSTS: "dash.${PUBLIC_HOSTNAME}"
     service:

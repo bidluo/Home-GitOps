@@ -21,13 +21,10 @@ spec:
         fsGroup: 3001
         fsGroupChangePolicy: OnRootMismatch
     controllers:
-      # Intentionally OFF: immich has been scaled to 0 since the data-cluster ->
-      # immich-pg migration and was never brought back. (v2.7.5 also can't
-      # CREATE EXTENSION vector against the pgvecto.rs immich-pg as the non-superuser
-      # immich role; immich v3 drops pgvecto.rs for pgvector entirely — a separate
-      # migration.) replicas:0 must live in git or a reconcile re-renders it to 1.
+      # immich v3 on the VectorChord immich-pg (see cluster-immich). Data was wiped
+      # for the pgvecto.rs -> VectorChord rebuild.
       main:
-        replicas: 0
+        replicas: 1
         containers:
           main:
             nameOverride: immich-server
@@ -38,7 +35,7 @@ spec:
               - secretRef:
                   name: immich-secrets
       machine-learning:
-        replicas: 0
+        replicas: 1
         containers:
           main:
             image:

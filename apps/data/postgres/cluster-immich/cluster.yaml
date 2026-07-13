@@ -7,15 +7,16 @@ metadata:
 spec:
   instances: 1
   primaryUpdateStrategy: unsupervised
-  # pgvecto.rs image + preloaded `vectors` — required by Immich (matches the old data-cluster).
-  imageName: ghcr.io/tensorchord/cloudnative-pgvecto.rs:14-v0.3.0
+  # VectorChord image (PG17 + VectorChord 0.4.3). Immich v3 dropped pgvecto.rs for
+  # VectorChord (vchord, built on pgvector). shared_preload_libraries must load
+  # vchord.so. The immich + limmich roles are SUPERUSERS so immich creates its own
+  # extensions (vchord/vector/earthdistance) on first boot — immich's documented
+  # easy path; acceptable for this low-value, rebuildable service.
+  imageName: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.4.3
   storage:
     size: 10Gi
     storageClass: longhorn-xfs
-  # NO HA for this cluster (unlike the others): pgvecto.rs stores vector-index
-  # segments under pg_vectors/ with paths too long for the tar format pg_basebackup
-  # uses to clone a replica ("file name too long for tar format"), so CNPG cannot
-  # build a streaming standby. Stays single-instance; durability = Longhorn
+  # Single instance (immich is low-value/rebuildable). Durability = Longhorn
   # replication + B2 backups.
   resources:
     requests:
@@ -25,28 +26,35 @@ spec:
       memory: 1536Mi
   postgresql:
     shared_preload_libraries:
-      - "vectors"
-      - "cube"
-      - "earthdistance"
+      - vchord.so
   bootstrap:
     initdb:
       database: immich
       owner: immich
       secret:
         name: immich-pg-owner
-  # Second database (immich-secondary / "lotus") lives in the same pgvecto cluster.
+  # immich + limmich (immich-lotus) as superusers so each immich instance can
+  # CREATE EXTENSION vchord/earthdistance itself. limmich also backs the second DB.
   managed:
     roles:
+      - name: immich
+        ensure: present
+        superuser: true
+        login: true
+        passwordSecret:
+          name: immich-pg-owner
       - name: limmich
         ensure: present
+        superuser: true
         login: true
         passwordSecret:
           name: limmich-pg-owner
   # Backups via the Barman Cloud Plugin -> shared ObjectStore `cnpg-b2`.
-  # serverName preserved (immich-pg) so this continues the existing B2 stream.
+  # NEW serverName (fresh cluster on a new PG major/system-id; the old immich-pg
+  # pgvecto.rs backup stream is orphaned and ages out via retention).
   plugins:
     - name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true
       parameters:
         barmanObjectName: cnpg-b2
-        serverName: immich-pg
+        serverName: immich-pg-vchord

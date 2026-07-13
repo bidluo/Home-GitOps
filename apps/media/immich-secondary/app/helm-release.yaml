@@ -21,7 +21,11 @@ spec:
         fsGroup: 3001
         fsGroupChangePolicy: OnRootMismatch
     controllers:
+      # Intentionally OFF (same as primary immich): scaled to 0 since the DB
+      # migration, never brought back. replicas:0 must live in git or a reconcile
+      # re-renders it to the chart default of 1.
       main:
+        replicas: 0
         containers:
           main:
             nameOverride: immich-server-lotus
@@ -32,6 +36,7 @@ spec:
               - secretRef:
                   name: immich-secrets-lotus
       machine-learning:
+        replicas: 0
         containers:
           main:
             image:

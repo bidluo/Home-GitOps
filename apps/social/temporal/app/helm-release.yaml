@@ -34,7 +34,7 @@ spec:
               ENABLE_ES: "true"
               ES_SEEDS: elasticsearch.social.svc.cluster.local
               ES_PORT: "9200"
-              ES_VERSION: v7
+              ES_VERSION: v8
               ES_SCHEME: http
               DEFAULT_NAMESPACE: default
               DEFAULT_NAMESPACE_RETENTION: "72h"

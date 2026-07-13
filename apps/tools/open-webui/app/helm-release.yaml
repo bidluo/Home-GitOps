@@ -19,7 +19,7 @@ spec:
           main:
             image:
               repository: ghcr.io/open-webui/open-webui
-              tag: v0.6.18
+              tag: 0.6.43
             env:
               # Point the OpenAI-compatible endpoint at cloud APIs for now.
               # Swap ENABLE_OLLAMA_API to "true" and set OLLAMA_BASE_URL once the

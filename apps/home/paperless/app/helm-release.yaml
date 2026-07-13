@@ -23,7 +23,7 @@ spec:
           main:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.14.7
+              tag: 2.20.15
             env:
               PAPERLESS_URL: "https://paperless.${PUBLIC_HOSTNAME}"
               PAPERLESS_TIME_ZONE: "${TIMEZONE}"

@@ -34,7 +34,7 @@ spec:
           main:
             image:
               repository: getmeili/meilisearch
-              tag: v1.48.3
+              tag: v1.49.0
             env:
               # v1.48 refuses to start on a v1.34 database. This performs an
               # in-place migration on startup (Meilisearch >=1.12). Safe to

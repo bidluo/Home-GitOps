@@ -11,6 +11,8 @@ sonarr:
     delete_old_custom_formats: true
     quality_definition:
       type: series
+      # Bias grabs toward the smaller end of each quality's size range.
+      preferred_ratio: 0.5
     quality_profiles:
       - name: WEB-1080p
         reset_unmatched_scores:
@@ -65,6 +67,13 @@ sonarr:
           - d0c516558625b04b363fa6c5c2c7cfd4 # WEB Scene
         assign_scores_to:
           - name: WEB-1080p
+      # No Dolby Vision: reject DoVi releases without an HDR10 fallback (unplayable
+      # on non-DV screens). -10000 pushes them below the profile's min score.
+      - trash_ids:
+          - 9b27ab6498ec0f31a3353992e19434ca # DV (w/o HDR fallback)
+        assign_scores_to:
+          - name: WEB-1080p
+            score: -10000
 
 radarr:
   main:
@@ -73,6 +82,9 @@ radarr:
     delete_old_custom_formats: true
     quality_definition:
       type: movie
+      # Bias grabs toward the smaller end of each quality's size range (helps keep
+      # movies in the ~sub-10GB range without a hard cap).
+      preferred_ratio: 0.5
     quality_profiles:
       - name: HD Bluray + WEB
         reset_unmatched_scores:
@@ -133,3 +145,10 @@ radarr:
           - c2863d2a50c9acad1fb50e53ece60817 # STAN
         assign_scores_to:
           - name: HD Bluray + WEB
+      # No Dolby Vision: reject DoVi releases without an HDR10 fallback (unplayable
+      # on non-DV screens). -10000 pushes them below the profile's min score.
+      - trash_ids:
+          - 923b6abef9b17f937fab56cfcf89e1f1 # DV (w/o HDR fallback)
+        assign_scores_to:
+          - name: HD Bluray + WEB
+            score: -10000

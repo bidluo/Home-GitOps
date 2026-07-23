@@ -28,7 +28,7 @@ spec:
           main:
             image:
               repository: ghcr.io/recyclarr/recyclarr
-              tag: 8.6.0
+              tag: 8.7.0
             # `recyclarr sync` with no service is a no-op in v8 — the services must
             # be named explicitly. Run both (sequentially so one failing doesn't
             # skip the other).

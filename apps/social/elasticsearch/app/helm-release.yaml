@@ -37,7 +37,7 @@ spec:
               # ES 8 (latest 8.x) — the newest Elasticsearch Temporal supports
               # (ES 9 is NOT supported by Temporal). Paired with ES_VERSION: v8 on
               # temporal. security disabled + single-node below keeps ES 8 auth off.
-              tag: 8.19.18
+              tag: 9.4.4
             env:
               discovery.type: single-node
               xpack.security.enabled: "false"

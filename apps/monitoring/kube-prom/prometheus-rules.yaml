@@ -12,18 +12,28 @@ spec:
   groups:
     - name: homelab.rules
       rules:
-        # Postgres base backups going stale. serverName is weekly, so >8d = a
-        # missed cycle. Guard >0 to skip replicas that report epoch (no backup).
+        # Postgres base backups going stale. Backups are @weekly, so >8d = a
+        # missed cycle. We key on the Barman Cloud *plugin* metric
+        # (barman_cloud_cloudnative_pg_io_*): since the barman-plugin migration
+        # the operator no longer feeds the legacy cnpg_collector_* backup
+        # timestamp (it froze at the last in-tree backup and falsely fired this
+        # alert). Aggregate per-cluster (derive cluster from the pod ordinal) so
+        # a stale cluster alerts once, not once per instance. Guard >0 skips
+        # anything reporting epoch (no backup yet).
         - alert: CNPGBackupStale
           expr: |
-            (time() - cnpg_collector_last_available_backup_timestamp) > 8 * 24 * 3600
-            and cnpg_collector_last_available_backup_timestamp > 0
+            (time() - max by (namespace, cluster) (
+              label_replace(barman_cloud_cloudnative_pg_io_last_available_backup_timestamp, "cluster", "$1", "pod", "(.+)-[0-9]+")
+            )) > 8 * 24 * 3600
+            and max by (namespace, cluster) (
+              label_replace(barman_cloud_cloudnative_pg_io_last_available_backup_timestamp, "cluster", "$1", "pod", "(.+)-[0-9]+")
+            ) > 0
           for: 1h
           labels:
             severity: warning
           annotations:
             summary: "CloudNativePG backup is stale"
-            description: "Last successful backup is {{ $value | humanizeDuration }} old (cluster/instance {{ $labels.pod }})."
+            description: "Last successful backup is {{ $value | humanizeDuration }} old (cluster {{ $labels.cluster }})."
 
         # A Deployment that should have replicas but has none available.
         - alert: DeploymentUnavailable
